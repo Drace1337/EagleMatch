@@ -1,5 +1,7 @@
 const express = require('express')
 const { body } = require('express-validator')
+const authUser = require('../middleware/authUser')
+const authAdmin = require('../middleware/authAdmin')
 
 const User = require('../models/user')
 const authController = require('../controllers/auth')
@@ -27,5 +29,17 @@ router.put(
 )
 
 router.post('/login', authController.login)
+
+router.put('/change-password', authUser, authController.changePassword)
+
+router.get('/user/:userId', authUser, authController.getUser)
+
+router.get('/users', authAdmin, authController.getUsers)
+
+router.delete('/user/:userId', authAdmin, authController.deleteUser)
+
+router.put('/user/:userId', authUser, authController.updateUser)
+
+router.put('/user/:userId/stats', authUser, authController.updateUserStats)
 
 module.exports = router

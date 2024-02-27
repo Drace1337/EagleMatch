@@ -56,3 +56,30 @@ exports.createReply = async (req, res, next) => {
 		next(err)
 	}
 }
+
+exports.deleteReply = async (req, res, next) => {
+	const replyId = req.params.replyId
+	try {
+		const reply = await Reply.findById(replyId)
+		if (!reply) {
+			const error = new Error('Could not find reply.')
+			error.statusCode = 404
+			throw error
+		}
+		if (reply.author.toString() !== req.userId) {
+			const error = new Error('Not authorized!')
+			error.statusCode = 403
+			throw error
+		}
+		await Reply.findByIdAndRemove(replyId)
+		const user = await User.findById(req.userId)
+		user.replies.pull(replyId)
+		await user.save()
+		res.status(200).json({ message: 'Reply deleted successfully!' })
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}

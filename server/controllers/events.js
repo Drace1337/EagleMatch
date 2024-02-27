@@ -118,3 +118,40 @@ exports.cancelEvent = async (req, res, next) => {
         next(err)
     }
 }
+exports.joinEvent = async (req, res, next) => {
+    const eventId = req.params.eventId
+    try {
+        const event = await Event.findById(eventId)
+        if (!event) {
+            const error = new Error('Could not find event.')
+            error.statusCode = 404
+            throw error
+        }
+        if (event.teamOnly && !req.isTeamMember) {
+            const error = new Error('Not authorized!')
+            error.statusCode = 403
+            throw error
+        }
+        if (event.participants.indexOf(req.userId) !== -1) {
+            const error = new Error('Already joined.')
+            error.statusCode = 403
+            throw error
+        }
+        if (event.maxPlayers <= event.participants.length) {
+            const error = new Error('Event is full.')
+            error.statusCode = 403
+            throw error
+        }
+        event.participants.push(req.userId)
+        await event.save()
+        const user = await User.findById(req.userId)
+        user.events.push(event)
+        await user.save()
+        res.status(200).json({ message: 'Joined event.', event: event })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    }
+}
