@@ -68,3 +68,152 @@ exports.login = async (req, res, next) => {
 		next(err)
 	}
 }
+exports.updateUser = async (req, res, next) => {
+	const userId = req.params.userId
+	const name = req.body.name
+	const avatar = req.body.avatar
+	const email = req.body.email
+	try {
+		const user = await
+		User.findById(userId)
+		if (!user) {
+			const error = new Error('Nie znaleziono użytkownika.')
+			error.statusCode = 404
+			throw error
+		}
+		if (user._id.toString() !== req.userId) {
+			const error = new Error('Brak autoryzacji!')
+			error.statusCode = 403
+			throw error
+		}
+		user.name = name
+		user.avatar = avatar
+		user.email = email
+		const result = await user.save()
+		res.status(200).json({ message: 'Użytkownik zaktualizowany!', user: result })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+exports.changePassword = async (req, res, next) => {
+	const userId = req.params.userId
+	const oldPassword = req.body.oldPassword
+	const newPassword = req.body.newPassword
+	try {
+		const user = await User.findById(userId)
+		if (!user) {
+			const error = new Error('Nie znaleziono użytkownika.')
+			error.statusCode = 404
+			throw error
+		}
+		if (user._id.toString() !== req.userId) {
+			const error = new Error('Brak autoryzacji!')
+			error.statusCode = 403
+			throw error
+		}
+		const isEqual = await bcrypt.compare(oldPassword, user.password)
+		if (!isEqual) {
+			const error = new Error('Nieprawidłowe hasło!')
+			error.statusCode = 401
+			throw error
+		}
+		const hashedPw = await bcrypt.hash(newPassword, 12)
+		user.password = hashedPw
+		const result = await user.save()
+		res.status(200).json({ message: 'Hasło zmienione!', user: result })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+exports.getUser = async (req, res, next) => {
+	const userId = req.params.userId
+	try {
+		const user = await User.findById(userId)
+		if (!user) {
+			const error = new Error('Nie znaleziono użytkownika.')
+			error.statusCode = 404
+			throw error
+		}
+		res.status(200).json({ message: 'Użytkownik znaleziony.', user: user })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+exports.deleteUser = async (req, res, next) => {
+	const userId = req.params.userId
+	try {
+		const user = await User.findById(userId)
+		if (!user) {
+			const error = new Error('Nie znaleziono użytkownika.')
+			error.statusCode = 404
+			throw error
+		}
+		if (user._id.toString() !== req.userId) {
+			const error = new Error('Brak autoryzacji!')
+			error.statusCode = 403
+			throw error
+		}
+		await User.findByIdAndRemove(userId)
+		res.status(200).json({ message: 'Użytkownik usunięty.' })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+exports.getUsers = async (req, res, next) => {
+	try {
+		const users = await User.find({}, 'name email avatar')
+		res.status(200).json({ message: 'Użytkownicy znalezieni.', users: users })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+exports.updateUserStats = async (req, res, next) => {
+	const userId = req.params.userId
+	const goals = req.body.goals
+	const assists = req.body.assists
+	const cleanSheets = req.body.cleanSheets
+	try {
+		const user = await User.findById(userId)
+		if (!user) {
+			const error = new Error('Nie znaleziono użytkownika.')
+			error.statusCode = 404
+			throw error
+		}
+		if (user._id.toString() !== req.userId) {
+			const error = new Error('Brak autoryzacji!')
+			error.statusCode = 403
+			throw error
+		}
+		user.goals = goals
+		user.assists = assists
+		user.cleanSheets = cleanSheets
+		const result = await user.save()
+		res.status(200).json({ message: 'Statystyki użytkownika zaktualizowane!', user: result })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}

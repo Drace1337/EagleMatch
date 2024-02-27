@@ -220,3 +220,24 @@ exports.removeMemberFromTeam = async (req, res, next) => {
 		next(err)
 	}
 }
+exports.addPointsToTeam = async (req, res, next) => {
+	const teamId = req.params.teamId
+	const points = req.body.points
+	try {
+		const team = await Team.findById(teamId)
+		if (!team) {
+			const error = new Error('Could not find team.')
+			error.statusCode = 404
+			throw error
+		}
+		team.points = points
+		await team.save()
+		res.status(200).json({ message: 'Added points to team.' })
+	}
+	catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}

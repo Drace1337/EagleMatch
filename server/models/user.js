@@ -17,6 +17,9 @@ const userSchema = new Schema(
 		replies: [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
 		events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
 		roles: { type: String, enum: ['user', 'captain', 'moderator', 'admin'], default: 'user' },
+		goals: { type: Number },
+		assists: { type: Number },
+		cleanSheets: { type: Number },
 	},
 	{ timestamps: true }
 )
