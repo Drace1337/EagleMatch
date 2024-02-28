@@ -6,7 +6,7 @@ const eventSchema = new Schema({
 	title: { type: String, required: true },
 	type: { type: String, required: true },
 	teamOnly: { type: Boolean, required: true },
-	location: { type: String, required: true },
+	location: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
 	date: { type: Date, required: true },
 	duration: { type: Number, required: true },
 	maxPlayers: { type: Number, required: true },

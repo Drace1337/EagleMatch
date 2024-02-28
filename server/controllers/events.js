@@ -2,6 +2,7 @@ const {validationResult} = require('express-validator');
 
 const Event = require('../models/event')
 const User = require('../models/user')
+const Location = require('../models/location')
 
 exports.getEvents = async (req, res, next) => {
     const currentPage = req.query.page || 1
@@ -36,7 +37,6 @@ exports.createEvent = async (req, res, next) => {
     const title = req.body.title
     const type = req.body.type
     const teamOnly = req.body.teamOnly
-    const location = req.body.location
     const date = req.body.date
     const duration = req.body.duration
     const maxPlayers = req.body.maxPlayers
@@ -47,7 +47,7 @@ exports.createEvent = async (req, res, next) => {
         title: title,
         type: type,
         teamOnly: teamOnly,
-        location: location,
+        location: req.locationId,
         date: date,
         duration: duration,
         maxPlayers: maxPlayers,
@@ -73,6 +73,53 @@ exports.createEvent = async (req, res, next) => {
         next(err)
     }
 }
+
+// exports.createEvent = async (req, res, next) => {
+//     const errors = validationResult(req)
+//     if (!errors.isEmpty()) {
+//         const error = new Error('Validation failed, entered data is incorrect.')
+//         error.statusCode = 422
+//         throw error
+//     }
+//     const title = req.body.title
+//     const type = req.body.type
+//     const teamOnly = req.body.teamOnly
+//     const date = req.body.date
+//     const duration = req.body.duration
+//     const maxPlayers = req.body.maxPlayers
+//     const description = req.body.description
+//     const confirmationRequired = req.body.confirmationRequired
+//     const isPrivate = req.body.isPrivate
+//     const event = new Event({
+//         title: title,
+//         type: type,
+//         teamOnly: teamOnly,
+//         location: req.locationId,
+//         date: date,
+//         duration: duration,
+//         maxPlayers: maxPlayers,
+//         description: description,
+//         confirmationRequired: confirmationRequired,
+//         isPrivate: isPrivate,
+//         creator: req.userId,
+//     })
+//     try {
+//         await event.save()
+//         const user = await User.findById(req.userId)
+//         user.events.push(event)
+//         await user.save()
+//         res.status(201).json({
+//             message: 'Event created successfully!',
+//             event: event,
+//             creator: { _id: user._id, name: user.name },
+//         })
+//     } catch (err) {
+//         if (!err.statusCode) {
+//             err.statusCode = 500
+//         }
+//         next(err)
+//     }
+// }
 
 exports.getEvent = async (req, res, next) => {
     const eventId = req.params.eventId
