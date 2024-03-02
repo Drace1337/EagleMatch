@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Input from './Input.jsx'
 import Textarea from './Textarea.jsx';
+import Button from './UI/Button.jsx';
 
 export default function ForumForm(){
     
@@ -45,7 +46,9 @@ export default function ForumForm(){
                 <form onSubmit={handleSubmit}>
                     <Input label="Title" id="title" error={didEdit.title && !enteredValues.title && <p>Title is required</p>} onBlur={handleInputBlur.bind(null, 'title')} onChange={handleInputChange.bind(null, 'title')} value={enteredValues.title} />
                     <Textarea label="Description" id="description" error={didEdit.description && !enteredValues.description && <p>Description is required</p>} onBlur={handleInputBlur.bind(null, 'description')} onChange={handleInputChange.bind(null, 'description')} value={enteredValues.description} />
-                    <button type="submit">Submit</button>
+                    <Button type="submit">Submit</Button>
+                    <Button>Cancel</Button>
+
                 </form>
             </dialog>
         )
