@@ -1,25 +1,23 @@
-import { useEffect, useState } from 'react'
-import EventItem from './EventItem.jsx'
+import { Link } from "react-router-dom";
 
-export default function Events() {
-	const [loadedEvents, setLoadedEvents] = useState([])
-	useEffect(() => {
-		async function fetchEvents() {
-			const response = await fetch('http://localhost:8080/events')
-			if (!response.ok) {
-				throw new Error(data.message || 'Could not fetch events.')
-			}
-			const events = await response.json()
-			setLoadedEvents(events)
-		}
-		fetchEvents()
-	}, [])
+export default function Events({ events}) {
+	
 
 	return (
-		<ul className='events'>
-			{loadedEvents.map(event => (
-				<EventItem key={event.id} event={event} />
+		<div className={classes.events}>
+		  <h2>All Events</h2>
+		  <ul className={classes.list}>
+			{events.map((event) => (
+			  <li key={event.id} className={classes.item}>
+				<Link to={event.id}>
+				  <div className={classes.content}>
+					<h3>{event.title}</h3>
+					<time>{event.date}</time>
+				  </div>
+				</Link>
+			  </li>
 			))}
-		</ul>
-	)
+		  </ul>
+		</div>
+	  );
 }

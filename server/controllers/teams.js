@@ -26,7 +26,7 @@ exports.createTeam = async (req, res, next) => {
 		await team.save()
 		const user = await User.findById(req.userId)
 		user.teams.push(team)
-        user.roles = 'captain'
+		user.roles = 'captain'
 		await user.save()
 		res.status(201).json({
 			message: 'Team created successfully!',
@@ -41,19 +41,34 @@ exports.createTeam = async (req, res, next) => {
 	}
 }
 
+// exports.getAllTeams = async (req, res, next) => {
+// 	const currentPage = req.query.page || 1
+// 	const perPage = 10
+// 	try {
+// 		const totalItems = await Team.find().countDocuments()
+// 		const teams = await Team.find()
+// 			.populate('captain')
+// 			.skip((currentPage - 1) * perPage)
+// 			.limit(perPage)
+// 		res.status(200).json({
+// 			message: 'Fetched teams successfully.',
+// 			teams: teams,
+// 			totalItems: totalItems,
+// 		})
+// 	} catch (err) {
+// 		if (!err.statusCode) {
+// 			err.statusCode = 500
+// 		}
+// 		next(err)
+// 	}
+// }
+
 exports.getAllTeams = async (req, res, next) => {
-	const currentPage = req.query.page || 1
-	const perPage = 10
 	try {
-		const totalItems = await Team.find().countDocuments()
-		const teams = await Team.find()
-			.populate('captain')
-			.skip((currentPage - 1) * perPage)
-			.limit(perPage)
+		const teams = await Team.find().populate('captain')
 		res.status(200).json({
 			message: 'Fetched teams successfully.',
 			teams: teams,
-			totalItems: totalItems,
 		})
 	} catch (err) {
 		if (!err.statusCode) {
@@ -233,8 +248,7 @@ exports.addPointsToTeam = async (req, res, next) => {
 		team.points = points
 		await team.save()
 		res.status(200).json({ message: 'Added points to team.' })
-	}
-	catch (err) {
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}

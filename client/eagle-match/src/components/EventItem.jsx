@@ -1,6 +1,17 @@
 import Button from "./UI/Button.jsx";
+import { useSubmit } from "react-router-dom";
 
 export default function EventItem({ event }) {
+	const submit = useSubmit()
+
+	function handleJoinEvent() {
+		const proceed = window.confirm('Do you want to join this event?')
+
+		if (proceed) {
+			submit({}, {method: 'PATCH'})
+		}
+	}
+
 	return (
 		<li key={id} className='event-item'>
 			<article>
@@ -15,8 +26,7 @@ export default function EventItem({ event }) {
 					<p>{event.maxPlayers}</p>
 				</div>
                 <p>
-                    <Button>View Details</Button>
-                    <Button>Join Event</Button>
+                    <Button onClick={handleJoinEvent}>Join</Button>
                 </p>
 			</article>
 		</li>
