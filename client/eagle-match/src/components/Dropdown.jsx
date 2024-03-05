@@ -1,4 +1,4 @@
-export default function Dropdown({ label, id, open, trigger, menu}){
+function Dropdown({ label, id, open, trigger, menu}){
     return(
         <div className="dropdown">
             <label htmlFor={id}>{label}</label>
@@ -13,3 +13,5 @@ export default function Dropdown({ label, id, open, trigger, menu}){
         </div>
     )
 }
+
+export default Dropdown;

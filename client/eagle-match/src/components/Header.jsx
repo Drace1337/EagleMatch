@@ -1,6 +1,6 @@
 import logoImg from '../logo.svg'
 
-export default function Header() {
+function Header() {
 	return (
 		<header id='main-header' className='main-header'>
 			<div className='title' id='title'>
@@ -10,3 +10,5 @@ export default function Header() {
 		</header>
 	)
 }
+
+export default Header

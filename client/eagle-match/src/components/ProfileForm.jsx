@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Input from './Input.jsx'
 
-export default function ProfileForm(method, user) {
+function ProfileForm(method, user) {
 	const [enteredValues, setEnteredValues] = useState({ name: '', email: '', password: '', confirmPassword: '' })
 	const [didEdit, setDidEdit] = useState({
 		name: false,
@@ -75,3 +75,5 @@ export default function ProfileForm(method, user) {
 		</div>
 	)
 }
+
+export default ProfileForm

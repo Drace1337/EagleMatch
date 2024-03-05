@@ -1,6 +1,6 @@
 import Button from "./UI/Button.jsx";
 
-export default function PostItem({ post }) {
+function PostItem({ post }) {
     return (
         <li key={post.id} className='post-item'>
             <article>
@@ -15,3 +15,5 @@ export default function PostItem({ post }) {
         </li>
     )
 }
+
+export default PostItem;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import PostItem from './PostItem.jsx'
 
-export default function Posts() {
+function Posts() {
 	const [loadedPosts, setLoadedPosts] = useState([])
 	useEffect(() => {
 		async function fetchPosts() {
@@ -23,3 +23,5 @@ export default function Posts() {
 		</ul>
 	)
 }
+
+export default Posts

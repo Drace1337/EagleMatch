@@ -1,4 +1,4 @@
-export default function Textarea({ label, id, error, ...props}) {
+function Textarea({ label, id, error, ...props}) {
     return (
         <div>
             <label htmlFor={id}>{label}</label>
@@ -9,3 +9,5 @@ export default function Textarea({ label, id, error, ...props}) {
         </div>
     )
 }
+
+export default Textarea;

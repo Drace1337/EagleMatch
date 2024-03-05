@@ -2,7 +2,7 @@ import { json, useLoaderData, redirect } from 'react-router-dom'
 
 import Events from '../components/Events'
 
-export default function HomePage() {
+function HomePage() {
 	const data = useLoaderData()
 	// if (data.isError) {
 	// 	return <p>{data.message}</p>
@@ -20,7 +20,7 @@ export default function HomePage() {
 }
 
 export async function loader() {
-	const response = await fetch('http://localhost:8080/events')
+	const response = await fetch('http://localhost:3001/events')
 
 	if (!response.ok) {
 		// return { isError: true, message: 'Nie udało się załadować wydarzeń.' }
@@ -30,4 +30,6 @@ export async function loader() {
 		return response
 	}
 }
+
+export default HomePage
 

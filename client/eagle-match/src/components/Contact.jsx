@@ -4,7 +4,7 @@ import Textarea from './Textarea.jsx';
 import Dropdown from './Dropdown.jsx';
 import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
 
-export default function Contact(){
+function Contact(){
 
     const [enteredValues, setEnteredValues] = useState({email: '', message: ''});
     const [didEdit, setDidEdit] = useState({
@@ -70,3 +70,5 @@ export default function Contact(){
         </div>
     );
 }
+
+export default Contact;

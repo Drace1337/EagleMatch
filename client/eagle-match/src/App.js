@@ -7,8 +7,8 @@ import RegulationsPage from './pages/Regulations.jsx'
 import ContactPage from './pages/Contact.jsx'
 import ForumPage from './pages/Forum.jsx'
 import HistoryPage from './pages/History.jsx'
-import LoginPage from './pages/Login.jsx'
-import RegisterPage from './pages/Register.jsx'
+import LoginPage, { action as loginAction } from './pages/Login.jsx'
+import RegisterPage, { action as registerAction } from './pages/Register.jsx'
 import LogoutPage from './pages/Logout.jsx'
 import ProfilePage from './pages/Profile.jsx'
 import RankingPage from './pages/Ranking.jsx'
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <HomePage />,
+				element: HomePage,
 				loader: eventsLoader,
 				action: joinEventAction,
 			},
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
 			{ path: 'contact', element: <ContactPage /> },
 			{ path: 'forum', element: <ForumPage /> },
 			{ path: 'history', element: <HistoryPage /> },
-			{ path: 'login', element: <LoginPage /> },
-			{ path: 'register', element: <RegisterPage /> },
+			{ path: 'login', element: <LoginPage />, action: loginAction },
+			{ path: 'register', element: <RegisterPage />, action: registerAction },
 			{ path: 'logout', element: <LogoutPage /> },
 			{ path: 'profile/:id', element: <ProfilePage /> },
 			{ path: 'ranking', element: <RankingPage /> },

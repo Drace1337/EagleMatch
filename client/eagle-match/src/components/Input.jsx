@@ -1,4 +1,4 @@
-export default function Input({ label, id, error, ...props}) {
+function Input({ label, id, error, ...props}) {
     return (
         <div>
             <label htmlFor={id}>{label}</label>
@@ -9,3 +9,5 @@ export default function Input({ label, id, error, ...props}) {
         </div>
     )
 }
+
+export default Input;

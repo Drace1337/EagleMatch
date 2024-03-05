@@ -1,8 +1,8 @@
 // import { useParams } from 'react-router-dom'
 import EventItem from '../components/EventItem.jsx'
-import { useLoaderData, json } from 'react-router-dom'
+import { useLoaderData, json, redirect } from 'react-router-dom'
 
-export default function EventPage() {
+function EventPage() {
 	// const params = useParams()
 	const data = useLoaderData()
 
@@ -33,3 +33,5 @@ export async function action({ params, request }) {
 	}
 	return redirect('/')
 }
+
+export default EventPage

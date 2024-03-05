@@ -1,4 +1,4 @@
-export default function TeamForm() {
+function TeamForm() {
     const [enteredValues, setEnteredValues] = useState({name: ''});
     const [didEdit, setDidEdit] = useState({name: false});
 
@@ -51,3 +51,5 @@ export default function TeamForm() {
         </div>
     )
 }
+
+export default TeamForm;

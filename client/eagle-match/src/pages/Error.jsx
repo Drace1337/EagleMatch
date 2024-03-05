@@ -1,8 +1,8 @@
 import { useRouteError } from 'react-router-dom'
 import PageContent from '../components/PageContent.jsx'
-import Navigation from '../components/MainNavigation.jsx'
+import MainNavigation from '../components/MainNavigation.jsx'
 
-export default function ErrorPage() {
+function ErrorPage() {
 	const error = useRouteError()
 	let title = 'Wystąpił błąd!'
 	let message = 'Przepraszamy, ale coś poszło nie tak.'
@@ -18,10 +18,12 @@ export default function ErrorPage() {
 
 	return (
 		<>
-			<Navigation />
+			<MainNavigation />
 			<PageContent title={title}>
 				<p>{message}</p>
 			</PageContent>
 		</>
 	)
 }
+
+export default ErrorPage
