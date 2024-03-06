@@ -23,8 +23,6 @@ export async function loader() {
 	const response = await fetch('http://localhost:3001/events')
 
 	if (!response.ok) {
-		// return { isError: true, message: 'Nie udało się załadować wydarzeń.' }
-		// throw new Response(JSON.stringify({ message: 'Nie udało się załadować wydarzeń.' }), { status: 500 })
 		return json({ message: 'Nie udało się załadować wydarzeń.' }, { status: 500 })
 	} else {
 		return response

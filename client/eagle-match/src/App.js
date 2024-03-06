@@ -1,6 +1,4 @@
-import logo from './logo.svg'
 import './App.css'
-import Header from './components/Header'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import HomePage, { loader as eventsLoader } from './pages/Home.jsx'
 import RegulationsPage from './pages/Regulations.jsx'
@@ -14,7 +12,7 @@ import ProfilePage from './pages/Profile.jsx'
 import RankingPage from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction } from './pages/CreateEvent.jsx'
 import CreateTeamPage from './pages/CreateTeam.jsx'
-import EventPage, { loader as eventDetailLoader, action as joinEventAction } from './pages/Event.jsx'
+import EventPage, { loader as eventDetailLoader } from './pages/Event.jsx'
 import PostPage from './pages/Post.jsx'
 import TeamPage from './pages/Team.jsx'
 import RootLayout from './pages/Root.jsx'
@@ -33,7 +31,6 @@ const router = createBrowserRouter([
 				index: true,
 				element: HomePage,
 				loader: eventsLoader,
-				action: joinEventAction,
 			},
 			{ path: 'regulations', element: <RegulationsPage />, loader: checkAuthLoader},
 			{ path: 'contact', element: <ContactPage /> },

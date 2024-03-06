@@ -54,7 +54,7 @@ exports.createEvent = async (req, res, next) => {
 	const teamOnly = req.body.teamOnly
 	const date = req.body.date
 	const duration = req.body.duration
-	const maxPlayers = req.body.maxPlayers
+	const maxParticipants = req.body.maxParticipants
 	const description = req.body.description
 	const confirmationRequired = req.body.confirmationRequired
 	const isPrivate = req.body.isPrivate
@@ -65,7 +65,7 @@ exports.createEvent = async (req, res, next) => {
 		location: req.locationId,
 		date: date,
 		duration: duration,
-		maxPlayers: maxPlayers,
+		maxParticipants: maxParticipants,
 		description: description,
 		confirmationRequired: confirmationRequired,
 		isPrivate: isPrivate,
@@ -194,17 +194,22 @@ exports.joinEvent = async (req, res, next) => {
 			error.statusCode = 403
 			throw error
 		}
-		if (event.participants.indexOf(req.userId) !== -1) {
+		if (event.players.indexOf(req.userId) !== -1 || event.teams.indexOf(req.teamId) !== -1) {
 			const error = new Error('Already joined.')
 			error.statusCode = 403
 			throw error
 		}
-		if (event.maxPlayers <= event.participants.length) {
+		if (event.maxParticipants <= event.players.length || event.maxParticipants <= event.teams) {
 			const error = new Error('Event is full.')
 			error.statusCode = 403
 			throw error
 		}
-		event.participants.push(req.userId)
+		if (event.teamOnly) {
+			event.teams.push(req.teamId)
+		} else {
+			event.players.push(req.userId)
+		}
+
 		await event.save()
 		const user = await User.findById(req.userId)
 		user.events.push(event)

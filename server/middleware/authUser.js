@@ -21,7 +21,13 @@ const authUser = async (req, res, next) => {
 		error.statusCode = 401
 		throw error
 	}
+	if (decodedToken.role !== 'user') {
+		const error = new Error('Nie masz uprawnień.')
+		error.statusCode = 401
+		throw error
+	}
 	req.userId = decodedToken.userId
+	req.role = decodedToken.role
 	next()
 }
 

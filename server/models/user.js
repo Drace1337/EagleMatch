@@ -12,7 +12,7 @@ const userSchema = new Schema(
 		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
 		avatar: { type: String, required: false },
-		teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }],
+		team: [{ type: Schema.Types.ObjectId, ref: 'Team' }],
 		posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
 		replies: [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
 		events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],

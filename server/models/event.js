@@ -9,11 +9,12 @@ const eventSchema = new Schema({
 	location: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
 	date: { type: Date, required: true },
 	duration: { type: Number, required: true },
-	maxPlayers: { type: Number, required: true },
+	maxParticipants: { type: Number, required: true },
 	description: { type: String, required: true },
 	confirmationRequired: { type: Boolean, required: true },
 	isPrivate: { type: Boolean, required: true },
-	participants: [{ type: Schema.Types.ObjectId, ref: 'User' || 'Team'}],
+	players: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+	teams: [{ type: Schema.Types.ObjectId, ref: 'Team'}],
 	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 

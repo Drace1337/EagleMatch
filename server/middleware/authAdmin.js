@@ -21,12 +21,13 @@ const authAdmin = async (req, res, next) => {
         error.statusCode = 401
         throw error
     }
-    if (decodedToken.roles !== 'admin') {
+    if (decodedToken.role !== 'admin') {
         const error = new Error('Nie masz uprawnień administratora.')
         error.statusCode = 401
         throw error
     }
     req.userId = decodedToken.userId
+    req.role = decodedToken.role
     next()
 }
 

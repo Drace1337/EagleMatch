@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Input from './Input.jsx'
 import Textarea from './Textarea.jsx'
-import Dropdown from './Dropdown.jsx'
 import { isNotEmpty, hasMinLength } from '../util/validation.js'
 import { Form, useNavigate, useNavigation } from 'react-router-dom'
 
@@ -82,11 +81,11 @@ export default function EventForm() {
                     <label htmlFor='team_only'>Tak</label>
                 </p>
                 <select name='location' id='location'>
-                    {locations.map(location => (
+                    {/* {locations.map(location => (
                         <option key={location.id} value={location.id}>
                             {location.name}
                         </option>
-                    ))}
+                    ))} */}
                 </select>
                 <p>
                     <label htmlFor='date'>Data wydarzenia:</label>
@@ -97,8 +96,8 @@ export default function EventForm() {
                     <input id='duration' type='number' name='duration' required />
                 </p>
                 <p>
-                    <label htmlFor='max_players'>Maksymalna liczba uczestników:</label>
-                    <input id='max_players' type='number' name='max_players' required />
+                    <label htmlFor='max_participants'>Maksymalna liczba uczestników:</label>
+                    <input id='max_participants' type='number' name='max_participants' required />
                 </p>
                 <p>
                     <label htmlFor='description'>Opis wydarzenia:</label>

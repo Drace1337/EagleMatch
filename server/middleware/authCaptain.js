@@ -21,12 +21,13 @@ const authCaptain = async (req, res, next) => {
         error.statusCode = 401
         throw error
     }
-    if (decodedToken.roles !== 'captain') {
+    if (decodedToken.role !== 'captain') {
         const error = new Error('Nie masz uprawnień kapitana.')
         error.statusCode = 401
         throw error
     }
     req.userId = decodedToken.userId
+    req.role = decodedToken.role
     next()
 }
 

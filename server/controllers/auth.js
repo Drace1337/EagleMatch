@@ -56,6 +56,8 @@ exports.login = async (req, res, next) => {
 			{
 				email: loadedUser.email,
 				userId: loadedUser._id.toString(),
+				role: loadedUser.roles,
+				team: loadedUser.team,
 			},
 			process.env.JWT_PRIVATE_KEY,
 			{ expiresIn: process.env.JWT_EXPIRY }

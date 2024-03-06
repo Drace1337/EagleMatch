@@ -7,7 +7,7 @@ function CreateEvent() {
 
 export default CreateEvent
 
-export async function action(request, params) {
+export async function action(request) {
 	const data = request.formData()
 
 	const eventData = {
@@ -18,10 +18,11 @@ export async function action(request, params) {
 		duration: data.get('duration'),
 		description: data.get('description'),
 		participants: data.get('participants'),
-		maxPlayers: data.get('maxPlayers'),
+		maxParticipants: data.get('max_participants'),
+		creator: localStorage.getItem('userId'),
 	}
 
-	const response = await fetch('https://localhost:8080/events', {
+	const response = await fetch('https://localhost:3001/events', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
