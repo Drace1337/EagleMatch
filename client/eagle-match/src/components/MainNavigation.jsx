@@ -1,6 +1,10 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useRouteLoaderData } from 'react-router-dom'
+
 
 export default function MainNavigation() {
+
+	const token = useRouteLoaderData('root')
+
 	return (
 		<nav>
 			<ul>
@@ -29,11 +33,13 @@ export default function MainNavigation() {
 						History
 					</NavLink>
 				</li> */}
-				{/* <li>
-					<NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+				{!token && (
+				<li>
+					{/* <NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
+					<NavLink to='/login'>
 						Login
 					</NavLink>
-				</li> */}
+				</li>)}
 				{/* <li>
 					<NavLink to='/register' className={({ isActive }) => (isActive ? classes.active : undefined)}>
 						Register
@@ -79,6 +85,12 @@ export default function MainNavigation() {
 						Team
 					</NavLink>
 				</li> */}
+				{token &&(<li>
+					<Form action="/logout" method="post">
+						<button>Wyloguj się</button>
+					</Form>
+				</li>)}
+				
 			</ul>
 		</nav>
 	)

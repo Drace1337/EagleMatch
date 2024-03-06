@@ -2,47 +2,51 @@ import { useState } from 'react'
 import Input from './Input.jsx'
 import Textarea from './Textarea.jsx'
 import Button from './UI/Button.jsx'
+import { Form, useNavigation } from 'react-router-dom'
 
 function ForumForm() {
-	const [enteredValues, setEnteredValues] = useState({ title: '', description: '' })
-	const [didEdit, setDidEdit] = useState({
-		title: false,
-		description: false,
-	})
+	// const [enteredValues, setEnteredValues] = useState({ title: '', description: '' })
+	// const [didEdit, setDidEdit] = useState({
+	// 	title: false,
+	// 	description: false,
+	// })
 
-	function handleSubmit(event) {
-		event.preventDefault()
-		console.log(enteredValues.title, enteredValues.description)
-	}
+	// function handleSubmit(event) {
+	// 	event.preventDefault()
+	// 	console.log(enteredValues.title, enteredValues.description)
+	// }
 
-	function handleInputChange(identifier, value) {
-		setEnteredValues(prevValues => {
-			return {
-				...prevValues,
-				[identifier]: value,
-			}
-		})
-		setDidEdit(prevDidEdit => {
-			return {
-				...prevDidEdit,
-				[identifier]: false,
-			}
-		})
-	}
+	// function handleInputChange(identifier, value) {
+	// 	setEnteredValues(prevValues => {
+	// 		return {
+	// 			...prevValues,
+	// 			[identifier]: value,
+	// 		}
+	// 	})
+	// 	setDidEdit(prevDidEdit => {
+	// 		return {
+	// 			...prevDidEdit,
+	// 			[identifier]: false,
+	// 		}
+	// 	})
+	// }
 
-	function handleInputBlur(identifier) {
-		setDidEdit(prevDidEdit => {
-			return {
-				...prevDidEdit,
-				[identifier]: true,
-			}
-		})
-	}
+	// function handleInputBlur(identifier) {
+	// 	setDidEdit(prevDidEdit => {
+	// 		return {
+	// 			...prevDidEdit,
+	// 			[identifier]: true,
+	// 		}
+	// 	})
+	// }
+	const navigation = useNavigation()
+
+	const isSubmitting = navigation.state === 'submitting'
 
 	return (
 		<dialog>
 			<h1>Create Post</h1>
-			<form onSubmit={handleSubmit}>
+			{/* <form onSubmit={handleSubmit}>
 				<Input
 					label='Title'
 					id='title'
@@ -61,7 +65,19 @@ function ForumForm() {
 				/>
 				<Button type='submit'>Submit</Button>
 				<Button>Cancel</Button>
-			</form>
+			</form> */}
+			<Form method="post">
+				<p>
+					<label htmlFor="title">Tytuł</label>
+					<input id="title" type="name" name="title" required />
+				</p>
+				<p>
+					<label htmlFor="description">Opis</label>
+					<textarea id="description" name="description" required />
+				</p>
+				<button type='submit' disabled={isSubmitting}>
+					{isSubmitting ? 'Tworzenie...' : 'Stwórz post'}</button>
+			</Form>
 		</dialog>
 	)
 }

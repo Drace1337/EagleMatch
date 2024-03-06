@@ -9,7 +9,7 @@ import ForumPage from './pages/Forum.jsx'
 import HistoryPage from './pages/History.jsx'
 import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
-import LogoutPage from './pages/Logout.jsx'
+import { action as logoutAction } from './pages/Logout.jsx'
 import ProfilePage from './pages/Profile.jsx'
 import RankingPage from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction } from './pages/CreateEvent.jsx'
@@ -19,12 +19,15 @@ import PostPage from './pages/Post.jsx'
 import TeamPage from './pages/Team.jsx'
 import RootLayout from './pages/Root.jsx'
 import ErrorPage from './pages/Error.jsx'
+import { tokenLoader, checkAuthLoader } from './util/auth.js'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <RootLayout />,
 		errorElement: <ErrorPage />,
+		id: 'root',
+		loader: tokenLoader,
 		children: [
 			{
 				index: true,
@@ -32,13 +35,13 @@ const router = createBrowserRouter([
 				loader: eventsLoader,
 				action: joinEventAction,
 			},
-			{ path: 'regulations', element: <RegulationsPage /> },
+			{ path: 'regulations', element: <RegulationsPage />, loader: checkAuthLoader},
 			{ path: 'contact', element: <ContactPage /> },
 			{ path: 'forum', element: <ForumPage /> },
 			{ path: 'history', element: <HistoryPage /> },
 			{ path: 'login', element: <LoginPage />, action: loginAction },
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
-			{ path: 'logout', element: <LogoutPage /> },
+			{ path: 'logout', action: logoutAction},
 			{ path: 'profile/:id', element: <ProfilePage /> },
 			{ path: 'ranking', element: <RankingPage /> },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction },
