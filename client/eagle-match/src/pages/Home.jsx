@@ -1,6 +1,6 @@
 import { json, useLoaderData, redirect } from 'react-router-dom'
 
-import Events from '../components/Events'
+import Events from '../components/Events.jsx'
 
 function HomePage() {
 	const data = useLoaderData()

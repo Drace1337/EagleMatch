@@ -14,7 +14,7 @@ import CreateEventPage, { action as createEventAction } from './pages/CreateEven
 import CreateTeamPage from './pages/CreateTeam.jsx'
 import EventPage, { loader as eventDetailLoader } from './pages/Event.jsx'
 import PostPage from './pages/Post.jsx'
-import TeamPage from './pages/Team.jsx'
+import TeamPage from './pages/TeamDetail.jsx'
 import RootLayout from './pages/Root.jsx'
 import ErrorPage from './pages/Error.jsx'
 import { tokenLoader, checkAuthLoader } from './util/auth.js'

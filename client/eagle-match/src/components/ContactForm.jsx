@@ -78,7 +78,17 @@ function Contact(){
                 </p>
                 <p>
                     <label htmlFor="topic">Temat:</label>
-                    <input id="topic" type="text" name="topic" required />
+                    <select name='topic' id='topic'>
+                    {/* {locations.map(location => (
+                        <option key={location.id} value={location.id}>
+                            {location.name}
+                        </option>
+                    ))} */}
+                    <option value="score">Wynik meczu</option>
+                    <option value="problem">Problem z kontem</option>
+                    <option value="request">Podanie o rolę moderatora</option>
+                    <option value="other">Inne</option>
+                </select>
                 </p>
                 <p>
                     <label htmlFor="message">Wiadomość:</label>

@@ -80,6 +80,7 @@ export default function EventForm() {
                     <input id='team_only' type='checkbox' name='team_only' required />
                     <label htmlFor='team_only'>Tak</label>
                 </p>
+				<label htmlFor='location'>Lokalizacja:</label>
                 <select name='location' id='location'>
                     {/* {locations.map(location => (
                         <option key={location.id} value={location.id}>

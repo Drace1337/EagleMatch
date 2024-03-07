@@ -79,18 +79,12 @@ exports.getAllTeams = async (req, res, next) => {
 }
 
 exports.getUserTeams = async (req, res, next) => {
-	const currentPage = req.query.page || 1
-	const perPage = 10
 	try {
-		const totalItems = await Team.find().countDocuments()
 		const teams = await Team.find({ captain: req.userId })
 			.populate('captain')
-			.skip((currentPage - 1) * perPage)
-			.limit(perPage)
 		res.status(200).json({
 			message: 'Fetched teams successfully.',
 			teams: teams,
-			totalItems: totalItems,
 		})
 	} catch (err) {
 		if (!err.statusCode) {
