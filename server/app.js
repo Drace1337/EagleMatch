@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid')
 
 const forumRoutes = require('./routes/forum')
 const authRoutes = require('./routes/auth')
+const rankingRoutes = require('./routes/rankings')
 
 const app = express()
 
@@ -39,9 +40,18 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 	next()
 })
+mongoose
+	.connect(
+		'mongodb+srv://jakubrutek:JSM3BF5ikixfUc4W@eaglematch.nbzjwgh.mongodb.net/EagleMatch?retryWrites=true&w=majority'
+	)
+	.then(result => {
+		app.listen(3001)
+	})
+	.catch(err => console.log(err))
 
 app.use('/forum', forumRoutes)
 app.use('/auth', authRoutes)
+app.use('/ranking', rankingRoutes)
 
 app.use((error, req, res, next) => {
 	console.log(error)
@@ -51,11 +61,4 @@ app.use((error, req, res, next) => {
 	res.status(status).json({ message: message, data: data })
 })
 
-mongoose
-	.connect(
-		'mongodb+srv://jakubrutek:JSM3BF5ikixfUc4W@eaglematch.nbzjwgh.mongodb.net/EagleMatch?retryWrites=true&w=majority'
-	)
-	.then(result => {
-		app.listen(3001)
-	})
-	.catch(err => console.log(err))
+

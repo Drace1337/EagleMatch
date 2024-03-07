@@ -1,6 +1,7 @@
 import { json, useLoaderData, redirect } from 'react-router-dom'
 
 import Posts from '../components/Posts.jsx'
+import ForumForm from '../components/ForumForm.jsx'
 
 function ForumPage() {
     const data = useLoaderData()
@@ -13,7 +14,6 @@ function ForumPage() {
     return (
         <>
             <h1>Forum</h1>
-
             <Posts posts={posts} />
         </>
     )
@@ -28,5 +28,25 @@ export async function loader() {
         return response
     }
 }
+
+export async function action(request) {
+    const id = params.postId
+
+    const response = await fetch('http://localhost:3001/posts/' + id,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + getAuthToken(request),
+        },
+    })
+
+    if (!response.ok) {
+        return json({ message: 'Nie udało się usunąć posta' }, { status: 500 })
+    } else {
+        return redirect('/forum')
+    }
+}
+
+
 
 export default ForumPage

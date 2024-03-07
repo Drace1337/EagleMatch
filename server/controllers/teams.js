@@ -24,10 +24,7 @@ exports.createTeam = async (req, res, next) => {
 	})
 	try {
 		await team.save()
-		const user = await User.findById(req.userId)
-		user.teams.push(team)
-		user.roles = 'captain'
-		await user.save()
+		const user = await User.findByIdAndUpdate(req.userId, {$push: {teams: team._id}, $set: {roles: 'captain'}})
 		res.status(201).json({
 			message: 'Team created successfully!',
 			team: team,
@@ -78,21 +75,21 @@ exports.getAllTeams = async (req, res, next) => {
 	}
 }
 
-exports.getUserTeams = async (req, res, next) => {
-	try {
-		const teams = await Team.find({ captain: req.userId })
-			.populate('captain')
-		res.status(200).json({
-			message: 'Fetched teams successfully.',
-			teams: teams,
-		})
-	} catch (err) {
-		if (!err.statusCode) {
-			err.statusCode = 500
-		}
-		next(err)
-	}
-}
+// exports.getUserTeams = async (req, res, next) => {
+// 	try {
+// 		const teams = await Team.find({ captain: req.userId })
+// 			.populate('captain')
+// 		res.status(200).json({
+// 			message: 'Fetched teams successfully.',
+// 			teams: teams,
+// 		})
+// 	} catch (err) {
+// 		if (!err.statusCode) {
+// 			err.statusCode = 500
+// 		}
+// 		next(err)
+// 	}
+// }
 
 exports.getTeam = async (req, res, next) => {
 	const teamId = req.params.teamId
@@ -184,6 +181,11 @@ exports.addMemberToTeam = async (req, res, next) => {
 		}
 		if (team.members.includes(userId)) {
 			const error = new Error('User already in team.')
+			error.statusCode = 403
+			throw error
+		}
+		if (team.members.length >= 9) {
+			const error = new Error('Team is full.')
 			error.statusCode = 403
 			throw error
 		}

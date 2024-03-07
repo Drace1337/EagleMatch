@@ -4,7 +4,7 @@ import Textarea from './Textarea.jsx'
 import { isNotEmpty, hasMinLength } from '../util/validation.js'
 import { Form, useNavigate, useNavigation } from 'react-router-dom'
 
-export default function EventForm() {
+export default function EventForm({ locations}) {
 	// const [enteredValues, setEnteredValues] = useState({
 	// 	name: '',
 	// 	date: '',
@@ -82,11 +82,11 @@ export default function EventForm() {
                 </p>
 				<label htmlFor='location'>Lokalizacja:</label>
                 <select name='location' id='location'>
-                    {/* {locations.map(location => (
+                    {locations.map(location => (
                         <option key={location.id} value={location.id}>
                             {location.name}
                         </option>
-                    ))} */}
+                    ))}
                 </select>
                 <p>
                     <label htmlFor='date'>Data wydarzenia:</label>

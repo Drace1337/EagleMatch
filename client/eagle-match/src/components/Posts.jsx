@@ -26,19 +26,29 @@
 
 // export default Posts
 
-import { Link } from 'react-router-dom'
+import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom'
 
 export default function Posts({ posts }) {
+	const token = useRouteLoaderData('root')
+	const submit = useSubmit()
+	function startDeleteHandler() {
+		const proceed = window.confirm('Are you sure you want to delete this post?')
+
+		if (proceed) {
+			submit(null, { method: 'DELETE' })
+		}
+	}
 	return (
 		<div>
-			
-		<ul>
-			{posts.map(post => (
-				<li key={post.id}>
-					<Link to={post.id}>{post.title}</Link>
-				</li>
-			))}
-		</ul>
+			<ul>
+				{posts.map(post => (
+					<li key={post.id}>
+						<p>{post.title}</p>
+						<Link to={post.id}>Zobacz post</Link>
+						{JSON.parse(localStorage.getItem('userData')).role === 'moderator' && <button onClick={startDeleteHandler}>Usuń post</button>}
+					</li>
+				))}
+			</ul>
 		</div>
 	)
 }

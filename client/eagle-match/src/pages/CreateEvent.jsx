@@ -1,11 +1,25 @@
 import EventForm from '../components/EventForm.jsx'
 import { json, redirect } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 
 function CreateEvent() {
-	return <EventForm />
+	const data = useLoaderData()
+	const locations = data.locations
+
+	return <EventForm locations={locations} />
 }
 
 export default CreateEvent
+
+export async function loader() {
+	const response = await fetch('http://localhost:3001/locations')
+
+	if (!response.ok) {
+		return json({ message: 'Nie udało się załadować boisk.' }, { status: 500 })
+	} else {
+		return response
+	}
+}
 
 export async function action(request) {
 	const data = request.formData()

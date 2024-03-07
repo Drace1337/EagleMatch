@@ -13,8 +13,8 @@ const eventSchema = new Schema({
 	description: { type: String, required: true },
 	confirmationRequired: { type: Boolean, required: true },
 	isPrivate: { type: Boolean, required: true },
-	players: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-	teams: [{ type: Schema.Types.ObjectId, ref: 'Team'}],
+	players: { type: [Schema.Types.ObjectId], ref: 'User'},
+	teams: { type: [Schema.Types.ObjectId], ref: 'Team'},
 	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 

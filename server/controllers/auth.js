@@ -38,6 +38,7 @@ exports.login = async (req, res, next) => {
 	const email = req.body.email
 	const password = req.body.password
 	let loadedUser
+	
 	try {
 		const user = await User.findOne({ email: email })
 		if (!user) {
@@ -61,8 +62,9 @@ exports.login = async (req, res, next) => {
 			},
 			process.env.JWT_PRIVATE_KEY,
 			{ expiresIn: process.env.JWT_EXPIRY }
-		)
-		res.status(200).json({ token: token, userId: loadedUser._id.toString() })
+			)
+			console.log('logowanie', token)
+		res.status(200).json({ token: token, userId: loadedUser._id.toString(), role: loadedUser.roles, team: loadedUser.team })
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500

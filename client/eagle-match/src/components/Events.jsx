@@ -4,13 +4,13 @@ export default function Events({ events}) {
 	
 
 	return (
-		<div className={classes.events}>
+		<div >
 		  <h2>All Events</h2>
-		  <ul className={classes.list}>
+		  <ul >
 			{events.map((event) => (
-			  <li key={event.id} className={classes.item}>
+			  <li key={event.id} >
 				<Link to={event.id}>
-				  <div className={classes.content}>
+				  <div >
 					<h3>{event.title}</h3>
 					<time>{event.date}</time>
 				  </div>

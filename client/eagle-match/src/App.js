@@ -9,11 +9,11 @@ import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
 import { action as logoutAction } from './pages/Logout.jsx'
 import ProfilePage from './pages/Profile.jsx'
-import RankingPage from './pages/Ranking.jsx'
+import RankingPage, {loader as rankingLoader} from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction } from './pages/CreateEvent.jsx'
 import CreateTeamPage from './pages/CreateTeam.jsx'
 import EventPage, { loader as eventDetailLoader } from './pages/Event.jsx'
-import PostPage from './pages/Post.jsx'
+import PostDetailPage from './pages/PostDetail.jsx'
 import TeamPage from './pages/TeamDetail.jsx'
 import RootLayout from './pages/Root.jsx'
 import ErrorPage from './pages/Error.jsx'
@@ -40,11 +40,11 @@ const router = createBrowserRouter([
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
 			{ path: 'logout', action: logoutAction},
 			{ path: 'profile/:id', element: <ProfilePage /> },
-			{ path: 'ranking', element: <RankingPage /> },
+			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction },
 			{ path: 'create-team', element: <CreateTeamPage /> },
 			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader },
-			{ path: 'post/:postId', element: <PostPage /> },
+			{ path: 'post/:postId', element: <PostDetailPage /> },
 			{ path: 'team/:teamId', element: <TeamPage /> },
 		],
 	},

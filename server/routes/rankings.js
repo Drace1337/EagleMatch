@@ -5,7 +5,7 @@ const rankingController = require('../controllers/rankings');
 
 const router = express.Router();
 
-router.get('/goals', authUser, rankingController.getGoalsRanking);
+router.get('/goals', rankingController.getGoalsRanking);
 
 router.get('/assists', authUser, rankingController.getAssisstsRanking);
 

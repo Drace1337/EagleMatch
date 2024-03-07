@@ -58,11 +58,12 @@ exports.createEvent = async (req, res, next) => {
 	const description = req.body.description
 	const confirmationRequired = req.body.confirmationRequired
 	const isPrivate = req.body.isPrivate
+	const location = req.body.location
 	const event = new Event({
 		title: title,
 		type: type,
 		teamOnly: teamOnly,
-		location: req.locationId,
+		location: location,
 		date: date,
 		duration: duration,
 		maxParticipants: maxParticipants,
@@ -73,9 +74,7 @@ exports.createEvent = async (req, res, next) => {
 	})
 	try {
 		await event.save()
-		const user = await User.findById(req.userId)
-		user.events.push(event)
-		await user.save()
+		const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
 		res.status(201).json({
 			message: 'Event created successfully!',
 			event: event,
