@@ -2,6 +2,7 @@ import { json, useLoaderData, redirect } from 'react-router-dom'
 
 import Posts from '../components/Posts.jsx'
 import ForumForm from '../components/ForumForm.jsx'
+import { getAuthToken } from '../util/auth.js'
 
 function ForumPage() {
     const data = useLoaderData()
@@ -29,7 +30,7 @@ export async function loader() {
     }
 }
 
-export async function action(request) {
+export async function action(request, params) {
     const id = params.postId
 
     const response = await fetch('http://localhost:3001/posts/' + id,{
