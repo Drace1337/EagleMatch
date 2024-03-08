@@ -19,7 +19,7 @@ export async function loader({ request, params }) {
     
     const response = await fetch("http://localhost:3001/message/" + id, {
         headers: {
-        Authorization: "Bearer " + getAuthToken(request),
+        'Authorization': "Bearer " + getAuthToken(request),
         },
     });
     if (!response.ok) {

@@ -37,7 +37,7 @@ export async function action(request, params) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: "Bearer " + getAuthToken(request),
+            'Authorization': "Bearer " + getAuthToken(request),
         },
     })
 

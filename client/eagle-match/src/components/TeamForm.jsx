@@ -1,6 +1,7 @@
-import { Link, useNavigation, Form } from 'react-router-dom'
+import { Link, useNavigation, Form, useNavigate } from 'react-router-dom'
+import { getAuthToken } from '../util/auth'
 
-function TeamForm() {
+function TeamForm({method, team}) {
     // const [enteredValues, setEnteredValues] = useState({name: ''});
     // const [didEdit, setDidEdit] = useState({name: false});
 
@@ -35,6 +36,11 @@ function TeamForm() {
     //     });
     // }
     const navigation = useNavigation()
+    const navigate = useNavigate()
+
+    function cancelHandler() {
+        navigate('..')
+    }
 
 	const isSubmitting = navigation.state === 'submitting'
 
@@ -53,17 +59,18 @@ function TeamForm() {
                 />
                 <Button type='submit'>Create Team</Button>
             </form> */}
-            <Form method='post'>
+            <Form method={method}>
                 <p>
                     <label htmlFor='name'>Nazwa drużyny:</label>
-                    <input id='name' type='name' name='name' required />
+                    <input id='name' type='name' name='name' required defaultValue={team ? team.name : ''}/>
                 </p>
                 <p>
 					<label htmlFor='image'>Logo: </label>
-					<input type="url" name="image" id="image" required/>
+					<input type="url" name="image" id="image" required defaultValue={team ? team.logo : ''}/>
 				</p>
 
                 <div>
+                    <button type="button" onClick={cancelHandler} disabled={isSubmitting}>Anuluj</button>
 				    <button disabled={isSubmitting}>{isSubmitting ? 'Tworzenie...' : 'Stwórz drużynę'}</button>
 			    </div>
             </Form>
@@ -72,3 +79,39 @@ function TeamForm() {
 }
 
 export default TeamForm;
+
+export async function action(request, params){
+    const method = request.method;
+    const data = request.formData();
+
+    const teamData = {
+        name: data.get('name'),
+        logo: data.get('logo'),
+    }
+
+    let url = 'https://localhost:3001/teams';
+
+    if (method === 'PUT') {
+        const teamId = params.teamId;
+        url = 'https://localhost:3001/teams/' + teamId;
+    }
+
+    const token = getAuthToken()
+
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Autorization': 'Bearer ' + token,
+        },
+        body: JSON.stringify(teamData),
+    })
+
+    
+
+    if (!response.ok) {
+        return json({ message: 'Nie udało się utworzyć drużyny' }, { status: 500 });
+    }
+
+    return redirect('/');
+}

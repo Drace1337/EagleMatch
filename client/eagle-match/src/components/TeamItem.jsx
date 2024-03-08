@@ -28,8 +28,11 @@ export default function TeamItem({ team }) {
 			{JSON.parse(localStorage.getItem('userData')).role === 'captain' && (
 				<>
 					<Link to='users'>Dodaj użytkownika</Link>
-					<button>Usuń drużynę</button>
-					<button>Zaktualizuj dane</button>
+					<Form method='delete'>
+						<button>Usuń drużynę</button>
+					</Form>
+					{/* <button>Zaktualizuj dane</button> */}
+					<Link to='edit'>Zaktualizuj dane</Link>
 				</>
 			)}
 		</article>

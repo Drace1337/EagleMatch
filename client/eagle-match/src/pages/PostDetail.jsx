@@ -30,7 +30,7 @@ export async function action({ request, params }) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + getAuthToken(request),
+            'Authorization': 'Bearer ' + getAuthToken(request),
         },
     })
     if (!response.ok) {

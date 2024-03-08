@@ -8,7 +8,7 @@ export function useRanking(type) {
 			fetch(`http://localhost:3001/ranking/${type}`, {
 				method: 'GET',
 				headers: {
-					Authorization: 'Bearer ' + getAuthToken(),
+					'Authorization': 'Bearer ' + getAuthToken(),
 				},
 			})
 				.then(response => response.json())

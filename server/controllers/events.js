@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator')
 
 const Event = require('../models/event')
 const User = require('../models/user')
-const Location = require('../models/location')
+const Team = require('../models/team')
 
 // exports.getEvents = async (req, res, next) => {
 //     const currentPage = req.query.page || 1
@@ -205,14 +205,13 @@ exports.joinEvent = async (req, res, next) => {
 		}
 		if (event.teamOnly) {
 			event.teams.push(req.teamId)
+			const team = await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
 		} else {
 			event.players.push(req.userId)
+			const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
 		}
 
 		await event.save()
-		const user = await User.findById(req.userId)
-		user.events.push(event)
-		await user.save()
 		res.status(200).json({ message: 'Joined event.', event: event })
 	} catch (err) {
 		if (!err.statusCode) {

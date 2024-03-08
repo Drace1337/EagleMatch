@@ -45,7 +45,7 @@ export async function loader(request) {
 	const response = await fetch('http://localhost:3001/ranking/goals', {
 		method: 'GET',
 		headers: {
-			Authorization: 'Bearer ' + getAuthToken(request),
+			'Authorization': 'Bearer ' + getAuthToken(request),
 		},
 	})
 

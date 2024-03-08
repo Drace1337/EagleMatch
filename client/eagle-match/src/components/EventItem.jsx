@@ -13,8 +13,10 @@ export default function EventItem({ event }) {
 			<p>{event.description}</p>
 
 			<Form method='patch'>
-				{token && role === 'captain' && <button>Dołącz jako drużyna</button>}
-				{token && <button>Join</button>}
+				{/* {token && role === 'captain' && <button>Dołącz jako drużyna</button>}
+				{token && <button>Join</button>} */}
+				{token && JSON.parse(localStorage.getItem('userData')).role === 'captain' && event.teamOnly && <button>Dołącz jako drużyna</button>}
+				{token && !event.teamOnly && <button>Dołącz</button>}
 			</Form>
 		</article>
 	)
