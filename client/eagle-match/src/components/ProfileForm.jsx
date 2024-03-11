@@ -80,23 +80,15 @@ function ProfileForm(method, user) {
 			<Form method="patch">
 				<p>
                     <label htmlFor='name'>Nazwa użytkownika: </label>
-                    <input id='name' type='name' name='name' required />
+                    <input id='name' type='name' name='name' required defaultValue={user.name}/>
                 </p>
 				<p>
 					<label htmlFor='email'>Email: </label>
-					<input id='email' type='email' name='email' required />
-				</p>
-				<p>
-					<label htmlFor='password'>Hasło: </label>
-					<input id='password' type='password' name='password' required />
-				</p>
-				<p>
-					<label htmlFor='confirmPassword'>Potwierdź hasło: </label>
-					<input id='confirmPassword' type='password' name='confirmPassword' required />
+					<input id='email' type='email' name='email' required defaultValue={user.email}/>
 				</p>
 				<p>
 					<label htmlFor='image'>Zdjęcie profilowe: </label>
-					<input type="url" name="image" id="image" required/>
+					<input type="url" name="image" id="image" required defaultValue={user.avatar}/>
 				</p>
 				<div>
 				<button disabled={isSubmitting}>{isSubmitting ? 'Zapisywanie...' : 'Zapisz zmiany'}</button>

@@ -28,3 +28,28 @@ export async function loader({ request, params }) {
 
 
 export default EventPage
+
+export async function action(request, params) {
+	const id = params.eventId
+	const data = await request.formData()
+	let intent = data.get('intent')
+
+	if(intent === 'player'){
+		const response = await fetch('http://localhost:3001/event/' + id + '/player', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + getAuthToken(request),
+			},
+		})
+	}
+	else if(intent === 'team'){
+		const response = await fetch('http://localhost:3001/event/' + id + '/team', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + getAuthToken(request),
+			},
+		})
+	}
+}

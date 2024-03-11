@@ -8,7 +8,8 @@ import HistoryPage from './pages/History.jsx'
 import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
 import { action as logoutAction } from './pages/Logout.jsx'
-import ProfilePage from './pages/Profile.jsx'
+import ProfilePage, {loader as profileLoader} from './pages/Profile.jsx'
+import UpdateProfile from './pages/UpdateProfile.jsx'
 import RankingPage, {loader as rankingLoader} from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction } from './pages/CreateEvent.jsx'
 import CreateTeamPage from './pages/CreateTeam.jsx'
@@ -39,7 +40,8 @@ const router = createBrowserRouter([
 			{ path: 'login', element: <LoginPage />, action: loginAction },
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
 			{ path: 'logout', action: logoutAction},
-			{ path: 'profile/:id', element: <ProfilePage /> },
+			{ path: 'profile/:id', element: <ProfilePage />, loader: profileLoader, id: 'profile'},
+			{ path: 'update-profile', element: <UpdateProfile /> },
 			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction },
 			{ path: 'create-team', element: <CreateTeamPage /> },

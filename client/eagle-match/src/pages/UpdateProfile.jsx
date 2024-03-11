@@ -1,8 +1,9 @@
 import ProfileForm from "../components/ProfileForm";
 
 export default function UpdateProfile() {
+    const user = useRouteLoaderData('profile');
 
-    return <ProfileForm />
+    return <ProfileForm user={user}/>
 }
 
 export async function action(request, params) {
