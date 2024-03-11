@@ -21,7 +21,7 @@ const authModerator = async (req, res, next) => {
 		error.statusCode = 401
 		throw error
 	}
-	if (decodedToken.role !== 'moderator') {
+	if (decodedToken.role < 3) {
 		const error = new Error('Nie masz uprawnień moderatora.')
 		error.statusCode = 401
 		throw error

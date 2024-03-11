@@ -1,4 +1,5 @@
 import ProfileForm from "../components/ProfileForm";
+import { useRouteLoaderData, json, redirect } from 'react-router-dom';
 
 export default function UpdateProfile() {
     const user = useRouteLoaderData('profile');
@@ -6,7 +7,7 @@ export default function UpdateProfile() {
     return <ProfileForm user={user}/>
 }
 
-export async function action(request, params) {
+export async function action({request, params}) {
     const data = request.formData();
     const id = params.userId
 
@@ -16,7 +17,7 @@ export async function action(request, params) {
         email: data.get('email'),
     }
 
-    const response = await fetch('https://localhost:3001/profile' + id, {
+    const response = await fetch('https://localhost:3001/auth/user' + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

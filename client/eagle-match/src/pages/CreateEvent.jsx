@@ -12,7 +12,12 @@ function CreateEvent() {
 export default CreateEvent
 
 export async function loader() {
-	const response = await fetch('http://localhost:3001/locations')
+	const response = await fetch('http://localhost:3001/location/locations', {
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token'),
+		},
+	})
+	console.log(response)
 
 	if (!response.ok) {
 		return json({ message: 'Nie udało się załadować boisk.' }, { status: 500 })
@@ -21,8 +26,8 @@ export async function loader() {
 	}
 }
 
-export async function action(request) {
-	const data = request.formData()
+export async function action({ request }) {
+	const data = await request.formData()
 
 	const eventData = {
 		title: data.get('title'),

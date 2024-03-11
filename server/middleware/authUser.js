@@ -21,7 +21,7 @@ const authUser = async (req, res, next) => {
 		error.statusCode = 401
 		throw error
 	}
-	if (decodedToken.role !== 'user') {
+	if (decodedToken.role < 1) {
 		const error = new Error('Nie masz uprawnień.')
 		error.statusCode = 401
 		throw error

@@ -13,7 +13,7 @@ export async function action({ request }) {
 		password: data.get('password'),
 	}
 
-	const response = fetch('http://localhost:3001/auth/register', {
+	const response = await fetch('http://localhost:3001/auth/register', {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',

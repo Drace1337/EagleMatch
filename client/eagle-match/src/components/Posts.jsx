@@ -42,10 +42,12 @@ export default function Posts({ posts }) {
 		<div>
 			<ul>
 				{posts.map(post => (
-					<li key={post.id}>
+					<li key={post._id}>
 						<p>{post.title}</p>
-						<Link to={post.id}>Zobacz post</Link>
-						{JSON.parse(localStorage.getItem('userData')).role === 'moderator' && <button onClick={startDeleteHandler}>Usuń post</button>}
+						<Link to={`/post/${post._id}`}>Zobacz post</Link>
+						{JSON.parse(localStorage.getItem('userData')).role === 'moderator' && (
+							<button onClick={startDeleteHandler}>Usuń post</button>
+						)}
 					</li>
 				))}
 			</ul>

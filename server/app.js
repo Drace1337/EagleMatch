@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid')
 const forumRoutes = require('./routes/forum')
 const authRoutes = require('./routes/auth')
 const rankingRoutes = require('./routes/rankings')
+const locationRoutes = require('./routes/locations')
 
 const app = express()
 
@@ -52,6 +53,7 @@ mongoose
 app.use('/forum', forumRoutes)
 app.use('/auth', authRoutes)
 app.use('/ranking', rankingRoutes)
+app.use('/location', locationRoutes)
 
 app.use((error, req, res, next) => {
 	console.log(error)

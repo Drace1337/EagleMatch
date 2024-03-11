@@ -7,8 +7,8 @@ function Contact() {
 
 export default Contact;
 
-export async function action(request) {
-    const data = request.formData();
+export async function action({request}) {
+    const data = await request.formData();
 
     const contactData = {
         email: data.get('email'),

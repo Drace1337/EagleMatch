@@ -1,23 +1,23 @@
-import LocationForm from '../components/LocationForm'
+import LocationForm from '../components/LocationForm.jsx'
 import { json, redirect } from 'react-router-dom'
+import { getAuthToken } from '../util/auth.js'
 
 function CreateLocation() {
 	return <LocationForm />
 }
 
-export default CreateLocation
-
-export async function action() {
-	const data = request.formData()
+export async function action({ request }) {
+	const data = await request.formData()
 
 	const locationData = {
 		name: data.get('name'),
 	}
 
-	const response = await fetch('https://localhost:3001/location', {
+	const response = await fetch('http://localhost:3001/location/location', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getAuthToken(request),
 		},
 		body: JSON.stringify(locationData),
 	})
@@ -28,3 +28,5 @@ export async function action() {
 
 	return redirect('/')
 }
+
+export default CreateLocation

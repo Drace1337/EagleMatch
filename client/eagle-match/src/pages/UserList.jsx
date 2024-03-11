@@ -23,3 +23,21 @@ export async function loader() {
         return response
     }
 }
+
+export async function action({request, params}) {
+    const id = params.userId
+
+    const response = await fetch('http://localhost:3001/user/' + id,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + getAuthToken(request),
+        },
+    })
+
+    if (!response.ok) {
+        return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
+    } else {
+        return redirect('/users')
+    }
+}

@@ -1,5 +1,5 @@
 import { json, useLoaderData, redirect } from 'react-router-dom'
-
+import EventsNavigation from '../components/EventsNavigation.jsx'
 import Events from '../components/Events.jsx'
 
 function HomePage() {
@@ -13,7 +13,7 @@ function HomePage() {
 	return (
 		<>
 			<h1>Home</h1>
-
+			<EventsNavigation />
 			<Events events={events} />
 		</>
 	)
@@ -30,4 +30,3 @@ export async function loader() {
 }
 
 export default HomePage
-

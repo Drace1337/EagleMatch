@@ -7,8 +7,8 @@ export default function ChangePasswordPage(){
     );
 }
 
-export async function action(request, params) {
-    const data = request.formData();
+export async function action({request, params}) {
+    const data = await request.formData();
     const id = params.userId
 
     const passwordData = {

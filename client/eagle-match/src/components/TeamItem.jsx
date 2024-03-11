@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Form } from 'react-router-dom'
 
 export default function TeamItem({ team }) {
 	return (
@@ -12,7 +13,7 @@ export default function TeamItem({ team }) {
 				</thead>
 				<tbody>
 					{team.members.map(member => {
-						<tr>
+						;<tr>
 							<td>{member}</td>
 						</tr>
 					})}
@@ -21,7 +22,7 @@ export default function TeamItem({ team }) {
 			<h3>Wydarzenia:</h3>
 			<ul>
 				{team.events.map(event => {
-					<li>{event}</li>
+					;<li>{event}</li>
 				})}
 			</ul>
 			<p>Punkty: {team.points}</p>

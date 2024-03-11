@@ -15,7 +15,7 @@ function EventPage() {
 }
 
 export async function loader({ request, params }) {
-	const id = params.eventId
+	const id = params.id
 
 	const response = await fetch('http://localhost:3001/event/' + id)
 	if (!response.ok) {
@@ -29,7 +29,7 @@ export async function loader({ request, params }) {
 
 export default EventPage
 
-export async function action(request, params) {
+export async function action({request, params}) {
 	const id = params.eventId
 	const data = await request.formData()
 	let intent = data.get('intent')

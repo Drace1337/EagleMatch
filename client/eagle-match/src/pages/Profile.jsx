@@ -1,47 +1,25 @@
-import { getAuthToken } from '../utils/auth'
+import ProfileStruct from '../components/ProfileStruct'
+import { getAuthToken } from '../util/auth'
+import { useLoaderData, json } from 'react-router-dom'
 
-export default function ProfilePage(){
-    return(
-        <div>
-            <h2>Witaj {user.name}!</h2>
-            <img src={user.avatar} alt="avatar" />
-            <p>Twój email: {user.email}</p>
-            <Link to="/edit-profile">Edytuj profil</Link>
-            <Link to="/change-password">Zmień hasło</Link>
-            <p>Twój zespół: {user.team}</p>
-            <p>Twoje role: {user.roles}</p>
-            <p>Twoje wydarzenia: </p>
-            <ul>
-                {user.events.map((event) => (
-                    <li key={event.id}>
-                        <Link to={event.id}>
-                            <div>
-                                <h3>{event.title}</h3>
-                                <time>{event.date}</time>
-                            </div>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-            
-        </div>
-    )
+export default function ProfilePage() {
+	const data = useLoaderData()
+	return <ProfileStruct user={data.user} />
 }
 
-export async function loader({request, params}){
-    const id = params.userId
+export async function loader({ request, params }) {
+	const id = await params.id
 
-    const response = await fetch('http://localhost:3001/user' + id, {
-        method: 'GET',
+	const response = await fetch('http://localhost:3001/auth/user/' + id,{
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getAuthToken(request),
+            'Authorization': "Bearer " + getAuthToken(request),
         },
     })
 
-    if (!response.ok){
-        return json({message: 'Nie udało się załadować użytkownika.'}, {status: 500})
-    } else {
-        return response
-    }
+	if (!response.ok) {
+		return json({ message: 'Nie udało się załadować użytkownika.' }, { status: 500 })
+	} else {
+		console.log(response)
+		return response
+	}
 }

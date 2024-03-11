@@ -1,5 +1,6 @@
 import { Link, useNavigation, Form, useNavigate } from 'react-router-dom'
 import { getAuthToken } from '../util/auth'
+import { json, redirect } from 'react-router-dom'
 
 function TeamForm({method, team}) {
     // const [enteredValues, setEnteredValues] = useState({name: ''});
@@ -66,7 +67,7 @@ function TeamForm({method, team}) {
                 </p>
                 <p>
 					<label htmlFor='image'>Logo: </label>
-					<input type="url" name="image" id="image" required defaultValue={team ? team.logo : ''}/>
+					<input type="file" name="image" id="image" required defaultValue={team ? team.logo : ''}/>
 				</p>
 
                 <div>
@@ -80,8 +81,8 @@ function TeamForm({method, team}) {
 
 export default TeamForm;
 
-export async function action(request, params){
-    const method = request.method;
+export async function action({request, params}){
+    const method = await request.method;
     const data = request.formData();
 
     const teamData = {
