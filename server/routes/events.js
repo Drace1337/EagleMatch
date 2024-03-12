@@ -1,7 +1,7 @@
 const express = require('express');
 const authAdmin = require('../middleware/authAdmin');
 
-const eventController = require('../controllers/event');
+const eventController = require('../controllers/events');
 
 const router = express.Router();
 

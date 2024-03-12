@@ -72,12 +72,12 @@ export default function EventForm({ locations}) {
                 </p>
                 <p>
                     Czy wydarzenie to mecz?
-                    <input id='is_match' type='checkbox' name='is_match' required />
+                    <input id='is_match' type='checkbox' name='is_match'  />
                     <label htmlFor='is_match'>Tak</label>
                 </p>
                 <p>
                     Czy wydarzenie jest tylko dla drużyn?
-                    <input id='team_only' type='checkbox' name='team_only' required />
+                    <input id='team_only' type='checkbox' name='team_only'  />
                     <label htmlFor='team_only'>Tak</label>
                 </p>
 				<label htmlFor='location'>Lokalizacja:</label>
@@ -106,11 +106,11 @@ export default function EventForm({ locations}) {
                 </p>
                 <p>
                     <label htmlFor='confirmation_required'>Czy wymagane jest potwierdzenie uczestnictwa?</label>
-                    <input id='confirmation_required' type='checkbox' name='confirmation_required' required />
+                    <input id='confirmation_required' type='checkbox' name='confirmation_required'  />
                 </p>
                 <p>
                     <label htmlFor='is_private'>Czy wydarzenie jest prywatne?</label>
-                    <input id='is_private' type='checkbox' name='is_private' required />
+                    <input id='is_private' type='checkbox' name='is_private'  />
                 </p>
                 <button type='submit' disabled={isSubmitting}>
 					{isSubmitting ? 'Tworzenie...' : 'Utwórz wydarzenie'}</button>

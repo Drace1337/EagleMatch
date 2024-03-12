@@ -1,11 +1,11 @@
 import ContactForm from '../components/ContactForm.jsx';
 import { json, redirect } from 'react-router-dom';
 
-function Contact() {
+export default function ContactPage() {
     return <ContactForm />;
 }
 
-export default Contact;
+
 
 export async function action({request}) {
     const data = await request.formData();
@@ -16,7 +16,7 @@ export async function action({request}) {
         message: data.get('message'),
     };
 
-    const response = await fetch('https://localhost:3001/message', {
+    const response = await fetch('http://localhost:3001/messages/message', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

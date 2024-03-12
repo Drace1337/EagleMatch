@@ -26,7 +26,7 @@ export default function TeamItem({ team }) {
 				})}
 			</ul>
 			<p>Punkty: {team.points}</p>
-			{JSON.parse(localStorage.getItem('userData')).role === 'captain' && (
+			{JSON.parse(localStorage.getItem('userData')).role === 2 && (
 				<>
 					<Link to='users'>Dodaj użytkownika</Link>
 					<Form method='delete'>

@@ -18,23 +18,44 @@
 
 // export default PostItem;
 
-import { useSubmit, useRouteLoaderData, Form } from 'react-router-dom'
+import { useSubmit, useRouteLoaderData, Form, json } from 'react-router-dom'
+import { getAuthToken } from '../util/auth.js'
 
-export default function PostItem({ post }) {
-    const token = useRouteLoaderData('root')
-    const role = localStorage.getItem('role')
+export default function PostItem({ post, replies }) {
+	return (
+		<>
+			<article>
+				<h1>{post.title}</h1>
+				<p>{post.author}</p>
+				<p>{post.content}</p>
 
-    return (
-        <article>
-            <h1>{post.title}</h1>
-            <p>{post.author}</p>
-            <p>{post.content}</p>
-
-            <Form method='post'>
-                <label htmlFor="reply">Skomentuj post:</label>
-                <textarea id="reply" name="reply"></textarea>
-                <button>Wyślij</button>
-            </Form>
-        </article>
-    )
+				<Form method='post'>
+					<label htmlFor='reply'>Skomentuj post:</label>
+					<textarea id='reply' name='reply'></textarea>
+					<button>Wyślij</button>
+				</Form>
+			</article>
+			<div>
+				<h2>Komentarze:</h2>
+				{replies.post === post._id ? (
+					<p>Brak komentarzy</p>
+				) : (
+					<ul>
+						{/* {post.replies.map(comment => (
+							<li key={comment._id}>
+								<p>{comment.comment}</p>
+								<p>{comment.author}</p>
+							</li>
+						))} */}
+						{replies.map(reply => (
+							<li key={reply._id}>
+								<p>{reply.comment}</p>
+								<p>{reply.author.name}</p>
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
+		</>
+	)
 }

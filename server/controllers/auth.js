@@ -156,7 +156,7 @@ exports.getUser = async (req, res, next) => {
 	}
 }
 exports.deleteUser = async (req, res, next) => {
-	const userId = req.params.userId
+	const userId = req.params._id
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -193,6 +193,7 @@ exports.getUsers = async (req, res, next) => {
 }
 exports.updateUserStats = async (req, res, next) => {
 	const userId = req.params.userId
+	const role = req.body.role
 	const goals = req.body.goals
 	const assists = req.body.assists
 	const cleanSheets = req.body.cleanSheets
@@ -208,6 +209,7 @@ exports.updateUserStats = async (req, res, next) => {
 			error.statusCode = 403
 			throw error
 		}
+		user.roles = role
 		user.goals = goals
 		user.assists = assists
 		user.cleanSheets = cleanSheets

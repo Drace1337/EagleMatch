@@ -1,3 +1,6 @@
+import { useRouteLoaderData, json, redirect } from 'react-router-dom'
+import ChangeProfileForm from '../components/ChangeProfileForm.jsx'
+
 export default function ChangePlayerInfo() {
     const user = useRouteLoaderData('profile');
 
@@ -21,7 +24,7 @@ export async function action({request, params}) {
         cleanSheets: data.get('clean-sheets'),
     }
 
-    const response = await fetch('https://localhost:3001/user' + id, {
+    const response = await fetch('https://localhost:3001/auth/user/' + id+'/stats', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

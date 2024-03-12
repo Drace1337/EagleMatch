@@ -2,14 +2,13 @@ import EventForm from '../components/EventForm.jsx'
 import { json, redirect } from 'react-router-dom'
 import { useLoaderData } from 'react-router-dom'
 
-function CreateEvent() {
+export default function CreateEventPage() {
 	const data = useLoaderData()
 	const locations = data.locations
 
 	return <EventForm locations={locations} />
 }
 
-export default CreateEvent
 
 export async function loader() {
 	const response = await fetch('http://localhost:3001/location/locations', {
@@ -38,16 +37,18 @@ export async function action({ request }) {
 		description: data.get('description'),
 		participants: data.get('participants'),
 		maxParticipants: data.get('max_participants'),
-		creator: localStorage.getItem('userId'),
+		creator: JSON.parse(localStorage.getItem('userData')).userId,
 	}
+	console.log(eventData)
 
-	const response = await fetch('https://localhost:3001/events', {
+	const response = await fetch('http://localhost:3001/events/event', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(eventData),
 	})
+	console.log(response)
 
 	if (!response.ok) {
 		return json({ message: 'Nie udało się utworzyć wydarzenia' }, { status: 500 })

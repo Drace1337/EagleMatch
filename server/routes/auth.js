@@ -40,6 +40,6 @@ router.delete('/user/:userId', authAdmin, authController.deleteUser)
 
 router.put('/user/:userId', authUser, authController.updateUser)
 
-router.put('/user/:userId/stats', authUser, authController.updateUserStats)
+router.patch('/user/:userId/stats', authUser, authController.updateUserStats)
 
 module.exports = router

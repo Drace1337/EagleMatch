@@ -34,20 +34,20 @@ exports.createReply = async (req, res, next) => {
 		throw error
 	}
 	const comment = req.body.comment
+	const post = req.body.post
+	const author = req.body.author
 	const reply = new Reply({
 		comment: comment,
-		post: req.params.postId,
-		author: req.userId,
+		post: post,
+		author: author,
 	})
 	try {
 		await reply.save()
-		const user = await User.findById(req.userId)
-		user.replies.push(reply)
-		await user.save()
+		await User.findByIdAndUpdate(req.userId, { $push: { replies: reply._id } })
+		await Post.findByIdAndUpdate(req.body.post, { $push: { replies: reply._id } })
 		res.status(201).json({
 			message: 'Reply created successfully!',
 			reply: reply,
-			author: { _id: user._id, name: user.name },
 		})
 	} catch (err) {
 		if (!err.statusCode) {

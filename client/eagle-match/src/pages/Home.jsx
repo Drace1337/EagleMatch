@@ -20,12 +20,15 @@ function HomePage() {
 }
 
 export async function loader() {
-	const response = await fetch('http://localhost:3001/events')
+	const response = await fetch('http://localhost:3001/events/events')
+	console.log('response', response)
 
 	if (!response.ok) {
+		console.log('siema500')
 		return json({ message: 'Nie udało się załadować wydarzeń.' }, { status: 500 })
 	} else {
-		return response
+		const events = await response.json()
+		return events
 	}
 }
 

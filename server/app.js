@@ -3,36 +3,21 @@ require(`dotenv`).config({ path: `./config/.env` })
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const multer = require('multer')
-const { v4: uuidv4 } = require('uuid')
+
 
 const forumRoutes = require('./routes/forum')
 const authRoutes = require('./routes/auth')
 const rankingRoutes = require('./routes/rankings')
 const locationRoutes = require('./routes/locations')
+const teamRoutes = require('./routes/teams')
+const eventRoutes = require('./routes/events')
+const messageRoutes = require('./routes/messages')
+const replyRoutes = require('./routes/replies')
 
 const app = express()
 
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, 'images')
-	},
-	filename: (req, file, cb) => {
-		cb(null, uuidv4())
-	},
-})
-
-const fileFilter = (req, file, cb) => {
-	if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-		cb(null, true)
-	} else {
-		cb(null, false)
-	}
-}
 
 app.use(bodyParser.json())
-
-app.use(multer({ storage: storage, fileFilter: fileFilter }).single('image'))
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use((req, res, next) => {
@@ -54,6 +39,10 @@ app.use('/forum', forumRoutes)
 app.use('/auth', authRoutes)
 app.use('/ranking', rankingRoutes)
 app.use('/location', locationRoutes)
+app.use('/team', teamRoutes)
+app.use('/events', eventRoutes)
+app.use('/messages', messageRoutes)
+app.use('/reply', replyRoutes)
 
 app.use((error, req, res, next) => {
 	console.log(error)

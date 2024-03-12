@@ -59,6 +59,7 @@ exports.createEvent = async (req, res, next) => {
 	const confirmationRequired = req.body.confirmationRequired
 	const isPrivate = req.body.isPrivate
 	const location = req.body.location
+	const creator = req.body.creator
 	const event = new Event({
 		title: title,
 		type: type,
@@ -70,7 +71,7 @@ exports.createEvent = async (req, res, next) => {
 		description: description,
 		confirmationRequired: confirmationRequired,
 		isPrivate: isPrivate,
-		creator: req.userId,
+		creator: creator,
 	})
 	try {
 		await event.save()
@@ -78,7 +79,6 @@ exports.createEvent = async (req, res, next) => {
 		res.status(201).json({
 			message: 'Event created successfully!',
 			event: event,
-			creator: { _id: user._id, name: user.name },
 		})
 	} catch (err) {
 		if (!err.statusCode) {

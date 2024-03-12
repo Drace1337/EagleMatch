@@ -5,7 +5,7 @@ const replyController = require('../controllers/replies');
 
 const router = express.Router();
 
-router.get('/replies', replyController.getReplies);
+router.get('/replies/:postId', replyController.getReplies);
 
 router.post('/reply', replyController.createReply);
 

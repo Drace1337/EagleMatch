@@ -17,11 +17,13 @@ exports.createTeam = async (req, res, next) => {
 	}
 	const name = req.body.name
 	const logoUrl = req.file.path.replace('\\', '/')
+	console.log(logoUrl)
 	const team = new Team({
 		name: name,
 		logoUrl: logoUrl,
-		captain: req.userId,
+		captain: req.body.captain,
 	})
+	
 	try {
 		await team.save()
 		const user = await User.findByIdAndUpdate(req.userId, {$push: {teams: team._id}, $set: {roles: 'captain'}})
@@ -75,21 +77,7 @@ exports.getAllTeams = async (req, res, next) => {
 	}
 }
 
-// exports.getUserTeams = async (req, res, next) => {
-// 	try {
-// 		const teams = await Team.find({ captain: req.userId })
-// 			.populate('captain')
-// 		res.status(200).json({
-// 			message: 'Fetched teams successfully.',
-// 			teams: teams,
-// 		})
-// 	} catch (err) {
-// 		if (!err.statusCode) {
-// 			err.statusCode = 500
-// 		}
-// 		next(err)
-// 	}
-// }
+
 
 exports.getTeam = async (req, res, next) => {
 	const teamId = req.params.teamId

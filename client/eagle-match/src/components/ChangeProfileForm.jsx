@@ -6,7 +6,7 @@ export default function ChangeProfileForm({user}) {
             <Form method="patch">
                 <p>
                     <label htmlFor="role">Rola:</label>
-                    <input type="text" id="role" name="role" defaultValue={user.role}/>
+                    <input type="number" id="role" name="role" defaultValue={user.role}/>
                 </p>
                 <p>
                     <label htmlFor="goals">Gole:</label>
