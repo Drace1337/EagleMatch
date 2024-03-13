@@ -30,23 +30,23 @@ export async function loader() {
 	}
 }
 
-export async function action({ request, params }) {
-	const searchParams = new URL(request.url).searchParams
-	console.log(searchParams.get('id'))
-	const id = searchParams.get('id')
-	console.log(id)
-	const token = getAuthToken()
+// export async function action({ request, params }) {
+// 	const searchParams = new URL(request.url).searchParams
+// 	console.log(searchParams.get('id'))
+// 	const id = searchParams.get('id')
+// 	console.log(id)
+// 	const token = getAuthToken()
 
-	const response = await fetch('http://localhost:3001/auth/user/' + id, {
-		method: request.method,
-		headers: {
-			Authorization: 'Bearer ' + token,
-		},
-	})
+// 	const response = await fetch('http://localhost:3001/auth/user/' + id, {
+// 		method: request.method,
+// 		headers: {
+// 			Authorization: 'Bearer ' + token,
+// 		},
+// 	})
 
-	if (!response.ok) {
-		return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
-	} else {
-		return redirect('/users')
-	}
-}
+// 	if (!response.ok) {
+// 		return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
+// 	} else {
+// 		return redirect('/users')
+// 	}
+// }

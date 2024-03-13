@@ -1,4 +1,5 @@
 export default function MessageItem({ message }) {
+  console.log(message)
   return (
     <article>
         <h1>{message.topic}</h1>

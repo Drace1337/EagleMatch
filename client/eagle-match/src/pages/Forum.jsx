@@ -11,6 +11,7 @@ function ForumPage() {
 	// 	return <p>{data.message}</p>
 	// }
 	const posts = data.posts
+	console.log(posts)
 
 	return (
 		<>

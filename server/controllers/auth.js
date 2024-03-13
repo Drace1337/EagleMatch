@@ -156,7 +156,8 @@ exports.getUser = async (req, res, next) => {
 	}
 }
 exports.deleteUser = async (req, res, next) => {
-	const userId = req.params._id
+	const userId = req.params.userId
+	console.log(userId)
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -164,12 +165,12 @@ exports.deleteUser = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		if (user._id.toString() !== req.userId) {
-			const error = new Error('Brak autoryzacji!')
-			error.statusCode = 403
-			throw error
-		}
-		await User.findByIdAndRemove(userId)
+		// if (user.userId.toString() !== req.userId) {
+		// 	const error = new Error('Brak autoryzacji!')
+		// 	error.statusCode = 403
+		// 	throw error
+		// }
+		await User.findByIdAndDelete(userId)
 		res.status(200).json({ message: 'Użytkownik usunięty.' })
 	}
 	catch (err) {

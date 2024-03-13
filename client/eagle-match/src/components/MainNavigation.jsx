@@ -32,10 +32,9 @@ export default function MainNavigation() {
 						<NavLink to={`/profile/${userId}`}>Profil</NavLink>
 					</li>
 				)}
-				{token && (
+				{role === 4 && (
 					<li>
-						{/* <NavLink to='/history' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to={`/profile/${userId}/history`}>Historia</NavLink>
+						<NavLink to='/messages'>Wiadomości</NavLink>
 					</li>
 				)}
 				{token && (
@@ -56,12 +55,11 @@ export default function MainNavigation() {
 						<NavLink to='/create-team'>Stwórz zespół</NavLink>
 					</li>
 				)}
-				{role === 'admin' ||
-					(role === 'captain' && (
-						<li>
-							<NavLink to='/users'>Użytkownicy</NavLink>
-						</li>
-					))}
+				{role >= 2 && (
+					<li>
+						<NavLink to='/users'>Użytkownicy</NavLink>
+					</li>
+				)}
 				{!token && (
 					<li>
 						{/* <NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}

@@ -13,7 +13,8 @@ import UpdateProfile from './pages/UpdateProfile.jsx'
 import RankingPage, { loader as rankingLoader } from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction, loader as createEventLoader } from './pages/CreateEvent.jsx'
 import CreateTeam, { action as manipulateTeamAction } from './pages/CreateTeam.jsx'
-
+import MessageList, { loader as messagesLoader } from './pages/MessageList.jsx'
+import MessageDetailPage, { loader as messageDetailLoader } from './pages/MessageDetail.jsx'
 import EventPage, { loader as eventDetailLoader, action as joinEventAction } from './pages/Event.jsx'
 import PostDetailPage, { loader as postDetailLoader, action as sendMessage } from './pages/PostDetail.jsx'
 import TeamPage from './pages/TeamDetail.jsx'
@@ -23,7 +24,8 @@ import { tokenLoader, checkAuthLoader } from './util/auth.js'
 import CreateLocation, { action as createLocationAction } from './pages/CreateLocation.jsx'
 import LocationList, { loader as locationLoader } from './pages/LocationList.jsx'
 import ChangePlayerInfo, { action as changeStatsAction } from './pages/ChangePlayerInfo.jsx'
-import UserList, { loader as userListLoader, action as userDeleteAction } from './pages/UserList.jsx'
+import UserList, { loader as userListLoader } from './pages/UserList.jsx'
+import UserDetail, { loader as userDetailLoader, action as manipulateUserAction } from './pages/UserDetail.jsx'
 
 const router = createBrowserRouter([
 	{
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
 			{ path: 'regulations', element: <RegulationsPage />, loader: checkAuthLoader }, //działa
 			{ path: 'contact', element: <ContactPage />, action: contactAction },
 			{ path: 'forum', element: <ForumPage />, loader: forumLoader, action: forumAction },
-			{ path: 'create-post', element: <CreatePost />, action: createPostAction },
+			{ path: 'forum/create-post', element: <CreatePost />, action: createPostAction },
 			{ path: 'login', element: <LoginPage />, action: loginAction },
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
 			{ path: 'logout', action: logoutAction },
@@ -50,11 +52,10 @@ const router = createBrowserRouter([
 				element: <ProfilePage />,
 				loader: profileLoader,
 				id: 'profile',
-				children: [
-					
-					{ path: 'change-player-info', element: <ChangePlayerInfo />, action: changeStatsAction },
-				],
+				children: [{ path: 'change-player-info', element: <ChangePlayerInfo />, action: changeStatsAction }],
 			},
+			{ path: 'messages', element: <MessageList />, loader: messagesLoader },
+			{ path: 'messages/:messageId', element: <MessageDetailPage />, messageDetailLoader },
 			{ path: 'update-profile', element: <UpdateProfile /> },
 			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction, loader: createEventLoader }, // działa
@@ -64,7 +65,8 @@ const router = createBrowserRouter([
 			{ path: 'team/:teamId', element: <TeamPage /> },
 			{ path: 'create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
-			{ path: 'users', element: <UserList />, loader: userListLoader, action: userDeleteAction },
+			{ path: 'users', element: <UserList />, loader: userListLoader },
+			{ path: 'users/:userId', element: <UserDetail />, loader: userDetailLoader, action: manipulateUserAction },
 		],
 	},
 ])
