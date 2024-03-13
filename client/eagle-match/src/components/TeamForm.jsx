@@ -40,7 +40,7 @@ function TeamForm() {
 	const navigate = useNavigate()
 
 	function cancelHandler() {
-		navigate('..')
+		navigate('/')
 	}
 
 	const isSubmitting = navigation.state === 'submitting'

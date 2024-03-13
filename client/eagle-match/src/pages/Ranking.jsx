@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useRanking } from '../util/useRanking'
-import { json } from 'react-router-dom'
+import { json, useLoaderData } from 'react-router-dom'
 import { getAuthToken } from '../util/auth.js'
 import RankingItem from '../components/RankingItem.jsx'
 
 export default function RankingPage() {
-	const [selectedType, setSelectedType] = useState('')
-
+	const [selectedType, setSelectedType] = useState('goals')
+	const data = useLoaderData()
+	console.log(data.users[0].goals)
+	console.log(selectedType)
 	const ranking = useRanking(selectedType)
-
+	console.log(ranking)
 	const loadGoals = () => {
 		setSelectedType('goals')
 	}
@@ -39,17 +41,19 @@ export default function RankingPage() {
 	)
 }
 
-export async function loader({request}) {
+export async function loader({ request }) {
 	const response = await fetch('http://localhost:3001/ranking/goals', {
 		method: 'GET',
 		headers: {
-			'Authorization': 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + getAuthToken(request),
 		},
 	})
-
+	console.log(response)
 	if (!response.ok) {
 		return json({ message: 'Nie udało się załadować rankingu.' }, { status: 500 })
 	} else {
-		return response
+		const ranking = await response.json()
+		console.log(ranking)
+		return ranking
 	}
 }

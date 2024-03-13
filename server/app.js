@@ -4,7 +4,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
-
 const forumRoutes = require('./routes/forum')
 const authRoutes = require('./routes/auth')
 const rankingRoutes = require('./routes/rankings')
@@ -14,10 +13,30 @@ const eventRoutes = require('./routes/events')
 const messageRoutes = require('./routes/messages')
 const replyRoutes = require('./routes/replies')
 
+const multer = require('multer')
+// const { v4: uuidv4 } = require('uuid')
+
 const app = express()
 
+// const storage = multer.diskStorage({
+// 	destination: (req, file, cb) => {
+// 		cb(null, 'images/logos')
+// 	},
+// 	filename: (req, file, cb) => {
+// 		cb(null, uuidv4() + '-' + file.originalname)
+// 	},
+// })
+
+// const fileFilter = (req, file, cb) => {
+// 	if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+// 		cb(null, true)
+// 	} else {
+// 		cb(null, false)
+// 	}
+// }
 
 app.use(bodyParser.json())
+// app.use(multer({ storage: storage, fileFilter: fileFilter }).single('logo'))
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use((req, res, next) => {
@@ -51,5 +70,3 @@ app.use((error, req, res, next) => {
 	const data = error.data
 	res.status(status).json({ message: message, data: data })
 })
-
-

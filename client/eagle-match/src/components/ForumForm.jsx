@@ -44,7 +44,7 @@ function ForumForm() {
 	const isSubmitting = navigation.state === 'submitting'
 
 	return (
-		<dialog>
+		<div>
 			<h1>Create Post</h1>
 			{/* <form onSubmit={handleSubmit}>
 				<Input
@@ -66,19 +66,20 @@ function ForumForm() {
 				<Button type='submit'>Submit</Button>
 				<Button>Cancel</Button>
 			</form> */}
-			<Form method="post">
+			<Form method='post'>
 				<p>
-					<label htmlFor="title">Tytuł</label>
-					<input id="title" type="name" name="title" required />
+					<label htmlFor='title'>Tytuł</label>
+					<input id='title' type='name' name='title' required />
 				</p>
 				<p>
-					<label htmlFor="description">Opis</label>
-					<textarea id="description" name="description" required />
+					<label htmlFor='content'>Opis</label>
+					<textarea id='content' name='content' required />
 				</p>
-				<button type='submit' disabled={isSubmitting}>
-					{isSubmitting ? 'Tworzenie...' : 'Stwórz post'}</button>
+				<div>
+					<button disabled={isSubmitting}>{isSubmitting ? 'Tworzenie...' : 'Stwórz post'}</button>
+				</div>
 			</Form>
-		</dialog>
+		</div>
 	)
 }
 

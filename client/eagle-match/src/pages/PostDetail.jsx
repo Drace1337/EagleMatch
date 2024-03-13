@@ -6,6 +6,7 @@ function PostDetailPage() {
 	const data = useLoaderData()
 	const post = data[0].post
 	const replies = data[1].replies
+	console.log(post)
 
 	return (
 		<>

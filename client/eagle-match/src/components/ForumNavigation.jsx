@@ -6,12 +6,12 @@ export default function ForumNavigation() {
         <nav>
             <ul>
                 <li>
-                    <NavLink to='/forum'>
+                    <NavLink to='forum'>
                         Forum
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/create-post'>
+                    <NavLink to='create-post'>
                         Stwórz post
                     </NavLink>
                 </li>

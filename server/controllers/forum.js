@@ -50,20 +50,18 @@ exports.createPost = async (req, res, next) => {
 	}
 	const title = req.body.title
 	const content = req.body.content
+	const author = req.body.author
 	const post = new Post({
 		title: title,
 		content: content,
-		author: req.userId,
+		author: author,
 	})
 	try {
 		await post.save()
-		const user = await User.findById(req.userId)
-		user.posts.push(post)
-		await user.save()
+		await User.findByIdAndUpdate(req.userId, { $push: { posts: post._id } })
 		res.status(201).json({
 			message: 'Post created successfully!',
 			post: post,
-			author: { _id: user._id, name: user.name },
 		})
 	} catch (err) {
 		if (!err.statusCode) {

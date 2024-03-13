@@ -35,7 +35,7 @@ export default function MainNavigation() {
 				{token && (
 					<li>
 						{/* <NavLink to='/history' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/history'>Historia</NavLink>
+						<NavLink to={`/profile/${userId}/history`}>Historia</NavLink>
 					</li>
 				)}
 				{token && (

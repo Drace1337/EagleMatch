@@ -4,6 +4,17 @@ const Team = require('../models/team')
 const User = require('../models/user')
 
 exports.createTeam = async (req, res, next) => {
+	const name = req.body.name
+	// const logoUrl = req.file.path.replace('\\', '/')
+	const logo = req.file
+	console.log(logo)
+	logo.path = logo.path.replace('\\', '/')
+	console.log(logo)
+	if(!logo) {
+		const error = new Error('No image provided.')
+		error.statusCode = 422
+		throw error
+	}
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		const error = new Error('Validation failed, entered data is incorrect.')
@@ -15,22 +26,20 @@ exports.createTeam = async (req, res, next) => {
 		error.statusCode = 422
 		throw error
 	}
-	const name = req.body.name
-	const logoUrl = req.file.path.replace('\\', '/')
-	console.log(logoUrl)
+	const logoUrl = logo.path
+	
 	const team = new Team({
 		name: name,
-		logoUrl: logoUrl,
+		logo: logoUrl,
 		captain: req.body.captain,
 	})
 	
 	try {
 		await team.save()
-		const user = await User.findByIdAndUpdate(req.userId, {$push: {teams: team._id}, $set: {roles: 'captain'}})
+		await User.findByIdAndUpdate(req.userId, {$push: {teams: team._id}, $set: {roles: 3}})
 		res.status(201).json({
 			message: 'Team created successfully!',
 			team: team,
-			captain: { _id: user._id, name: user.name },
 		})
 	} catch (err) {
 		if (!err.statusCode) {
@@ -141,7 +150,7 @@ exports.deleteTeam = async (req, res, next) => {
 		}
 		await Team.findByIdAndRemove(teamId)
 		const user = await User.findById(req.userId)
-		user.teams.pull(teamId)
+		user.team.pull(teamId)
 		await user.save()
 		res.status(200).json({ message: 'Deleted team.' })
 	} catch (err) {

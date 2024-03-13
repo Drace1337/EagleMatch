@@ -15,9 +15,9 @@ function EventPage() {
 }
 
 export async function loader({ request, params }) {
-	const id = params.id
+	const id = params.eventId
 
-	const response = await fetch('http://localhost:3001/event/' + id)
+	const response = await fetch('http://localhost:3001/events/event/' + id)
 	if (!response.ok) {
 		return json({ message: 'Nie udało się załadować wydarzenia' }, { status: 500 })
 	} else {
@@ -25,30 +25,30 @@ export async function loader({ request, params }) {
 	}
 }
 
-
-
 export default EventPage
 
-export async function action({request, params}) {
-	const id = params.eventId
+export async function action({ request, params }) {
+	const eventId = params.eventId
 	const data = await request.formData()
+	console.log(data)
 	let intent = data.get('intent')
+	let id = data.get('id')
+	console.log(id)
 
-	if(intent === 'player'){
-		const response = await fetch('http://localhost:3001/event/' + id + '/player', {
+	if (intent === 'player') {
+		const response = await fetch('http://localhost:3001/events/event/' + eventId + '/player', {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + getAuthToken(request),
+				Authorization: 'Bearer ' + getAuthToken(request),
 			},
 		})
-	}
-	else if(intent === 'team'){
-		const response = await fetch('http://localhost:3001/event/' + id + '/team', {
+	} else if (intent === 'team') {
+		const response = await fetch('http://localhost:3001/events/event/' + eventId + '/team', {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + getAuthToken(request),
+				Authorization: 'Bearer ' + getAuthToken(request),
 			},
 		})
 	}

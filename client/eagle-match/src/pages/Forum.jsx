@@ -3,6 +3,7 @@ import { json, useLoaderData, redirect } from 'react-router-dom'
 import Posts from '../components/Posts.jsx'
 import ForumForm from '../components/ForumForm.jsx'
 import { getAuthToken } from '../util/auth.js'
+import ForumNavigation from '../components/ForumNavigation.jsx'
 
 function ForumPage() {
 	const data = useLoaderData()
@@ -14,6 +15,7 @@ function ForumPage() {
 	return (
 		<>
 			<h1>Forum</h1>
+			<ForumNavigation />
 			<Posts posts={posts} />
 		</>
 	)
@@ -25,7 +27,7 @@ export async function loader({ request }) {
 			Authorization: 'Bearer ' + getAuthToken(request),
 		},
 	})
-    console.log(response)
+	console.log(response)
 
 	if (!response.ok) {
 		return json({ message: 'Nie udało się załadować postów.' }, { status: 500 })

@@ -43,7 +43,7 @@ exports.createReply = async (req, res, next) => {
 	})
 	try {
 		await reply.save()
-		await User.findByIdAndUpdate(req.userId, { $push: { replies: reply._id } })
+		await User.findByIdAndUpdate(req.body.author, { $push: { replies: reply._id } })
 		await Post.findByIdAndUpdate(req.body.post, { $push: { replies: reply._id } })
 		res.status(201).json({
 			message: 'Reply created successfully!',

@@ -4,7 +4,7 @@ import HomePage, { loader as eventsLoader } from './pages/Home.jsx'
 import RegulationsPage from './pages/Regulations.jsx'
 import ContactPage, { action as contactAction } from './pages/Contact.jsx'
 import ForumPage, { loader as forumLoader, action as forumAction } from './pages/Forum.jsx'
-import HistoryPage from './pages/History.jsx'
+import CreatePost, { action as createPostAction } from './pages/CreatePost.jsx'
 import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
 import { action as logoutAction } from './pages/Logout.jsx'
@@ -14,7 +14,7 @@ import RankingPage, { loader as rankingLoader } from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction, loader as createEventLoader } from './pages/CreateEvent.jsx'
 import CreateTeam, { action as manipulateTeamAction } from './pages/CreateTeam.jsx'
 
-import EventPage, { loader as eventDetailLoader } from './pages/Event.jsx'
+import EventPage, { loader as eventDetailLoader, action as joinEventAction } from './pages/Event.jsx'
 import PostDetailPage, { loader as postDetailLoader, action as sendMessage } from './pages/PostDetail.jsx'
 import TeamPage from './pages/TeamDetail.jsx'
 import RootLayout from './pages/Root.jsx'
@@ -41,21 +41,29 @@ const router = createBrowserRouter([
 			{ path: 'regulations', element: <RegulationsPage />, loader: checkAuthLoader }, //działa
 			{ path: 'contact', element: <ContactPage />, action: contactAction },
 			{ path: 'forum', element: <ForumPage />, loader: forumLoader, action: forumAction },
-			{ path: 'history', element: <HistoryPage /> },
+			{ path: 'create-post', element: <CreatePost />, action: createPostAction },
 			{ path: 'login', element: <LoginPage />, action: loginAction },
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
 			{ path: 'logout', action: logoutAction },
-			{ path: 'profile/:id', element: <ProfilePage />, loader: profileLoader, id: 'profile' },
+			{
+				path: 'profile/:id',
+				element: <ProfilePage />,
+				loader: profileLoader,
+				id: 'profile',
+				children: [
+					
+					{ path: 'change-player-info', element: <ChangePlayerInfo />, action: changeStatsAction },
+				],
+			},
 			{ path: 'update-profile', element: <UpdateProfile /> },
 			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction, loader: createEventLoader }, // działa
 			{ path: 'create-team', element: <CreateTeam />, action: manipulateTeamAction }, //nie działa
-			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader },
+			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader, action: joinEventAction },
 			{ path: 'post/:postId', element: <PostDetailPage />, loader: postDetailLoader, action: sendMessage },
 			{ path: 'team/:teamId', element: <TeamPage /> },
 			{ path: 'create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
-			{ path: 'change-player-info', element: <ChangePlayerInfo />, action: changeStatsAction },
 			{ path: 'users', element: <UserList />, loader: userListLoader, action: userDeleteAction },
 		],
 	},

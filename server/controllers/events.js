@@ -75,7 +75,7 @@ exports.createEvent = async (req, res, next) => {
 	})
 	try {
 		await event.save()
-		const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
+		await User.findByIdAndUpdate(req.body.creator, { $push: { events: event._id } })
 		res.status(201).json({
 			message: 'Event created successfully!',
 			event: event,
@@ -179,7 +179,7 @@ exports.cancelEvent = async (req, res, next) => {
 		next(err)
 	}
 }
-exports.joinEvent = async (req, res, next) => {
+exports.joinAsPlayer = async (req, res, next) => {
 	const eventId = req.params.eventId
 	try {
 		const event = await Event.findById(eventId)
@@ -188,30 +188,19 @@ exports.joinEvent = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		if (event.teamOnly && !req.isTeamMember) {
-			const error = new Error('Not authorized!')
-			error.statusCode = 403
-			throw error
-		}
-		if (event.players.indexOf(req.userId) !== -1 || event.teams.indexOf(req.teamId) !== -1) {
+		if (event.players.indexOf(req.userId) !== -1) {
 			const error = new Error('Already joined.')
 			error.statusCode = 403
 			throw error
 		}
-		if (event.maxParticipants <= event.players.length || event.maxParticipants <= event.teams) {
+		if (event.maxParticipants <= event.players.length) {
 			const error = new Error('Event is full.')
 			error.statusCode = 403
 			throw error
 		}
-		if (event.teamOnly) {
-			event.teams.push(req.teamId)
-			const team = await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
-		} else {
-			event.players.push(req.userId)
-			const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
-		}
-
+		event.players.push(req.userId)
 		await event.save()
+		await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
 		res.status(200).json({ message: 'Joined event.', event: event })
 	} catch (err) {
 		if (!err.statusCode) {
@@ -220,3 +209,75 @@ exports.joinEvent = async (req, res, next) => {
 		next(err)
 	}
 }
+exports.joinAsTeam = async (req, res, next) => {
+	const eventId = req.params.eventId
+	try {
+		const event = await Event.findById(eventId)
+		if (!event) {
+			const error = new Error('Could not find event.')
+			error.statusCode = 404
+			throw error
+		}
+		if (event.teams.indexOf(req.teamId) !== -1) {
+			const error = new Error('Already joined.')
+			error.statusCode = 403
+			throw error
+		}
+		if (event.maxParticipants <= event.teams.length) {
+			const error = new Error('Event is full.')
+			error.statusCode = 403
+			throw error
+		}
+		event.teams.push(req.teamId)
+		await event.save()
+		await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
+		res.status(200).json({ message: 'Joined event.', event: event })
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+		next(err)
+	}
+}
+
+// exports.joinEvent = async (req, res, next) => {
+// 	const eventId = req.params.eventId
+// 	try {
+// 		const event = await Event.findById(eventId)
+// 		if (!event) {
+// 			const error = new Error('Could not find event.')
+// 			error.statusCode = 404
+// 			throw error
+// 		}
+// 		if (event.teamOnly && !req.isTeamMember) {
+// 			const error = new Error('Not authorized!')
+// 			error.statusCode = 403
+// 			throw error
+// 		}
+// 		if (event.players.indexOf(req.userId) !== -1 || event.teams.indexOf(req.teamId) !== -1) {
+// 			const error = new Error('Already joined.')
+// 			error.statusCode = 403
+// 			throw error
+// 		}
+// 		if (event.maxParticipants <= event.players.length || event.maxParticipants <= event.teams) {
+// 			const error = new Error('Event is full.')
+// 			error.statusCode = 403
+// 			throw error
+// 		}
+// 		if (event.teamOnly) {
+// 			event.teams.push(req.teamId)
+// 			const team = await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
+// 		} else {
+// 			event.players.push(req.userId)
+// 			const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
+// 		}
+
+// 		await event.save()
+// 		res.status(200).json({ message: 'Joined event.', event: event })
+// 	} catch (err) {
+// 		if (!err.statusCode) {
+// 			err.statusCode = 500
+// 		}
+// 		next(err)
+// 	}
+// }

@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
 			process.env.JWT_PRIVATE_KEY,
 			{ expiresIn: process.env.JWT_EXPIRY }
 			)
-			console.log('logowanie', token)
+			console.log('logowanie', loadedUser.team)
 		res.status(200).json({ token: token, userId: loadedUser._id.toString(), role: loadedUser.roles, team: loadedUser.team })
 	} catch (err) {
 		if (!err.statusCode) {
@@ -140,7 +140,7 @@ exports.changePassword = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
 	const userId = req.params.userId
 	try {
-		const user = await User.findById(userId)
+		const user = await User.findById(userId).populate('events')
 		if (!user) {
 			const error = new Error('Nie znaleziono użytkownika.')
 			error.statusCode = 404

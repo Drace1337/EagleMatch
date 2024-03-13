@@ -1,18 +1,20 @@
-const express = require('express');
-const authAdmin = require('../middleware/authAdmin');
+const express = require('express')
+const authAdmin = require('../middleware/authAdmin')
+const authUser = require('../middleware/authUser')
+const authCaptain = require('../middleware/authCaptain')
 
-const eventController = require('../controllers/events');
+const eventController = require('../controllers/events')
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/events', eventController.getEvents);
+router.get('/events', eventController.getEvents)
 
-router.post('/event', eventController.createEvent);
+router.post('/event', authUser, eventController.createEvent)
 
-router.get('/event/:eventId', eventController.getEvent);
+router.get('/event/:eventId', eventController.getEvent)
 
-router.delete('/event/:eventId', authAdmin, eventController.cancelEvent);
+router.patch('/event/:eventId/player', authUser, eventController.joinAsPlayer)
 
-router.put('/event/:eventId', eventController.joinEvent);
+router.patch('/event/:eventId/team', authCaptain, eventController.joinAsTeam)
 
-module.exports = router;
+module.exports = router
