@@ -1,6 +1,7 @@
 import EventForm from '../components/EventForm.jsx'
 import { json, redirect } from 'react-router-dom'
 import { useLoaderData } from 'react-router-dom'
+import { getAuthToken } from '../util/auth.js'
 
 export default function CreateEventPage() {
 	const data = useLoaderData()
@@ -8,7 +9,6 @@ export default function CreateEventPage() {
 
 	return <EventForm locations={locations} />
 }
-
 
 export async function loader() {
 	const response = await fetch('http://localhost:3001/location/locations', {
@@ -32,11 +32,13 @@ export async function action({ request }) {
 		title: data.get('title'),
 		date: data.get('date'),
 		location: data.get('location'),
-		type: data.get('type'),
+		isMatch: data.get('is_match') === 'on' ? true : false,
+		teamOnly: data.get('team_only') === 'on' ? true : false,
 		duration: data.get('duration'),
 		description: data.get('description'),
-		participants: data.get('participants'),
 		maxParticipants: data.get('max_participants'),
+		confirmationRequired: data.get('confirmation_required') === 'on' ? true : false,
+		isPrivate: data.get('is_private') === 'on' ? true : false,
 		creator: JSON.parse(localStorage.getItem('userData')).userId,
 	}
 	console.log(eventData)
@@ -45,6 +47,7 @@ export async function action({ request }) {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getAuthToken(request),
 		},
 		body: JSON.stringify(eventData),
 	})

@@ -22,11 +22,12 @@ import { useSubmit, useRouteLoaderData, Form, json } from 'react-router-dom'
 import { getAuthToken } from '../util/auth.js'
 
 export default function PostItem({ post, replies }) {
+	// console.log(post.author)
 	return (
 		<>
 			<article>
 				<h1>{post.title}</h1>
-				<p>{post.author}</p>
+				<p>{post.author.name}</p>
 				<p>{post.content}</p>
 
 				<Form method='post'>

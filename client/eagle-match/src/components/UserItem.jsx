@@ -16,7 +16,7 @@ export default function UserItem({ user }) {
 			<p>Rola: {user.user.roles}</p>
 
 			<button onClick={startDeleteHandler}>Usuń użytkownika</button>
-			<Link to='/change-player-info'>Zmień rolę i statystyki</Link>
+			<Link to='change-player-info'>Zmień rolę i statystyki</Link>
 		</article>
 	)
 }

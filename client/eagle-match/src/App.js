@@ -9,7 +9,8 @@ import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
 import { action as logoutAction } from './pages/Logout.jsx'
 import ProfilePage, { loader as profileLoader } from './pages/Profile.jsx'
-import UpdateProfile from './pages/UpdateProfile.jsx'
+import UpdateProfile, { action as updateProfileAction } from './pages/UpdateProfile.jsx'
+import ChangePasswordPage, { action as changePasswordAction } from './pages/ChangePassword.jsx'
 import RankingPage, { loader as rankingLoader } from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction, loader as createEventLoader } from './pages/CreateEvent.jsx'
 import CreateTeam, { action as manipulateTeamAction } from './pages/CreateTeam.jsx'
@@ -17,7 +18,7 @@ import MessageList, { loader as messagesLoader } from './pages/MessageList.jsx'
 import MessageDetailPage, { loader as messageDetailLoader } from './pages/MessageDetail.jsx'
 import EventPage, { loader as eventDetailLoader, action as joinEventAction } from './pages/Event.jsx'
 import PostDetailPage, { loader as postDetailLoader, action as sendMessage } from './pages/PostDetail.jsx'
-import TeamPage from './pages/TeamDetail.jsx'
+import TeamDetailPage, { loader as teamDetailLoader, action as teamDetailAction } from './pages/TeamDetail.jsx'
 import RootLayout from './pages/Root.jsx'
 import ErrorPage from './pages/Error.jsx'
 import { tokenLoader, checkAuthLoader } from './util/auth.js'
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
 				element: <HomePage />,
 				loader: eventsLoader, //działa
 			},
-			{ path: 'regulations', element: <RegulationsPage />, loader: checkAuthLoader }, //działa
+			{ path: 'regulations', element: <RegulationsPage /> }, //działa
 			{ path: 'contact', element: <ContactPage />, action: contactAction },
 			{ path: 'forum', element: <ForumPage />, loader: forumLoader, action: forumAction },
 			{ path: 'forum/create-post', element: <CreatePost />, action: createPostAction },
@@ -52,17 +53,29 @@ const router = createBrowserRouter([
 				element: <ProfilePage />,
 				loader: profileLoader,
 				id: 'profile',
-				children: [{ path: 'change-player-info', element: <ChangePlayerInfo />, action: changeStatsAction }],
+				children: [],
 			},
+			{
+				path: 'users/:id/change-player-info',
+				element: <ChangePlayerInfo />,
+				action: changeStatsAction,
+				loader: profileLoader,
+			},
+			{
+				path: 'profile/:id/edit-profile',
+				element: <UpdateProfile />,
+				action: updateProfileAction,
+				loader: profileLoader,
+			},
+			{ path: 'profile/:id/change-password', element: <ChangePasswordPage />, action: changePasswordAction },
 			{ path: 'messages', element: <MessageList />, loader: messagesLoader },
-			{ path: 'messages/:messageId', element: <MessageDetailPage />, messageDetailLoader },
-			{ path: 'update-profile', element: <UpdateProfile /> },
+			{ path: 'messages/:messageId', element: <MessageDetailPage />, loader: messageDetailLoader },
 			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction, loader: createEventLoader }, // działa
 			{ path: 'create-team', element: <CreateTeam />, action: manipulateTeamAction }, //nie działa
 			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader, action: joinEventAction },
 			{ path: 'post/:postId', element: <PostDetailPage />, loader: postDetailLoader, action: sendMessage },
-			{ path: 'team/:teamId', element: <TeamPage /> },
+			{ path: 'team/:teamId', element: <TeamDetailPage />, loader: teamDetailLoader, action: teamDetailAction },
 			{ path: 'create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
 			{ path: 'users', element: <UserList />, loader: userListLoader },

@@ -5,12 +5,15 @@ import { getAuthToken } from '../util/auth.js'
 import RankingItem from '../components/RankingItem.jsx'
 
 export default function RankingPage() {
-	const [selectedType, setSelectedType] = useState('goals')
+	const [selectedType, setSelectedType] = useState('')
 	const data = useLoaderData()
 	console.log(data.users[0].goals)
 	console.log(selectedType)
-	const ranking = useRanking(selectedType)
+	const { ranking, loading } = useRanking(selectedType)
 	console.log(ranking)
+	useEffect(() => {
+		console.log(loading)
+	}, [loading])
 	const loadGoals = () => {
 		setSelectedType('goals')
 	}
@@ -36,7 +39,7 @@ export default function RankingPage() {
 				<button onClick={loadDefenders}>Najlepsi broniący</button>
 				<button onClick={loadTeams}>Najlepsze drużyny</button>
 			</div>
-			<RankingItem ranking={ranking} />
+			{!loading && ('users' in ranking || 'teams' in ranking) && <RankingItem ranking={ranking} type={selectedType} />}
 		</>
 	)
 }

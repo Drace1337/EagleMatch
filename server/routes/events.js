@@ -15,6 +15,6 @@ router.get('/event/:eventId', eventController.getEvent)
 
 router.patch('/event/:eventId/player', authUser, eventController.joinAsPlayer)
 
-router.patch('/event/:eventId/team', authCaptain, eventController.joinAsTeam)
+router.patch('/event/:eventId/:teamId', authCaptain, eventController.joinAsTeam)
 
 module.exports = router

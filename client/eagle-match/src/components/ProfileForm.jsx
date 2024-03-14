@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Input from './Input.jsx'
-import { Form, useNavigation } from 'react-router-dom'
+import { Form, useNavigation, useRouteLoaderData } from 'react-router-dom'
 
-function ProfileForm(method, user) {
+function ProfileForm({ user }) {
 	// const [enteredValues, setEnteredValues] = useState({ name: '', email: '', password: '', confirmPassword: '' })
 	// const [didEdit, setDidEdit] = useState({
 	// 	name: false,
@@ -46,7 +46,6 @@ function ProfileForm(method, user) {
 
 	return (
 		<div>
-			
 			{/* <form onSubmit={handleSubmit}>
 				<img src='' alt='Profile picture' />
 				<Input
@@ -77,22 +76,22 @@ function ProfileForm(method, user) {
 			<div>
 				<h2>Change password</h2>
 			</div> */}
-			<Form method="patch">
+			<Form method='patch'>
 				<p>
-                    <label htmlFor='name'>Nazwa użytkownika: </label>
-                    <input id='name' type='name' name='name' required defaultValue={user.name}/>
-                </p>
+					<label htmlFor='name'>Nazwa użytkownika: </label>
+					<input id='name' type='name' name='name' required defaultValue={user.name} />
+				</p>
 				<p>
 					<label htmlFor='email'>Email: </label>
-					<input id='email' type='email' name='email' required defaultValue={user.email}/>
+					<input id='email' type='email' name='email' required defaultValue={user.email} />
 				</p>
 				<p>
-					<label htmlFor='image'>Zdjęcie profilowe: </label>
-					<input type="url" name="image" id="image" required defaultValue={user.avatar}/>
+					<label htmlFor='avatar'>Zdjęcie profilowe: </label>
+					<input type='file' name='avatar' id='avatar' required defaultValue={user.avatar} />
 				</p>
 				<div>
-				<button disabled={isSubmitting}>{isSubmitting ? 'Zapisywanie...' : 'Zapisz zmiany'}</button>
-			</div>
+					<button disabled={isSubmitting}>{isSubmitting ? 'Zapisywanie...' : 'Zapisz zmiany'}</button>
+				</div>
 			</Form>
 		</div>
 	)

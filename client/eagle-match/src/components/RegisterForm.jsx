@@ -3,6 +3,8 @@ import Input from './Input.jsx'
 import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js'
 import { Form, Link, useActionData, useNavigation } from 'react-router-dom'
 
+import classes from './AuthForm.module.scss'
+
 function RegisterForm() {
 	// const [enteredValues, setEnteredValues] = useState({ email: '', password: '', name: ''});
 	// const [didEdit, setDidEdit] = useState({
@@ -59,8 +61,7 @@ function RegisterForm() {
 		//         <button type="submit" disabled={emailIsInvalid || passwordIsInvalid}>Register</button>
 		//     </form>
 		// </div>
-		// <Form method='put' className={classes.form}>
-		<Form method='put'>
+		<Form method='put' className={classes.form}>
 			<h1>Register</h1>
 			{data && data.errors && (
 				<ul>
@@ -71,19 +72,24 @@ function RegisterForm() {
 			)}
 			{data && data.error && <p>{data.error}</p>}
 			<p>
-				<label htmlFor='name'>Name</label>
-				<input id='name' type='text' name='name' required />
+				<label htmlFor='name'>Nazwa</label>
+				<input id='name' type='text' name='name' className={classes.form__input} required />
 			</p>
 			<p>
 				<label htmlFor='email'>Email</label>
-				<input id='email' type='email' name='email' required />
+				<input id='email' type='email' name='email' className={classes.form__input} required />
 			</p>
 			<p>
-				<label htmlFor='password'>Password</label>
-				<input id='password' type='password' name='password' required />
+				<label htmlFor='password'>Hasło</label>
+				<input id='password' type='password' name='password' className={classes.form__input} required />
 			</p>
-			{/* <div className={classes.actions}> */}
-			<div>
+			<p>
+				<label htmlFor='regulations'>
+					Zaakceptuj <Link to='/regulations'>regulamin</Link>
+				</label>
+				<input id='regulations' name='regulations' type='checkbox' required />
+			</p>
+			<div className={classes.actions}>
 				<button disabled={isSubmitting}>{isSubmitting ? 'Rejestracja...' : 'Zarejestruj się'}</button>
 			</div>
 		</Form>

@@ -21,11 +21,11 @@ export default function MainNavigation() {
 					{/* <NavLink to='/contact' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
 					<NavLink to='/contact'>Kontakt</NavLink>
 				</li>
-				{token && (
-					<li>
-						<NavLink to='/regulations'>Regulamin</NavLink>
-					</li>
-				)}
+
+				<li>
+					<NavLink to='/regulations'>Regulamin</NavLink>
+				</li>
+
 				{token && (
 					<li>
 						{/* <NavLink to='/profile' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
@@ -55,7 +55,7 @@ export default function MainNavigation() {
 						<NavLink to='/create-team'>Stwórz zespół</NavLink>
 					</li>
 				)}
-				{role >= 2 && (
+				{token && role >= 2 && (
 					<li>
 						<NavLink to='/users'>Użytkownicy</NavLink>
 					</li>
@@ -72,7 +72,6 @@ export default function MainNavigation() {
 						<NavLink to='/register'>Rejestracja</NavLink>
 					</li>
 				)}
-
 				{token && (
 					<li>
 						<Form action='/logout' method='post'>

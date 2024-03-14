@@ -30,7 +30,7 @@ router.put(
 
 router.post('/login', authController.login)
 
-router.put('/change-password', authUser, authController.changePassword)
+router.patch('/change-password/:userId', authUser, authController.changePassword)
 
 router.get('/user/:userId', authUser, authController.getUser)
 

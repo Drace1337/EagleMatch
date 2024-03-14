@@ -1,9 +1,10 @@
-import { useRouteLoaderData, json, redirect } from 'react-router-dom'
+import { useLoaderData, json, redirect } from 'react-router-dom'
 import ChangeProfileForm from '../components/ChangeProfileForm.jsx'
+import { getAuthToken } from '../util/auth.js'
 
 export default function ChangePlayerInfo() {
-	const user = useRouteLoaderData('profile')
-
+	const data = useLoaderData()
+	const user = data.user
 	return (
 		<div>
 			<h1>Change player info</h1>
@@ -23,10 +24,11 @@ export async function action({ request, params }) {
 		cleanSheets: data.get('clean-sheets'),
 	}
 
-	const response = await fetch('https://localhost:3001/auth/user/' + id + '/stats', {
+	const response = await fetch('http://localhost:3001/auth/user/' + id + '/stats', {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getAuthToken(request),
 		},
 		body: JSON.stringify(userData),
 	})

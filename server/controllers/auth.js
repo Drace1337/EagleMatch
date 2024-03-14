@@ -1,4 +1,3 @@
-
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -17,6 +16,7 @@ exports.register = async (req, res, next) => {
 	const email = req.body.email
 	const name = req.body.name
 	const password = req.body.password
+	const isRegulationAccepted = req.body.isRegulationAccepted
 	try {
 		const hashedPw = await bcrypt.hash(password, 12)
 		const user = new User({
@@ -38,7 +38,7 @@ exports.login = async (req, res, next) => {
 	const email = req.body.email
 	const password = req.body.password
 	let loadedUser
-	
+
 	try {
 		const user = await User.findOne({ email: email })
 		if (!user) {
@@ -62,9 +62,11 @@ exports.login = async (req, res, next) => {
 			},
 			process.env.JWT_PRIVATE_KEY,
 			{ expiresIn: process.env.JWT_EXPIRY }
-			)
-			console.log('logowanie', loadedUser.team)
-		res.status(200).json({ token: token, userId: loadedUser._id.toString(), role: loadedUser.roles, team: loadedUser.team })
+		)
+		console.log('logowanie', loadedUser.team)
+		res
+			.status(200)
+			.json({ token: token, userId: loadedUser._id.toString(), role: loadedUser.roles, team: loadedUser.team })
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
@@ -78,8 +80,7 @@ exports.updateUser = async (req, res, next) => {
 	const avatar = req.body.avatar
 	const email = req.body.email
 	try {
-		const user = await
-		User.findById(userId)
+		const user = await User.findById(userId)
 		if (!user) {
 			const error = new Error('Nie znaleziono użytkownika.')
 			error.statusCode = 404
@@ -95,8 +96,7 @@ exports.updateUser = async (req, res, next) => {
 		user.email = email
 		const result = await user.save()
 		res.status(200).json({ message: 'Użytkownik zaktualizowany!', user: result })
-	}
-	catch (err) {
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}
@@ -104,7 +104,7 @@ exports.updateUser = async (req, res, next) => {
 	}
 }
 exports.changePassword = async (req, res, next) => {
-	const userId = req.params.userId
+	const userId = req.userId
 	const oldPassword = req.body.oldPassword
 	const newPassword = req.body.newPassword
 	try {
@@ -119,6 +119,7 @@ exports.changePassword = async (req, res, next) => {
 			error.statusCode = 403
 			throw error
 		}
+
 		const isEqual = await bcrypt.compare(oldPassword, user.password)
 		if (!isEqual) {
 			const error = new Error('Nieprawidłowe hasło!')
@@ -127,10 +128,9 @@ exports.changePassword = async (req, res, next) => {
 		}
 		const hashedPw = await bcrypt.hash(newPassword, 12)
 		user.password = hashedPw
-		const result = await user.save()
-		res.status(200).json({ message: 'Hasło zmienione!', user: result })
-	}
-	catch (err) {
+		await User.findByIdAndUpdate(userId, { password: hashedPw })
+		res.status(200).json({ message: 'Hasło zmienione!' })
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}
@@ -140,15 +140,14 @@ exports.changePassword = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
 	const userId = req.params.userId
 	try {
-		const user = await User.findById(userId).populate('events')
+		const user = await User.findById(userId).populate('events').populate('team')
 		if (!user) {
 			const error = new Error('Nie znaleziono użytkownika.')
 			error.statusCode = 404
 			throw error
 		}
 		res.status(200).json({ message: 'Użytkownik znaleziony.', user: user })
-	}
-	catch (err) {
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}
@@ -172,8 +171,7 @@ exports.deleteUser = async (req, res, next) => {
 		// }
 		await User.findByIdAndDelete(userId)
 		res.status(200).json({ message: 'Użytkownik usunięty.' })
-	}
-	catch (err) {
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}
@@ -184,8 +182,7 @@ exports.getUsers = async (req, res, next) => {
 	try {
 		const users = await User.find({}, 'name email avatar')
 		res.status(200).json({ message: 'Użytkownicy znalezieni.', users: users })
-	}
-	catch (err) {
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}
@@ -193,7 +190,7 @@ exports.getUsers = async (req, res, next) => {
 	}
 }
 exports.updateUserStats = async (req, res, next) => {
-	const userId = req.params.userId
+	const userId = req.userId
 	const role = req.body.role
 	const goals = req.body.goals
 	const assists = req.body.assists
@@ -214,10 +211,10 @@ exports.updateUserStats = async (req, res, next) => {
 		user.goals = goals
 		user.assists = assists
 		user.cleanSheets = cleanSheets
-		const result = await user.save()
-		res.status(200).json({ message: 'Statystyki użytkownika zaktualizowane!', user: result })
-	}
-	catch (err) {
+		await User.findByIdAndUpdate(userId, { roles: role, goals: goals, assists: assists, cleanSheets: cleanSheets })
+		// const result = await user.save()
+		res.status(200).json({ message: 'Statystyki użytkownika zaktualizowane!' })
+	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 		}

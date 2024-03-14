@@ -5,6 +5,7 @@ const User = require('../models/user')
 
 exports.createTeam = async (req, res, next) => {
 	const name = req.body.name
+	console.log(req.body)
 	// const logoUrl = req.file.path.replace('\\', '/')
 	const logo = req.file
 	console.log(logo)
@@ -36,7 +37,7 @@ exports.createTeam = async (req, res, next) => {
 	
 	try {
 		await team.save()
-		await User.findByIdAndUpdate(req.userId, {$push: {teams: team._id}, $set: {roles: 3}})
+		await User.findByIdAndUpdate(req.userId, {$push: {team: team._id}, $set: {roles: 2}})
 		res.status(201).json({
 			message: 'Team created successfully!',
 			team: team,

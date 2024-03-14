@@ -32,8 +32,7 @@ export async function action({ request, params }) {
 	const data = await request.formData()
 	console.log(data)
 	let intent = data.get('intent')
-	let id = data.get('id')
-	console.log(id)
+	const team = JSON.parse(localStorage.getItem('userData')).team
 
 	if (intent === 'player') {
 		const response = await fetch('http://localhost:3001/events/event/' + eventId + '/player', {
@@ -50,6 +49,7 @@ export async function action({ request, params }) {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + getAuthToken(request),
 			},
+			body: JSON.stringify({ team: team }),
 		})
 	}
 }

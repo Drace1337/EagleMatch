@@ -12,7 +12,7 @@ export default function CreateTeam() {
 
 export async function action({ request }) {
 	const data = await request.formData()
-	console.log(data)
+	console.log(data.get('logo'))
 
 	const teamData = {
 		name: data.get('name'),
@@ -28,6 +28,11 @@ export async function action({ request }) {
 	// }
 	console.log(teamData)
 
+	const formData = new FormData()
+	formData.append('name', teamData.name)
+	formData.append('logo', teamData.logo)
+	formData.append('captain', teamData.captain)
+
 	const token = getAuthToken()
 	// console.log(token)
 
@@ -37,7 +42,7 @@ export async function action({ request }) {
 			// 'Content-Type': 'multipart/form-data',
 			Authorization: 'Bearer ' + token,
 		},
-		body: teamData,
+		body: formData,
 	})
 
 	console.log(response)

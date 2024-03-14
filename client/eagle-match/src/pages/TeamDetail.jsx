@@ -17,7 +17,7 @@ export default TeamDetailPage;
 export async function loader({ request, params }) {
     const id = params.teamId;
     
-    const response = await fetch("http://localhost:3001/team/" + id, {
+    const response = await fetch("http://localhost:3001/team/team/" + id, {
         headers: {
         'Authorization': "Bearer " + getAuthToken(request),
         },

@@ -211,6 +211,9 @@ exports.joinAsPlayer = async (req, res, next) => {
 }
 exports.joinAsTeam = async (req, res, next) => {
 	const eventId = req.params.eventId
+	const teamId = req.body.team
+	console.log(teamId)
+
 	try {
 		const event = await Event.findById(eventId)
 		if (!event) {
@@ -228,9 +231,9 @@ exports.joinAsTeam = async (req, res, next) => {
 			error.statusCode = 403
 			throw error
 		}
-		event.teams.push(req.teamId)
+		event.teams.push(teamId)
 		await event.save()
-		await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
+		await Team.findByIdAndUpdate(teamId, { $push: { events: event._id } })
 		res.status(200).json({ message: 'Joined event.', event: event })
 	} catch (err) {
 		if (!err.statusCode) {

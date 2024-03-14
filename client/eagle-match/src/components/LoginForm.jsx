@@ -3,6 +3,8 @@ import Input from './Input.jsx'
 import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js'
 import { Form, Link, useActionData, useNavigation } from 'react-router-dom'
 
+import classes from './AuthForm.module.scss'
+
 function Login() {
 	// // const [enteredEmail, setEnteredEmail] = useState('');
 	// // const [enteredPassword, setEnteredPassword] = useState('');
@@ -68,8 +70,7 @@ function Login() {
 		//         <button type="submit" >Login</button>
 		//     </form>
 		// </div>
-		// <Form method='post' className={classes.form}>
-        <Form method='post'>
+		<Form method='post' className={classes.form}>
 			<h1>Login</h1>
 			{data && data.errors && (
 				<ul>
@@ -81,14 +82,13 @@ function Login() {
 			{data && data.error && <p>{data.error}</p>}
 			<p>
 				<label htmlFor='email'>Email</label>
-				<input id='email' type='email' name='email' required />
+				<input id='email' type='email' name='email' className={classes.form__input} required />
 			</p>
 			<p>
 				<label htmlFor='password'>Password</label>
-				<input id='password' type='password' name='password' required />
+				<input id='password' type='password' name='password' className={classes.form__input} required />
 			</p>
-			{/* <div className={classes.actions}> */}
-            <div>
+			<div className={classes.actions}>
 				<button disabled={isSubmitting}>{isSubmitting ? 'Logowanie...' : 'Zaloguj się'}</button>
 			</div>
 		</Form>
