@@ -7,7 +7,7 @@ import RankingItem from '../components/RankingItem.jsx'
 export default function RankingPage() {
 	const [selectedType, setSelectedType] = useState('')
 	const data = useLoaderData()
-	console.log(data.users[0].goals)
+	
 	console.log(selectedType)
 	const { ranking, loading } = useRanking(selectedType)
 	console.log(ranking)
@@ -39,7 +39,9 @@ export default function RankingPage() {
 				<button onClick={loadDefenders}>Najlepsi broniący</button>
 				<button onClick={loadTeams}>Najlepsze drużyny</button>
 			</div>
-			{!loading && ('users' in ranking || 'teams' in ranking) && <RankingItem ranking={ranking} type={selectedType} />}
+			{!loading && ranking && ('users' in ranking || 'teams' in ranking) && (
+				<RankingItem ranking={ranking} type={selectedType} />
+			)}
 		</>
 	)
 }

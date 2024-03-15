@@ -9,7 +9,7 @@ const teamSchema = new Schema(
 		captain: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 		members: { type: [Schema.Types.ObjectId], ref: 'User' },
 		events: { type: [Schema.Types.ObjectId], ref: 'Event' },
-		points: { type: Number },
+		points: { type: Number, default: 0 },
 	},
 	{ timestamps: true }
 )

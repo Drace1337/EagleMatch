@@ -11,7 +11,7 @@ exports.createTeam = async (req, res, next) => {
 	console.log(logo)
 	logo.path = logo.path.replace('\\', '/')
 	console.log(logo)
-	if(!logo) {
+	if (!logo) {
 		const error = new Error('No image provided.')
 		error.statusCode = 422
 		throw error
@@ -28,16 +28,17 @@ exports.createTeam = async (req, res, next) => {
 		throw error
 	}
 	const logoUrl = logo.path
-	
+
 	const team = new Team({
 		name: name,
 		logo: logoUrl,
 		captain: req.body.captain,
+		members: [req.body.captain],
 	})
-	
+
 	try {
 		await team.save()
-		await User.findByIdAndUpdate(req.userId, {$push: {team: team._id}, $set: {roles: 2}})
+		await User.findByIdAndUpdate(req.userId, { $push: { team: team._id }, $set: { roles: 2 } })
 		res.status(201).json({
 			message: 'Team created successfully!',
 			team: team,
@@ -74,7 +75,7 @@ exports.createTeam = async (req, res, next) => {
 
 exports.getAllTeams = async (req, res, next) => {
 	try {
-		const teams = await Team.find().populate('captain')
+		const teams = await Team.find()
 		res.status(200).json({
 			message: 'Fetched teams successfully.',
 			teams: teams,
@@ -87,12 +88,10 @@ exports.getAllTeams = async (req, res, next) => {
 	}
 }
 
-
-
 exports.getTeam = async (req, res, next) => {
 	const teamId = req.params.teamId
 	try {
-		const team = await Team.findById(teamId)
+		const team = await Team.findById(teamId).populate('captain').populate('members')
 		if (!team) {
 			const error = new Error('Could not find team.')
 			error.statusCode = 404
@@ -137,6 +136,8 @@ exports.updateTeam = async (req, res, next) => {
 
 exports.deleteTeam = async (req, res, next) => {
 	const teamId = req.params.teamId
+	console.log(req.params)
+	console.log(teamId)
 	try {
 		const team = await Team.findById(teamId)
 		if (!team) {
@@ -144,15 +145,15 @@ exports.deleteTeam = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		if (team.captain.toString() !== req.userId) {
+		if (req.role < 2) {
 			const error = new Error('Not authorized!')
 			error.statusCode = 403
 			throw error
 		}
-		await Team.findByIdAndRemove(teamId)
-		const user = await User.findById(req.userId)
-		user.team.pull(teamId)
-		await user.save()
+		await User.updateMany({}, { $pull: { team: teamId } })
+		await Team.findByIdAndDelete(teamId)
+		// user.team.pull(teamId)
+		// await user.save()
 		res.status(200).json({ message: 'Deleted team.' })
 	} catch (err) {
 		if (!err.statusCode) {

@@ -1,6 +1,7 @@
 import { Form } from 'react-router-dom'
 
 export default function ChangeProfileForm({ user }) {
+	console.log(user)
 	return (
 		<div>
 			<Form method='patch' className='form'>

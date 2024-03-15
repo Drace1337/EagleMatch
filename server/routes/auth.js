@@ -6,6 +6,28 @@ const authAdmin = require('../middleware/authAdmin')
 const User = require('../models/user')
 const authController = require('../controllers/auth')
 
+const multer = require('multer')
+const { v4: uuidv4 } = require('uuid')
+
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, 'images')
+	},
+	filename: (req, file, cb) => {
+		cb(null, uuidv4() + '-' + file.originalname)
+	},
+})
+
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+		cb(null, true)
+	} else {
+		cb(null, false)
+	}
+}
+
+const upload = multer({ storage: storage, fileFilter: fileFilter })
+
 const router = express.Router()
 
 router.put(
@@ -38,8 +60,8 @@ router.get('/users', authAdmin, authController.getUsers)
 
 router.delete('/user/:userId', authAdmin, authController.deleteUser)
 
-router.put('/user/:userId', authUser, authController.updateUser)
+router.patch('/user/:userId', authUser, upload.single('avatar'), authController.updateUser)
 
-router.patch('/user/:userId/stats', authUser, authController.updateUserStats)
+router.patch('/user/:userId/stats', authAdmin, authController.updateUserStats)
 
 module.exports = router

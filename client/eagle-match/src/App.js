@@ -27,6 +27,8 @@ import LocationList, { loader as locationLoader } from './pages/LocationList.jsx
 import ChangePlayerInfo, { action as changeStatsAction } from './pages/ChangePlayerInfo.jsx'
 import UserList, { loader as userListLoader } from './pages/UserList.jsx'
 import UserDetail, { loader as userDetailLoader, action as manipulateUserAction } from './pages/UserDetail.jsx'
+import TeamList, { loader as teamListLoader } from './pages/TeamList.jsx'
+import ChangeTeamStats, { action as changeTeamStatsAction } from './pages/ChangeTeamStats.jsx'
 
 const router = createBrowserRouter([
 	{
@@ -76,10 +78,17 @@ const router = createBrowserRouter([
 			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader, action: joinEventAction },
 			{ path: 'post/:postId', element: <PostDetailPage />, loader: postDetailLoader, action: sendMessage },
 			{ path: 'team/:teamId', element: <TeamDetailPage />, loader: teamDetailLoader, action: teamDetailAction },
+			{
+				path: 'team/:teamId/edit',
+				element: <ChangeTeamStats />,
+				action: changeTeamStatsAction,
+				loader: teamDetailLoader,
+			},
 			{ path: 'create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
 			{ path: 'users', element: <UserList />, loader: userListLoader },
 			{ path: 'users/:userId', element: <UserDetail />, loader: userDetailLoader, action: manipulateUserAction },
+			{ path: 'teams', element: <TeamList />, loader: teamListLoader },
 		],
 	},
 ])

@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator')
 const Event = require('../models/event')
 const User = require('../models/user')
 const Team = require('../models/team')
+const Post = require('../models/post')
 
 // exports.getEvents = async (req, res, next) => {
 //     const currentPage = req.query.page || 1
@@ -74,6 +75,16 @@ exports.createEvent = async (req, res, next) => {
 		creator: creator,
 	})
 	try {
+		console.log(confirmationRequired)
+		if (confirmationRequired) {
+			const post = new Post({
+				title: `Potwierdzenie uczestnictwa w wydarzeniu ${title}`,
+				content: `Proszę o potwierdzenie uczestnictwa w wydarzeniu ${title}`,
+				author: creator,
+				event: event._id,
+			})
+			await post.save()
+		}
 		await event.save()
 		await User.findByIdAndUpdate(req.body.creator, { $push: { events: event._id } })
 		res.status(201).json({

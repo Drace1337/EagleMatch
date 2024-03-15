@@ -76,7 +76,7 @@ function ProfileForm({ user }) {
 			<div>
 				<h2>Change password</h2>
 			</div> */}
-			<Form method='patch'>
+			<Form method='patch' encType='multipart/form-data'>
 				<p>
 					<label htmlFor='name'>Nazwa użytkownika: </label>
 					<input id='name' type='name' name='name' required defaultValue={user.name} />

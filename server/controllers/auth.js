@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')
+const Team = require('../models/team')
 
 exports.register = async (req, res, next) => {
 	const errors = validationResult(req)
@@ -77,8 +78,14 @@ exports.login = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
 	const userId = req.params.userId
 	const name = req.body.name
-	const avatar = req.body.avatar
+	const avatar = req.file
+	avatar.path = avatar.path.replace('\\', '/')
 	const email = req.body.email
+	if (!avatar) {
+		const error = new Error('Nie znaleziono awatara.')
+		error.statusCode = 422
+		throw error
+	}
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -92,7 +99,7 @@ exports.updateUser = async (req, res, next) => {
 			throw error
 		}
 		user.name = name
-		user.avatar = avatar
+		user.avatar = avatar.path
 		user.email = email
 		const result = await user.save()
 		res.status(200).json({ message: 'Użytkownik zaktualizowany!', user: result })
@@ -156,7 +163,7 @@ exports.getUser = async (req, res, next) => {
 }
 exports.deleteUser = async (req, res, next) => {
 	const userId = req.params.userId
-	console.log(userId)
+	console.log(req.params)
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -169,7 +176,10 @@ exports.deleteUser = async (req, res, next) => {
 		// 	error.statusCode = 403
 		// 	throw error
 		// }
-		await User.findByIdAndDelete(userId)
+		const deletedUser = await User.findByIdAndDelete(userId)
+		console.log(deletedUser)
+		const team = deletedUser.team
+		await Team.findByIdAndUpdate(team, { $pull: { members: userId } })
 		res.status(200).json({ message: 'Użytkownik usunięty.' })
 	} catch (err) {
 		if (!err.statusCode) {
@@ -190,11 +200,12 @@ exports.getUsers = async (req, res, next) => {
 	}
 }
 exports.updateUserStats = async (req, res, next) => {
-	const userId = req.userId
+	const userId = req.params.userId
 	const role = req.body.role
 	const goals = req.body.goals
 	const assists = req.body.assists
 	const cleanSheets = req.body.cleanSheets
+	console.log(req)
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -202,7 +213,7 @@ exports.updateUserStats = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		if (user._id.toString() !== req.userId) {
+		if (req.role !== 4) {
 			const error = new Error('Brak autoryzacji!')
 			error.statusCode = 403
 			throw error

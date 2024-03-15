@@ -15,7 +15,8 @@ export default function ChangePlayerInfo() {
 
 export async function action({ request, params }) {
 	const data = await request.formData()
-	const id = params.userId
+	const id = params.id
+	console.log(id)
 
 	const userData = {
 		role: data.get('role'),

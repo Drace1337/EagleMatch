@@ -4,8 +4,9 @@ export default function RankingItem({ ranking, type }) {
 	// ranking.users.forEach(user => {
 	// 	console.log(user)
 	// })
-	// console.log(ranking.teams)
+	console.log(ranking.teams)
 
+	console.log(ranking)
 	return (
 		<div>
 			<ul>

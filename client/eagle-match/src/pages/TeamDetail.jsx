@@ -32,7 +32,7 @@ export async function loader({ request, params }) {
 export async function action({ request, params }) {
     const id = params.teamId;
     
-    const response = await fetch("http://localhost:3001/team/" + id, {
+    const response = await fetch("http://localhost:3001/team/team/" + id, {
         method: "DELETE",
         headers: {
         'Authorization': "Bearer " + getAuthToken(request),
@@ -41,6 +41,6 @@ export async function action({ request, params }) {
     if (!response.ok) {
         return json({ message: "Nie udało się usunąć drużyny" }, { status: 500 });
     } else {
-        return redirect("/team");
+        return redirect("/");
     }
 }

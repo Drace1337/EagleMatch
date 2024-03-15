@@ -1,5 +1,6 @@
 import ProfileForm from '../components/ProfileForm'
 import { useRouteLoaderData, json, redirect, useLoaderData } from 'react-router-dom'
+import { getAuthToken } from '../util/auth.js'
 
 export default function UpdateProfile() {
 	const data = useLoaderData()
@@ -10,8 +11,9 @@ export default function UpdateProfile() {
 }
 
 export async function action({ request, params }) {
-	const data = request.formData()
-	const id = params.userId
+	const data = await request.formData()
+	const id = params.id
+	console.log(id)
 
 	const profileData = {
 		name: data.get('name'),
@@ -19,17 +21,22 @@ export async function action({ request, params }) {
 		email: data.get('email'),
 	}
 
-	const response = await fetch('http://localhost:3001/auth/user' + id, {
-		method: 'PUT',
+	const formData = new FormData()
+	formData.append('name', profileData.name)
+	formData.append('avatar', profileData.avatar)
+	formData.append('email', profileData.email)
+
+	const response = await fetch('http://localhost:3001/auth/user/' + id, {
+		method: 'PATCH',
 		headers: {
-			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getAuthToken(request),
 		},
-		body: JSON.stringify(profileData),
+		body: formData,
 	})
 
 	if (!response.ok) {
 		return json({ message: 'Nie udało się zaktualizować profilu' }, { status: 500 })
 	}
 
-	return redirect('/profile')
+	return redirect(`/profile/${id}`)
 }

@@ -35,9 +35,23 @@ exports.getCleanSheetsRanking = async (req, res, next) => {
     }
 }
 exports.getTeamsRanking = async (req, res, next) => {
+    console.log('hej')
     try {
         const teams = await Team.find({}, 'name points').sort({ points: -1 });
         res.status(200).json({ message: 'Fetched teams ranking.', teams: teams });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
+exports.resetRankings = async (req, res, next) => {
+    try {
+        await User.updateMany({}, { goals: 0, assists: 0, cleanSheets: 0 });
+        await Team.updateMany({}, { points: 0 });
+        res.status(200).json({ message: 'Rankings reset.' });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

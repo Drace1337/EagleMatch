@@ -60,6 +60,11 @@ export default function MainNavigation() {
 						<NavLink to='/users'>Użytkownicy</NavLink>
 					</li>
 				)}
+				{token && role >= 4 && (
+					<li>
+						<NavLink to='/teams'>Drużyny</NavLink>
+					</li>
+				)}
 				{!token && (
 					<li>
 						{/* <NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
