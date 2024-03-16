@@ -1,19 +1,22 @@
-import { json, useLoaderData, redirect } from 'react-router-dom'
+import { json, useLoaderData, redirect, Link } from 'react-router-dom'
 
 import Locations from '../components/Locations.jsx'
+import { getAuthToken } from '../util/auth.js'
 
 function LocationList() {
 	const data = useLoaderData()
 	// if (data.isError) {
 	// 	return <p>{data.message}</p>
 	// }
+	const role = JSON.parse(localStorage.getItem('userData')).role
+	console.log(role)
 
 	const locations = data.locations
 
 	return (
 		<>
 			<h1>Locations</h1>
-
+			{role === 4 && <Link to='create-location'>Dodaj lokalizację</Link>}
 			<Locations locations={locations} />
 		</>
 	)
@@ -30,3 +33,4 @@ export async function loader() {
 		return response
 	}
 }
+

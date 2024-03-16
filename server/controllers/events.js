@@ -84,6 +84,7 @@ exports.createEvent = async (req, res, next) => {
 				event: event._id,
 			})
 			await post.save()
+			await User.findByIdAndUpdate(req.userId, { $push: { posts: post._id } })
 		}
 		await event.save()
 		await User.findByIdAndUpdate(req.body.creator, { $push: { events: event._id } })
@@ -149,7 +150,7 @@ exports.createEvent = async (req, res, next) => {
 exports.getEvent = async (req, res, next) => {
 	const eventId = req.params.eventId
 	try {
-		const event = await Event.findById(eventId)
+		const event = await Event.findById(eventId).populate('teams').populate('players')
 		if (!event) {
 			const error = new Error('Could not find event.')
 			error.statusCode = 404

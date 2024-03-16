@@ -3,10 +3,11 @@ import { Form } from 'react-router-dom'
 
 export default function TeamItem({ team }) {
 	console.log(team.members)
+	const logoPath = `http://localhost:3001/${team.logo}`
 	return (
 		<article>
 			<h2>{team.name}</h2>
-			<img src={team.logo} alt='Logo zespołu' />
+			<img src={logoPath} alt='Logo zespołu' />
 			<p>Kapitan: {team.captain.name}</p>
 			<table>
 				<thead>

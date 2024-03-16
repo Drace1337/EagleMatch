@@ -40,6 +40,7 @@ export async function loader({ request }) {
 
 export async function action({ request, params }) {
 	const id = params.postId
+	console.log(id)
 
 	const response = await fetch('http://localhost:3001/forum/post/' + id, {
 		method: 'DELETE',

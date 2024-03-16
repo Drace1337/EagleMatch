@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator')
 
 const Post = require('../models/post')
 const User = require('../models/user')
+const Reply = require('../models/reply')
 
 // exports.getPosts = async (req, res, next) => {
 //     const currentPage = req.query.page || 1
@@ -90,6 +91,8 @@ exports.getPost = async (req, res, next) => {
 }
 
 exports.deletePost = async (req, res, next) => {
+	console.log(req.role)
+
 	const postId = req.params.postId
 	try {
 		const post = await Post.findById(postId)
@@ -98,15 +101,15 @@ exports.deletePost = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		if (post.author.toString() !== req.userId) {
+		if (req.role !== 3) {
 			const error = new Error('Not authorized!')
 			error.statusCode = 403
 			throw error
 		}
-		await Post.findByIdAndRemove(postId)
-		const user = await User.findById(req.userId)
-		user.posts.pull(postId)
-		await user.save()
+		await Post.findByIdAndDelete(postId)
+		await User.findByIdAndUpdate(post.author, { $pull: { posts: postId } })
+		await Reply.find({ post: postId }).deleteMany()
+
 		res.status(200).json({ message: 'Deleted post.' })
 	} catch (err) {
 		if (!err.statusCode) {

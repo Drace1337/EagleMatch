@@ -39,11 +39,11 @@ export default function Posts({ posts }) {
 					<li key={post._id}>
 						<p>{post.title}</p>
 						<Link to={`/post/${post._id}`}>Zobacz post</Link>
-						{JSON.parse(localStorage.getItem('userData')).role === 3 && (
+						{/* {JSON.parse(localStorage.getItem('userData')).role === 3 && (
 							<Form method='DELETE'>
 								<button >Usuń post</button>
 							</Form>
-						)}
+						)} */}
 					</li>
 				))}
 			</ul>

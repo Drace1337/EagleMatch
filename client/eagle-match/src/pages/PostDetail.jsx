@@ -10,7 +10,7 @@ function PostDetailPage() {
 
 	return (
 		<>
-			<PostItem post={post} replies={replies}/>
+			<PostItem post={post} replies={replies} />
 		</>
 	)
 }
@@ -40,27 +40,50 @@ export async function loader({ request, params }) {
 }
 
 export async function action({ request, params }) {
-	const data = await request.formData()
 	const id = params.postId
-	const replyData = {
-		comment: data.get('reply'),
-		author: JSON.parse(localStorage.getItem('userData')).userId,
-		post: id,
-	}
+	console.log(request)
+	console.log(params)
+	console.log(id)
+	switch (request.method) {
+		case 'DELETE': {
+			const response = await fetch('http://localhost:3001/forum/post/' + id, {
+				method: request.method,
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + getAuthToken(request),
+				},
+			})
 
-	console.log(replyData)
-	const response = await fetch('http://localhost:3001/reply/reply', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + getAuthToken(request),
-		},
-		body: JSON.stringify(replyData),
-	})
-	if (!response.ok) {
-		return json({ message: 'Nie udało się wysłać odpowiedzi' }, { status: 500 })
-	} else {
-		return response
+			if (!response.ok) {
+				return json({ message: 'Nie udało się usunąć posta' }, { status: 500 })
+			} else {
+				return redirect('/forum')
+			}
+		}
+		case 'POST': {
+			const data = await request.formData()
+			const id = params.postId
+			const replyData = {
+				comment: data.get('reply'),
+				author: JSON.parse(localStorage.getItem('userData')).userId,
+				post: id,
+			}
+
+			console.log(replyData)
+			const response = await fetch('http://localhost:3001/reply/reply', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + getAuthToken(request),
+				},
+				body: JSON.stringify(replyData),
+			})
+			if (!response.ok) {
+				return json({ message: 'Nie udało się wysłać odpowiedzi' }, { status: 500 })
+			} else {
+				return response
+			}
+		}
 	}
 }
 export default PostDetailPage

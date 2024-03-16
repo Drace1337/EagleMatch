@@ -53,7 +53,7 @@ exports.deleteLocation = async (req, res, next) => {
             error.statusCode = 404
             throw error
         }
-        await Location.findByIdAndRemove(locationId)
+        await Location.findByIdAndDelete(locationId)
         res.status(200).json({ message: 'Location deleted.' })
     }
     catch (err) {

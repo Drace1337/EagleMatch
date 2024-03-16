@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import HomePage, { loader as eventsLoader } from './pages/Home.jsx'
 import RegulationsPage from './pages/Regulations.jsx'
 import ContactPage, { action as contactAction } from './pages/Contact.jsx'
-import ForumPage, { loader as forumLoader, action as forumAction } from './pages/Forum.jsx'
+import ForumPage, { loader as forumLoader } from './pages/Forum.jsx'
 import CreatePost, { action as createPostAction } from './pages/CreatePost.jsx'
 import LoginPage, { action as loginAction } from './pages/Login.jsx'
 import RegisterPage, { action as registerAction } from './pages/Register.jsx'
@@ -29,6 +29,8 @@ import UserList, { loader as userListLoader } from './pages/UserList.jsx'
 import UserDetail, { loader as userDetailLoader, action as manipulateUserAction } from './pages/UserDetail.jsx'
 import TeamList, { loader as teamListLoader } from './pages/TeamList.jsx'
 import ChangeTeamStats, { action as changeTeamStatsAction } from './pages/ChangeTeamStats.jsx'
+import { action as deleteLocationAction } from './util/deleteLocation.js'
+import { action as deleteReplyAction } from './util/deleteReply.js'
 
 const router = createBrowserRouter([
 	{
@@ -45,7 +47,7 @@ const router = createBrowserRouter([
 			},
 			{ path: 'regulations', element: <RegulationsPage /> }, //działa
 			{ path: 'contact', element: <ContactPage />, action: contactAction },
-			{ path: 'forum', element: <ForumPage />, loader: forumLoader, action: forumAction },
+			{ path: 'forum', element: <ForumPage />, loader: forumLoader },
 			{ path: 'forum/create-post', element: <CreatePost />, action: createPostAction },
 			{ path: 'login', element: <LoginPage />, action: loginAction },
 			{ path: 'register', element: <RegisterPage />, action: registerAction },
@@ -84,8 +86,10 @@ const router = createBrowserRouter([
 				action: changeTeamStatsAction,
 				loader: teamDetailLoader,
 			},
-			{ path: 'create-location', element: <CreateLocation />, action: createLocationAction }, //działa
+			{ path: 'venues/create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
+			{path: 'venues/:locationId', action: deleteLocationAction},
+			{path: 'post/:postId/:replyId', action: deleteReplyAction},
 			{ path: 'users', element: <UserList />, loader: userListLoader },
 			{ path: 'users/:userId', element: <UserDetail />, loader: userDetailLoader, action: manipulateUserAction },
 			{ path: 'teams', element: <TeamList />, loader: teamListLoader },
@@ -94,6 +98,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+	
 	return <RouterProvider router={router} />
 }
 

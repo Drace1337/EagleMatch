@@ -23,12 +23,22 @@ import { getAuthToken } from '../util/auth.js'
 
 export default function PostItem({ post, replies }) {
 	// console.log(post.author)
+	const submit = useSubmit()
+	function startDeleteHandler() {
+		const proceed = window.confirm('Are you sure?')
+		if (proceed) {
+			submit(null, { method: 'delete' })
+		}
+	}
 	return (
 		<>
 			<article>
 				<h1>{post.title}</h1>
 				<p>{post.author.name}</p>
 				<p>{post.content}</p>
+				{JSON.parse(localStorage.getItem('userData')).role === 3 && (
+					<button onClick={startDeleteHandler}>Usuń post</button>
+				)}
 
 				<Form method='post'>
 					<label htmlFor='reply'>Skomentuj post:</label>
@@ -52,6 +62,9 @@ export default function PostItem({ post, replies }) {
 							<li key={reply._id}>
 								<p>{reply.comment}</p>
 								<p>{reply.author.name}</p>
+								<Form method='delete' action={`/post/${post._id}/${reply._id}`}>
+									<button>Usuń komentarz</button>
+								</Form>
 							</li>
 						))}
 					</ul>

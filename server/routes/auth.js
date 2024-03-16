@@ -54,7 +54,7 @@ router.post('/login', authController.login)
 
 router.patch('/change-password/:userId', authUser, authController.changePassword)
 
-router.get('/user/:userId', authUser, authController.getUser)
+router.get('/user/:userId', authUser, authController.getUser)//getowanie obrazków
 
 router.get('/users', authAdmin, authController.getUsers)
 
