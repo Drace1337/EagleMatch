@@ -1,0 +1,27 @@
+.content {
+	text-align: center;
+
+	&__list {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	}
+	&__list button {
+		font: inherit;
+		cursor: pointer;
+		padding: 0.25rem 1rem;
+		border-radius: 4px;
+		background-color: var(--color-gray-300);
+		color: var(--color-gray-800);
+		border: none;
+	}
+	&__list button:hover {
+		background-color: var(--color-primary-300);
+	}
+
+	&__list button[type='button']:hover {
+		background-color: var(--color-gray-800);
+	}
+}

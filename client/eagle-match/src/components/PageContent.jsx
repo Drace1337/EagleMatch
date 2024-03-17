@@ -1,7 +1,9 @@
+import classes from './PageContent.module.scss'
+
 function PageContent({ title, children }) {
 	return (
-		// <div className={classes.content}>
-		<div>
+		<div className={classes.content}>
+		{/* // <div> */}
 			<h1>{title}</h1>
 			{children}
 		</div>

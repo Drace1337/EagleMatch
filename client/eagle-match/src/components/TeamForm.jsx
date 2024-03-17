@@ -1,6 +1,7 @@
 import { Link, useNavigation, Form, useNavigate, useActionData, useLoaderData } from 'react-router-dom'
 import { getAuthToken } from '../util/auth'
 import { json, redirect } from 'react-router-dom'
+import classes from './Form.module.scss'
 
 function TeamForm({ method }) {
 	// const [enteredValues, setEnteredValues] = useState({name: ''});
@@ -47,8 +48,8 @@ function TeamForm({ method }) {
 	const isSubmitting = navigation.state === 'submitting'
 
 	return (
-		<div>
-			<h1>Create Team</h1>
+		<div className={classes.content}>
+			<h2>Stwórz drużyne</h2>
 			{/* <form onSubmit={handleSubmit}>
                 <Input
                     label='Team Name'
@@ -61,17 +62,17 @@ function TeamForm({ method }) {
                 />
                 <Button type='submit'>Create Team</Button>
             </form> */}
-			<Form method={method} encType='multipart/form-data'>
+			<Form method={method} encType='multipart/form-data' className={classes.form}>
 				<p>
 					<label htmlFor='name'>Nazwa drużyny:</label>
-					<input id='name' type='name' name='name' required />
+					<input id='name' type='name' name='name' required className={classes.form__input} />
 				</p>
 				<p>
 					<label htmlFor='logo'>Logo: </label>
-					<input type='file' name='logo' id='logo' required />
+					<input type='file' name='logo' id='logo' required className={classes.form__input} />
 				</p>
 
-				<div>
+				<div className={classes.form__actions}>
 					<button type='button' onClick={cancelHandler} disabled={isSubmitting}>
 						Anuluj
 					</button>

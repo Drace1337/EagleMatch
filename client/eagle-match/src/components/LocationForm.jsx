@@ -1,4 +1,5 @@
 import { Form, useNavigation } from 'react-router-dom'
+import classes from './Form.module.scss'
 
 function LocationForm() {
 	const navigation = useNavigation()
@@ -6,16 +7,18 @@ function LocationForm() {
 	const isSubmitting = navigation.state === 'submitting'
 
 	return (
-		<div>
-			<h1>Location Form</h1>
-			<Form method='post'>
+		<div className={classes.content}>
+			<h2>Kreator lokalizacji: </h2>
+			<Form method='post' className={classes.form}>
 				<p>
 					<label htmlFor='name'>Name</label>
-					<input type='text' id='name' name='name' />
+					<input type='text' id='name' name='name' className={classes.form__input} />
 				</p>
-				<button type='submit' disabled={isSubmitting}>
-					{isSubmitting ? 'Tworzenie...' : 'Utwórz lokalizację'}
-				</button>
+				<div className={classes.form__actions}>
+					<button type='submit' disabled={isSubmitting}>
+						{isSubmitting ? 'Tworzenie...' : 'Utwórz lokalizację'}
+					</button>
+				</div>
 			</Form>
 		</div>
 	)

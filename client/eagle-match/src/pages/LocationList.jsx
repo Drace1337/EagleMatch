@@ -2,6 +2,7 @@ import { json, useLoaderData, redirect, Link } from 'react-router-dom'
 
 import Locations from '../components/Locations.jsx'
 import { getAuthToken } from '../util/auth.js'
+import classes from '../components/PageContent.module.scss'
 
 function LocationList() {
 	const data = useLoaderData()
@@ -14,11 +15,15 @@ function LocationList() {
 	const locations = data.locations
 
 	return (
-		<>
-			<h1>Locations</h1>
-			{role === 4 && <Link to='create-location'>Dodaj lokalizację</Link>}
+		<div className={classes.content}>
+			<h2>Lokalizacje</h2>
+			{role === 4 && (
+				<Link to='create-location' className={classes.content__link}>
+					Dodaj lokalizację
+				</Link>
+			)}
 			<Locations locations={locations} />
-		</>
+		</div>
 	)
 }
 
@@ -33,4 +38,3 @@ export async function loader() {
 		return response
 	}
 }
-

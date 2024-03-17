@@ -1,4 +1,5 @@
 import { Form } from 'react-router-dom'
+import classes from './Locations.module.scss'
 
 export default function Locations({ locations }) {
 	console.log(locations._id)
@@ -16,12 +17,11 @@ export default function Locations({ locations }) {
 		//         ))}
 		//     </tbody>
 		// </table>
-		<div>
-			<h2>Boiska:</h2>
+		<div className={classes.content}>
 			<ul>
 				{locations.map(location => (
 					<li key={location._id}>
-						<div>
+						<div className={classes.content__list}>
 							<h3>{location.name}</h3>
 							{role === 4 && (
 								<Form method='delete' action={`/venues/${location._id}`}>

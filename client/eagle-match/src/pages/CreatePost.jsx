@@ -5,7 +5,6 @@ import { getAuthToken } from '../util/auth'
 export default function CreatePost() {
 	return (
 		<>
-			<h2>Stwórz post</h2>
 			<ForumForm />
 		</>
 	)

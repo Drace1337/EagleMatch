@@ -2,7 +2,8 @@ import { useState } from 'react'
 import Input from './Input.jsx'
 import Textarea from './Textarea.jsx'
 import Button from './UI/Button.jsx'
-import { Form, useNavigation } from 'react-router-dom'
+import { Form, useNavigation, useNavigate } from 'react-router-dom'
+import classes from './Form.module.scss'
 
 function ForumForm() {
 	// const [enteredValues, setEnteredValues] = useState({ title: '', description: '' })
@@ -42,10 +43,14 @@ function ForumForm() {
 	const navigation = useNavigation()
 
 	const isSubmitting = navigation.state === 'submitting'
+	const navigate = useNavigate()
+	function cancelHandler() {
+		navigate('/forum')
+	}
 
 	return (
-		<div>
-			<h1>Create Post</h1>
+		<div className={classes.content}>
+			<h2>Stwórz Post</h2>
 			{/* <form onSubmit={handleSubmit}>
 				<Input
 					label='Title'
@@ -66,16 +71,19 @@ function ForumForm() {
 				<Button type='submit'>Submit</Button>
 				<Button>Cancel</Button>
 			</form> */}
-			<Form method='post'>
+			<Form method='post' className={classes.form}>
 				<p>
 					<label htmlFor='title'>Tytuł</label>
-					<input id='title' type='name' name='title' required />
+					<input id='title' type='name' name='title' required className={classes.form__input} />
 				</p>
 				<p>
 					<label htmlFor='content'>Opis</label>
 					<textarea id='content' name='content' required />
 				</p>
-				<div>
+				<div className={classes.form__actions}>
+					<button type='button' onClick={cancelHandler} disabled={isSubmitting}>
+						Anuluj
+					</button>
 					<button disabled={isSubmitting}>{isSubmitting ? 'Tworzenie...' : 'Stwórz post'}</button>
 				</div>
 			</Form>

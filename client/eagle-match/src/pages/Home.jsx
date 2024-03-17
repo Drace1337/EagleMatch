@@ -1,6 +1,7 @@
 import { json, useLoaderData, redirect } from 'react-router-dom'
 import EventsNavigation from '../components/EventsNavigation.jsx'
 import Events from '../components/Events.jsx'
+import classes from '../components/PageContent.module.scss'
 
 function HomePage() {
 	const data = useLoaderData()
@@ -11,11 +12,11 @@ function HomePage() {
 	const events = data.events
 
 	return (
-		<>
+		<div className={classes.content}>
 			<h1>Home</h1>
 			<EventsNavigation />
 			<Events events={events} />
-		</>
+		</div>
 	)
 }
 

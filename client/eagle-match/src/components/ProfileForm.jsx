@@ -39,6 +39,7 @@ function ProfileForm({ user }) {
 	// 		}
 	// 	})
 	// }
+	console.log(user)
 
 	const navigation = useNavigation()
 

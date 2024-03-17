@@ -3,8 +3,9 @@ import Input from './Input.jsx'
 import Textarea from './Textarea.jsx'
 import { isNotEmpty, hasMinLength } from '../util/validation.js'
 import { Form, useNavigate, useNavigation } from 'react-router-dom'
+import classes from './Form.module.scss'
 
-export default function EventForm({ locations}) {
+export default function EventForm({ locations }) {
 	// const [enteredValues, setEnteredValues] = useState({
 	// 	name: '',
 	// 	date: '',
@@ -64,57 +65,60 @@ export default function EventForm({ locations}) {
 
 	return (
 		<div>
-			<h1>Create Event</h1>
-            <Form method='post'>
-                <p>
-                    <label htmlFor='title'>Tytuł</label>
-                    <input id='title' type='name' name='title' required />
-                </p>
-                <p>
-                    Czy wydarzenie to mecz?
-                    <input id='is_match' type='checkbox' name='is_match'  />
-                    <label htmlFor='is_match'>Tak</label>
-                </p>
-                <p>
-                    Czy wydarzenie jest tylko dla drużyn?
-                    <input id='team_only' type='checkbox' name='team_only'  />
-                    <label htmlFor='team_only'>Tak</label>
-                </p>
+			<h2>Stwórz wydarzenie</h2>
+			<Form method='post' className={classes.form}>
+				<p>
+					<label htmlFor='title'>Tytuł</label>
+					<input id='title' type='name' name='title' required className={classes.form__input} />
+				</p>
+				<p>
+					Czy wydarzenie to mecz?
+					<input id='is_match' type='checkbox' name='is_match' />
+					<label htmlFor='is_match'>Tak</label>
+				</p>
+				<p>
+					Czy wydarzenie jest tylko dla drużyn?
+					<input id='team_only' type='checkbox' name='team_only' />
+					<label htmlFor='team_only'>Tak</label>
+				</p>
 				<label htmlFor='location'>Lokalizacja:</label>
-                <select name='location' id='location'>
-                    {locations.map(location => (
-                        <option key={location.id} value={location.id}>
-                            {location.name}
-                        </option>
-                    ))}
-                </select>
-                <p>
-                    <label htmlFor='date'>Data wydarzenia:</label>
-                    <input id='date' type='date' name='date' required />
-                </p>
-                <p>
-                    <label htmlFor='duration'>Czas trwania wydarzenia (w godzinach):</label>
-                    <input id='duration' type='number' name='duration' required />
-                </p>
-                <p>
-                    <label htmlFor='max_participants'>Maksymalna liczba uczestników:</label>
-                    <input id='max_participants' type='number' name='max_participants' required />
-                </p>
-                <p>
-                    <label htmlFor='description'>Opis wydarzenia:</label>
-                    <textarea id='description' name='description' required />
-                </p>
-                <p>
-                    <label htmlFor='confirmation_required'>Czy wymagane jest potwierdzenie uczestnictwa?</label>
-                    <input id='confirmation_required' type='checkbox' name='confirmation_required'  />
-                </p>
-                <p>
-                    <label htmlFor='is_private'>Czy wydarzenie jest prywatne?</label>
-                    <input id='is_private' type='checkbox' name='is_private'  />
-                </p>
-                <button type='submit' disabled={isSubmitting}>
-					{isSubmitting ? 'Tworzenie...' : 'Utwórz wydarzenie'}</button>
-            </Form>
+				<select name='location' id='location'>
+					{locations.map(location => (
+						<option key={location.id} value={location.id}>
+							{location.name}
+						</option>
+					))}
+				</select>
+				<p>
+					<label htmlFor='date'>Data wydarzenia:</label>
+					<input id='date' type='date' name='date' required className={classes.form__input} />
+				</p>
+				<p>
+					<label htmlFor='duration'>Czas trwania wydarzenia (w godzinach):</label>
+					<input id='duration' type='number' name='duration' required className={classes.form__input} />
+				</p>
+				<p>
+					<label htmlFor='max_participants'>Maksymalna liczba uczestników:</label>
+					<input id='max_participants' type='number' name='max_participants' required className={classes.form__input} />
+				</p>
+				<p>
+					<label htmlFor='description'>Opis wydarzenia:</label>
+					<textarea id='description' name='description' required className={classes.form__input} />
+				</p>
+				<p>
+					<label htmlFor='confirmation_required'>Czy wymagane jest potwierdzenie uczestnictwa?</label>
+					<input id='confirmation_required' type='checkbox' name='confirmation_required' />
+				</p>
+				<p>
+					<label htmlFor='is_private'>Czy wydarzenie jest prywatne?</label>
+					<input id='is_private' type='checkbox' name='is_private' />
+				</p>
+				<div className={classes.form__actions}>
+					<button type='submit' disabled={isSubmitting}>
+						{isSubmitting ? 'Tworzenie...' : 'Utwórz wydarzenie'}
+					</button>
+				</div>
+			</Form>
 			{/* <Form method='post' className={classes.form}>
 			<Form method='post'>
 				<Input

@@ -1,4 +1,5 @@
 import { NavLink, useRouteLoaderData, Form } from 'react-router-dom'
+import classes from './MainNav.module.scss'
 
 export default function MainNavigation() {
 	const token = useRouteLoaderData('root')
@@ -6,75 +7,98 @@ export default function MainNavigation() {
 	const userId = JSON.parse(localStorage.getItem('userData')).userId
 
 	return (
-		<nav>
-			<ul>
+		<nav className={classes.nav}>
+			<ul className={classes.nav__list}>
 				<li>
-					{/* <NavLink to='/' className={({ isActive }) => (isActive ? classes.active : undefined)} end> */}
-					<NavLink to='/' end>
+					<NavLink to='/' className={({ isActive }) => (isActive ? classes.active : undefined)} end>
 						Home
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/venues'>Boiska</NavLink>
+					<NavLink to='/venues' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+						Boiska
+					</NavLink>
 				</li>
 				<li>
 					{/* <NavLink to='/contact' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-					<NavLink to='/contact'>Kontakt</NavLink>
+					<NavLink to='/contact' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+						Kontakt
+					</NavLink>
 				</li>
 
 				<li>
-					<NavLink to='/regulations'>Regulamin</NavLink>
+					<NavLink to='/regulations' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+						Regulamin
+					</NavLink>
 				</li>
 
 				{token && (
 					<li>
 						{/* <NavLink to='/profile' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to={`/profile/${userId}`}>Profil</NavLink>
+						<NavLink className={({ isActive }) => (isActive ? classes.active : undefined)} to={`/profile/${userId}`}>
+							Profil
+						</NavLink>
 					</li>
 				)}
 				{role === 4 && (
 					<li>
-						<NavLink to='/messages'>Wiadomości</NavLink>
+						<NavLink to='/messages' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Wiadomości
+						</NavLink>
 					</li>
 				)}
 				{token && (
 					<li>
 						{/* <NavLink to='/forum' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/forum'>Forum</NavLink>
+						<NavLink to='/forum' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Forum
+						</NavLink>
 					</li>
 				)}
 				{token && (
 					<li>
 						{/* <NavLink to='/ranking' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/ranking'>Ranking</NavLink>
+						<NavLink to='/ranking' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Ranking
+						</NavLink>
 					</li>
 				)}
 				{token && (
 					<li>
 						{/* <NavLink to='/create-team' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/create-team'>Stwórz zespół</NavLink>
+						<NavLink to='/create-team' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Stwórz zespół
+						</NavLink>
 					</li>
 				)}
 				{token && role >= 2 && (
 					<li>
-						<NavLink to='/users'>Użytkownicy</NavLink>
+						<NavLink to='/users' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Użytkownicy
+						</NavLink>
 					</li>
 				)}
 				{token && role >= 4 && (
 					<li>
-						<NavLink to='/teams'>Drużyny</NavLink>
+						<NavLink to='/teams' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Drużyny
+						</NavLink>
 					</li>
 				)}
 				{!token && (
 					<li>
 						{/* <NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/login'>Zaloguj się</NavLink>
+						<NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Zaloguj się
+						</NavLink>
 					</li>
 				)}
 				{!token && (
 					<li>
 						{/* <NavLink to='/register' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/register'>Rejestracja</NavLink>
+						<NavLink to='/register' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+							Rejestracja
+						</NavLink>
 					</li>
 				)}
 				{token && (

@@ -1,23 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import classes from './Events.module.scss'
 
-export default function Events({ events}) {
-	
+export default function Events({ events }) {
 	console.log(events)
 	return (
-		<div >
-		  <h2>All Events</h2>
-		  <ul >
-			{events.map((event) => (
-			  <li key={event._id} >
-				<Link to={`/event/${event._id}`}>
-				  <div >
-					<h3>{event.title}</h3>
-					<time>{event.date}</time>
-				  </div>
-				</Link>
-			  </li>
-			))}
-		  </ul>
+		<div className={classes.events}>
+			<h2>Wszystkie wydarzenia</h2>
+			<ul className={classes.events__list}>
+				{events
+					.filter(event => new Date(event.date).getTime() > new Date().getTime())
+					.map(event => (
+						<li key={event._id} className={classes.events__list__item}>
+							<Link to={`/event/${event._id}`}>
+								<div className={classes.events__list__item__content}>
+									<h3>{event.title}</h3>
+									<time>{new Date(event.date).toLocaleDateString()}</time>
+								</div>
+							</Link>
+						</li>
+					))}
+			</ul>
 		</div>
-	  );
+	)
 }
