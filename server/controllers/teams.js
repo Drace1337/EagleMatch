@@ -109,7 +109,9 @@ exports.getTeam = async (req, res, next) => {
 exports.updateTeam = async (req, res, next) => {
 	const teamId = req.params.teamId
 	const name = req.body.name
-	const logoUrl = req.body.logoUrl
+	const logo = req.file
+	logo.path = logo.path.replace('\\', '/')
+	console.log(teamId)
 	try {
 		const team = await Team.findById(teamId).populate('captain')
 		if (!team) {
@@ -123,7 +125,9 @@ exports.updateTeam = async (req, res, next) => {
 			throw error
 		}
 		team.name = name
-		team.logoUrl = logoUrl
+		if (logo) {
+			team.logo = logo.path
+		}
 		const result = await team.save()
 		res.status(200).json({ message: 'Team updated!', team: result })
 	} catch (err) {
@@ -215,6 +219,7 @@ exports.removeMemberFromTeam = async (req, res, next) => {
 			throw error
 		}
 		const isMember = team.members.includes(userId)
+		console.log(userId)
 		if (!isMember) {
 			const error = new Error('User is not a member of this team.')
 			error.statusCode = 403

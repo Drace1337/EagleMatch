@@ -36,19 +36,37 @@ export async function loader({ params, request }) {
 
 export async function action({ request, params }) {
 	const id = params.userId
-    console.log(id)
+	console.log(id)
 	const token = getAuthToken()
+	const teamId = JSON.parse(localStorage.getItem('userData')).team
+	switch (request.method) {
+		case 'DELETE': {
+			const response = await fetch('http://localhost:3001/auth/user/' + id, {
+				method: request.method,
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			})
 
-	const response = await fetch('http://localhost:3001/auth/user/' + id, {
-		method: request.method,
-		headers: {
-			Authorization: 'Bearer ' + token,
-		},
-	})
+			if (!response.ok) {
+				return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
+			} else {
+				return redirect('/users')
+			}
+		}
+		case 'POST': {
+			const response = await fetch('http://localhost:3001/team/team/' + teamId + '/user/' + id, {
+				method: request.method,
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			})
 
-	if (!response.ok) {
-		return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
-	} else {
-		return redirect('/users')
+			if (!response.ok) {
+				return json({ message: 'Nie udało się dodać użytkownika do drużyny' }, { status: 500 })
+			} else {
+				return redirect('/users')
+			}
+		}
 	}
 }

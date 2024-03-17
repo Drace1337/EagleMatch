@@ -81,11 +81,11 @@ exports.updateUser = async (req, res, next) => {
 	const avatar = req.file
 	avatar.path = avatar.path.replace('\\', '/')
 	const email = req.body.email
-	if (!avatar) {
-		const error = new Error('Nie znaleziono awatara.')
-		error.statusCode = 422
-		throw error
-	}
+	// if (!avatar) {
+	// 	const error = new Error('Nie znaleziono awatara.')
+	// 	error.statusCode = 422
+	// 	throw error
+	// }
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -99,7 +99,9 @@ exports.updateUser = async (req, res, next) => {
 			throw error
 		}
 		user.name = name
-		user.avatar = avatar.path
+		if (avatar) {
+			user.avatar = avatar.path
+		}
 		user.email = email
 		const result = await user.save()
 		res.status(200).json({ message: 'Użytkownik zaktualizowany!', user: result })

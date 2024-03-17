@@ -2,6 +2,7 @@ const express = require('express')
 const { body } = require('express-validator')
 const authUser = require('../middleware/authUser')
 const authAdmin = require('../middleware/authAdmin')
+const authCaptain = require('../middleware/authCaptain')
 
 const User = require('../models/user')
 const authController = require('../controllers/auth')
@@ -56,7 +57,7 @@ router.patch('/change-password/:userId', authUser, authController.changePassword
 
 router.get('/user/:userId', authUser, authController.getUser)//getowanie obrazków
 
-router.get('/users', authAdmin, authController.getUsers)
+router.get('/users', authCaptain, authController.getUsers)
 
 router.delete('/user/:userId', authAdmin, authController.deleteUser)
 

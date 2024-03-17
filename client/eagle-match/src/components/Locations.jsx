@@ -2,6 +2,7 @@ import { Form } from 'react-router-dom'
 
 export default function Locations({ locations }) {
 	console.log(locations._id)
+	const role = JSON.parse(localStorage.getItem('userData')).role
 	return (
 		// <table>
 		//     <thead>
@@ -22,9 +23,11 @@ export default function Locations({ locations }) {
 					<li key={location._id}>
 						<div>
 							<h3>{location.name}</h3>
-							<Form method='delete' action={`/venues/${location._id}`}>
-								<button>Usuń</button>
-							</Form>
+							{role === 4 && (
+								<Form method='delete' action={`/venues/${location._id}`}>
+									<button>Usuń</button>
+								</Form>
+							)}
 						</div>
 					</li>
 				))}

@@ -13,7 +13,9 @@ import UpdateProfile, { action as updateProfileAction } from './pages/UpdateProf
 import ChangePasswordPage, { action as changePasswordAction } from './pages/ChangePassword.jsx'
 import RankingPage, { loader as rankingLoader } from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction, loader as createEventLoader } from './pages/CreateEvent.jsx'
-import CreateTeam, { action as manipulateTeamAction } from './pages/CreateTeam.jsx'
+import CreateTeam from './pages/CreateTeam.jsx'
+import { action as manipulateTeamAction } from './components/TeamForm.jsx'
+import UpdateTeam from './pages/UpdateTeam.jsx'
 import MessageList, { loader as messagesLoader } from './pages/MessageList.jsx'
 import MessageDetailPage, { loader as messageDetailLoader } from './pages/MessageDetail.jsx'
 import EventPage, { loader as eventDetailLoader, action as joinEventAction } from './pages/Event.jsx'
@@ -31,6 +33,7 @@ import TeamList, { loader as teamListLoader } from './pages/TeamList.jsx'
 import ChangeTeamStats, { action as changeTeamStatsAction } from './pages/ChangeTeamStats.jsx'
 import { action as deleteLocationAction } from './util/deleteLocation.js'
 import { action as deleteReplyAction } from './util/deleteReply.js'
+import { action as removeTeamMember } from './util/removeTeamMember.js'
 
 const router = createBrowserRouter([
 	{
@@ -77,6 +80,7 @@ const router = createBrowserRouter([
 			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
 			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction, loader: createEventLoader }, // działa
 			{ path: 'create-team', element: <CreateTeam />, action: manipulateTeamAction }, //nie działa
+			{ path: 'team/:teamId/update', element: <UpdateTeam />, action: manipulateTeamAction }, //nie działa
 			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader, action: joinEventAction },
 			{ path: 'post/:postId', element: <PostDetailPage />, loader: postDetailLoader, action: sendMessage },
 			{ path: 'team/:teamId', element: <TeamDetailPage />, loader: teamDetailLoader, action: teamDetailAction },
@@ -88,8 +92,9 @@ const router = createBrowserRouter([
 			},
 			{ path: 'venues/create-location', element: <CreateLocation />, action: createLocationAction }, //działa
 			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
-			{path: 'venues/:locationId', action: deleteLocationAction},
-			{path: 'post/:postId/:replyId', action: deleteReplyAction},
+			{ path: 'venues/:locationId', action: deleteLocationAction },
+			{ path: 'post/:postId/:replyId', action: deleteReplyAction },
+			{ path: 'team/:teamId/:userId', action: removeTeamMember },
 			{ path: 'users', element: <UserList />, loader: userListLoader },
 			{ path: 'users/:userId', element: <UserDetail />, loader: userDetailLoader, action: manipulateUserAction },
 			{ path: 'teams', element: <TeamList />, loader: teamListLoader },
@@ -98,7 +103,6 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-	
 	return <RouterProvider router={router} />
 }
 

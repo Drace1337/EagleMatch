@@ -22,6 +22,7 @@ export default function Users({ users }) {
 						Nazwa: {user.name}
 						Rola: {user.role}
 						<Link to={`/users/${user._id}`}>Zobacz profil</Link>
+						
 					</li>
 				))}
 			</ul>
