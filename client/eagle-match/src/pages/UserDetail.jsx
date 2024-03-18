@@ -7,7 +7,7 @@ export default function UserDetail() {
 	// console.log(user)
 	return (
 		<div>
-			<h1>User Detail</h1>
+			<h2>Detale użytkownika</h2>
 			<UserItem user={user} />
 		</div>
 	)

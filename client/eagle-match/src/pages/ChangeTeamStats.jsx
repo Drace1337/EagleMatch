@@ -8,7 +8,7 @@ export default function ChangeTeamStats() {
 
 	return (
 		<div>
-			<h1>Zmień statystyki drużyny</h1>
+			
 			<TeamStatsForm team={team} />
 		</div>
 	)

@@ -27,18 +27,23 @@
 // export default Posts
 
 import { Form, Link, useRouteLoaderData, useSubmit } from 'react-router-dom'
+import classes from './Posts.module.scss'
 
 export default function Posts({ posts }) {
 	const token = useRouteLoaderData('root')
 	const submit = useSubmit()
-	
+
 	return (
-		<div>
-			<ul>
+		<div className={classes.posts}>
+			<ul className={classes.posts__list}>
 				{posts.map(post => (
-					<li key={post._id}>
-						<p>{post.title}</p>
-						<Link to={`/post/${post._id}`}>Zobacz post</Link>
+					<li key={post._id} className={classes.posts__list__item}>
+						<div className={classes.posts__list__item__text}>
+						<p>Temat: {post.title}</p>
+						</div>
+						<div className={classes.posts__list__item__link}>
+							<Link to={`/post/${post._id}`}>Zobacz post</Link>
+						</div>
 						{/* {JSON.parse(localStorage.getItem('userData')).role === 3 && (
 							<Form method='DELETE'>
 								<button >Usuń post</button>

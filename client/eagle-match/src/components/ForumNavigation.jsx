@@ -1,15 +1,16 @@
 import { NavLink, useRouteLoaderData } from 'react-router-dom';
+import classes from './SubNav.module.scss';
 
 export default function ForumNavigation() {
 
     return (
-        <nav>
-            <ul>
-                <li>
+        <nav className={classes.nav}>
+            <ul className={classes.nav__list}>
+                {/* <li>
                     <NavLink to='forum'>
                         Forum
                     </NavLink>
-                </li>
+                </li> */}
                 <li>
                     <NavLink to='create-post'>
                         Stwórz post

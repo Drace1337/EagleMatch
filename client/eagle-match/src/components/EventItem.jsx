@@ -1,5 +1,6 @@
 import Button from './UI/Button.jsx'
 import { useSubmit, useRouteLoaderData, Form } from 'react-router-dom'
+import classes from './EventItem.module.scss'
 
 export default function EventItem({ event }) {
 	const token = useRouteLoaderData('root')
@@ -8,29 +9,31 @@ export default function EventItem({ event }) {
 	console.log(role)
 
 	return (
-		<article>
-			<h1>{event.title}</h1>
-			<time>Data wydarzenia: {event.date}</time>
-			<p>Opis wydarzenia: {event.description}</p>
-			<p>Lokalizacja: {event.location}</p>
-			{event.teamOnly && <p>Zapisane drużyny:</p>}
-			{event.teamOnly && event.teams.map(team => <p>{team.name}</p>)}
-			{!event.teamOnly && <p>Zapisani gracze:</p>}
-			{!event.teamOnly && event.players.map(player => <p>{player.name}</p>)}
-			{token && role >= 2 && event.teamOnly && team != '' && (
-				<Form method='patch'>
-					<button type='submit' name='intent' value='team'>
-						Dołącz jako drużyna
-					</button>
-				</Form>
-			)}
-			{token && !event.teamOnly && (
-				<Form method='patch'>
-					<button type='submit' name='intent' value='player'>
-						Dołącz
-					</button>
-				</Form>
-			)}
-		</article>
+		<div className={classes.event}>
+			<h2>{event.title}</h2>
+			<div className={classes.event__content}>
+				<time>Data wydarzenia: {new Date(event.date).toLocaleDateString()}</time>
+				<p>Opis wydarzenia: {event.description}</p>
+				<p>Lokalizacja: {event.location}</p>
+				{event.teamOnly && <p>Zapisane drużyny:</p>}
+				{event.teamOnly && event.teams.map(team => <p>{team.name}</p>)}
+				{!event.teamOnly && <p>Zapisani gracze:</p>}
+				{!event.teamOnly && event.players.map(player => <p>{player.name}</p>)}
+				{token && role >= 2 && event.teamOnly && team != '' && (
+					<Form method='patch' className={classes.event__content__form}>
+						<button type='submit' name='intent' value='team' className={classes.event__content__form__button}>
+							Dołącz jako drużyna
+						</button>
+					</Form>
+				)}
+				{token && !event.teamOnly && (
+					<Form method='patch' className={classes.event__content__form}>
+						<button type='submit' name='intent' value='player' className={classes.event__content__form__button}>
+							Dołącz
+						</button>
+					</Form>
+				)}
+			</div>
+		</div>
 	)
 }

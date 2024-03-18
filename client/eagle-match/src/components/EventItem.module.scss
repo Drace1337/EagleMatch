@@ -1,0 +1,27 @@
+.event {
+	margin: 2rem auto;
+	min-width: 40rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	&__content {
+		font-size: 1.2rem;
+		&__form {
+			display: flex;
+			justify-content: center;
+			&__button {
+				background-color: var(--color-gray-500);
+				color: var(--color-gray-900);
+				padding: 0.5rem 1.5rem;
+				border-radius: 4px;
+				text-decoration: none;
+                
+			}
+            &__button:hover{
+                background-color: var(--color-primary-600);
+                cursor: pointer;
+            }
+		}
+	}
+}

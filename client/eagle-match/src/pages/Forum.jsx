@@ -15,7 +15,7 @@ function ForumPage() {
 
 	return (
 		<>
-			<h1>Forum</h1>
+			<h2>Forum</h2>
 			<ForumNavigation />
 			<Posts posts={posts} />
 		</>

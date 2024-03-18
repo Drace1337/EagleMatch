@@ -1,0 +1,37 @@
+.posts {
+	margin: 2rem auto;
+	min-width: 40rem;
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+		&__item {
+			display: flex;
+			justify-content: space-between;
+			width: 50%;
+			background-color: var(--color-gray-800);
+			border-radius: 4px;
+			padding: 10px 10px;
+			&__text {
+				font-size: 1.5rem;
+			}
+			&__link {
+				display: flex;
+				align-items: center;
+				a {
+					text-decoration: none;
+					color: inherit;
+					background-color: var(--color-gray-600);
+					border-radius: 4px;
+					overflow: hidden;
+					padding: 10px 10px;
+				}
+				a:hover {
+					transform: scale(1.02);
+					background-color: var(--color-gray-700);
+				}
+			}
+		}
+	}
+}
