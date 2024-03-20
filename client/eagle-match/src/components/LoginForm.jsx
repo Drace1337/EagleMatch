@@ -71,7 +71,7 @@ function Login() {
 		//     </form>
 		// </div>
 		<Form method='post' className={classes.form}>
-			<h1>Login</h1>
+			<h2>Zaloguj się</h2>
 			{data && data.errors && (
 				<ul>
 					{Object.values(data.errors).map(error => (

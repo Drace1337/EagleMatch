@@ -91,7 +91,7 @@ exports.getAllTeams = async (req, res, next) => {
 exports.getTeam = async (req, res, next) => {
 	const teamId = req.params.teamId
 	try {
-		const team = await Team.findById(teamId).populate('captain').populate('members')
+		const team = await Team.findById(teamId).populate('captain').populate('members').populate('events')
 		if (!team) {
 			const error = new Error('Could not find team.')
 			error.statusCode = 404

@@ -92,6 +92,15 @@ function Contact() {
 					<button disabled={isSubmitting}>{isSubmitting ? 'Wysyłanie...' : 'Wyślij wiadomość'}</button>
 				</div>
 			</Form>
+			<div className={classes.contact}>
+				<h2>Dodatkowy kontakt</h2>
+				<p>
+					Facebook: <span>EagleMatch</span>
+				</p>
+				<p>
+					Telefon: <span>799 149 699</span>
+				</p>
+			</div>
 		</div>
 	)
 }

@@ -1,12 +1,27 @@
 .nav {
-	max-width: 60rem;
-	margin: auto;
+	max-width: 70rem;
+	margin: 0 auto;
 	padding: 2rem;
 	display: flex;
 	justify-content: space-between;
 	&__list {
 		display: flex;
 		gap: 1rem;
+		&__login {
+			align-self: flex-end;
+		}
+		button {
+			background-color: var(--color-gray-500);
+			color: var(--color-gray-900);
+			padding: 0.5rem 1.5rem;
+			border-radius: 4px;
+			text-decoration: none;
+			border: none;
+		}
+		button:hover {
+			background-color: var(--color-primary-600);
+			cursor: pointer;
+		}
 	}
 
 	&__list a {

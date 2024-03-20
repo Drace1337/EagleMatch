@@ -16,9 +16,10 @@ export default function ProfileStruct({ user }) {
 					<div className={classes.profile__content__text}>
 						<p>Twój email: {user.email}</p>
 
-						<p>
-							Twój zespół: <Link to={`/team/${user.team._id}`}>{user.team.name}</Link>
-						</p>
+						<p>Twój zespół: {user.team && <Link to={`/team/${user.team._id}`}>{user.team.name}</Link>}</p>
+						<p>Twoje bramki: {user.goals}</p>
+						<p>Twoje asysty: {user.assists}</p>
+						<p>Twoje czyste konta: {user.cleanSheets}</p>
 					</div>
 					<div className={classes.profile__content__link}>
 						<Link to='edit-profile'>Edytuj profil</Link>

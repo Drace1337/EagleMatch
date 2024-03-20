@@ -1,10 +1,12 @@
 import { Form } from 'react-router-dom'
+import classes from './ChangeProfileForm.module.scss'
 
 export default function ChangeProfileForm({ user }) {
 	console.log(user)
 	return (
-		<div>
-			<Form method='patch' className='form'>
+		<div className={classes.content}>
+			<h2>Zmień statystyki użytkownika</h2>
+			<Form method='patch' className={classes.form}>
 				<p>
 					<label htmlFor='role'>Rola:</label>
 					<input type='number' id='role' name='role' defaultValue={user.roles} />
@@ -21,7 +23,7 @@ export default function ChangeProfileForm({ user }) {
 					<label htmlFor='clean-sheets'>Czyste konta:</label>
 					<input type='number' id='clean-sheets' name='clean-sheets' defaultValue={user.cleanSheets} />
 				</p>
-				<div>
+				<div className={classes.form__actions}>
 					<button>Zapisz</button>
 				</div>
 			</Form>

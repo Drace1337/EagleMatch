@@ -6,6 +6,7 @@ export default function EventItem({ event }) {
 	const token = useRouteLoaderData('root')
 	const role = JSON.parse(localStorage.getItem('userData')).role
 	const team = JSON.parse(localStorage.getItem('userData')).team
+	const id = JSON.parse(localStorage.getItem('userData')).userId
 	console.log(role)
 
 	return (
@@ -26,7 +27,7 @@ export default function EventItem({ event }) {
 						</button>
 					</Form>
 				)}
-				{token && !event.teamOnly && (
+				{token && event.players.includes(id) && !event.teamOnly && (
 					<Form method='patch' className={classes.event__content__form}>
 						<button type='submit' name='intent' value='player' className={classes.event__content__form__button}>
 							Dołącz

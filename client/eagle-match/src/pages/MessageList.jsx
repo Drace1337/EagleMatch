@@ -11,11 +11,8 @@ function MessageList() {
 
 	const messages = data.messages
 
-
 	return (
 		<>
-			<h1>Messages</h1>
-
 			<Messages messages={messages} />
 		</>
 	)
@@ -24,7 +21,6 @@ function MessageList() {
 export default MessageList
 
 export async function loader({ request }) {
-
 	const response = await fetch('http://localhost:3001/messages/messages', {
 		headers: {
 			Authorization: 'Bearer ' + getAuthToken(request),

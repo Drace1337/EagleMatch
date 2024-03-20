@@ -62,7 +62,7 @@ function RegisterForm() {
 		//     </form>
 		// </div>
 		<Form method='put' className={classes.form}>
-			<h1>Register</h1>
+			<h2>Zarejestruj się</h2>
 			{data && data.errors && (
 				<ul>
 					{Object.values(data.errors).map(error => (
@@ -81,7 +81,7 @@ function RegisterForm() {
 			</p>
 			<p>
 				<label htmlFor='password'>Hasło</label>
-				<input id='password' type='password' name='password' className={classes.form__input} required />
+				<input id='password' type='password' name='password' className={classes.form__input} required minLength={5} />
 			</p>
 			<p>
 				<label htmlFor='regulations'>

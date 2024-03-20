@@ -9,7 +9,6 @@ export default function TeamList() {
 
 	return (
 		<>
-			<h1>Drużyny</h1>
 			<Teams teams={teams} />
 		</>
 	)

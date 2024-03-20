@@ -71,16 +71,14 @@ export default function EventForm({ locations }) {
 					<label htmlFor='title'>Tytuł</label>
 					<input id='title' type='name' name='title' required className={classes.form__input} />
 				</p>
-				<p>
-					Czy wydarzenie to mecz?
+				<div className={classes.form__div}>
+					<label htmlFor='is_match'>Wydarzenie jest meczem</label>
 					<input id='is_match' type='checkbox' name='is_match' />
-					<label htmlFor='is_match'>Tak</label>
-				</p>
-				<p>
-					Czy wydarzenie jest tylko dla drużyn?
+				</div>
+				<div className={classes.form__div}>
+					<label htmlFor='team_only'>Wydarzenie jest tylko dla drużyn</label>
 					<input id='team_only' type='checkbox' name='team_only' />
-					<label htmlFor='team_only'>Tak</label>
-				</p>
+				</div>
 				<label htmlFor='location'>Lokalizacja:</label>
 				<select name='location' id='location'>
 					{locations.map(location => (
@@ -105,14 +103,14 @@ export default function EventForm({ locations }) {
 					<label htmlFor='description'>Opis wydarzenia:</label>
 					<textarea id='description' name='description' required className={classes.form__input} />
 				</p>
-				<p>
-					<label htmlFor='confirmation_required'>Czy wymagane jest potwierdzenie uczestnictwa?</label>
+				<div className={classes.form__div}>
+					<label htmlFor='confirmation_required'>Wymagane potwierdzenie uczestnictwa</label>
 					<input id='confirmation_required' type='checkbox' name='confirmation_required' />
-				</p>
-				<p>
-					<label htmlFor='is_private'>Czy wydarzenie jest prywatne?</label>
+				</div>
+				<div className={classes.form__div}>
+					<label htmlFor='is_private'>Wydarzenie jest prywatne</label>
 					<input id='is_private' type='checkbox' name='is_private' />
-				</p>
+				</div>
 				<div className={classes.form__actions}>
 					<button type='submit' disabled={isSubmitting}>
 						{isSubmitting ? 'Tworzenie...' : 'Utwórz wydarzenie'}

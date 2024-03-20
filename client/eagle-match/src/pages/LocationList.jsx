@@ -10,6 +10,7 @@ function LocationList() {
 	// 	return <p>{data.message}</p>
 	// }
 	const role = JSON.parse(localStorage.getItem('userData')).role
+	const token = getAuthToken()
 	console.log(role)
 
 	const locations = data.locations
@@ -17,7 +18,7 @@ function LocationList() {
 	return (
 		<div className={classes.content}>
 			<h2>Lokalizacje</h2>
-			{role === 4 && (
+			{token && role === 4 && (
 				<Link to='create-location' className={classes.content__link}>
 					Dodaj lokalizację
 				</Link>

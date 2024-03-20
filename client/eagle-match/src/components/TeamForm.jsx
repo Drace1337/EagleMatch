@@ -49,8 +49,8 @@ function TeamForm({ method }) {
 
 	return (
 		<div className={classes.content}>
-			{method === 'post' && <h2>Stwórz drużyne</h2>}
-			{method === 'patch' && <h2>Aktualizuj drużyne</h2>}
+			{method === 'post' && <h2>Stwórz drużynę</h2>}
+			{method === 'put' && <h2>Aktualizuj drużynę</h2>}
 			{/* <form onSubmit={handleSubmit}>
                 <Input
                     label='Team Name'

@@ -40,7 +40,7 @@ export default function MainNavigation() {
 						</NavLink>
 					</li>
 				)}
-				{role === 4 && (
+				{token && role >= 4 && (
 					<li>
 						<NavLink to='/messages' className={({ isActive }) => (isActive ? classes.active : undefined)}>
 							Wiadomości
@@ -88,7 +88,9 @@ export default function MainNavigation() {
 				{!token && (
 					<li>
 						{/* <NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}> */}
-						<NavLink to='/login' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+						<NavLink
+							to='/login'
+							className={`${({ isActive }) => (isActive ? classes.active : undefined)} ${classes.nav__list__login}`}>
 							Zaloguj się
 						</NavLink>
 					</li>

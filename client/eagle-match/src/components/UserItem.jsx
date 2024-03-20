@@ -21,10 +21,9 @@ export default function UserItem({ user }) {
 	}
 	return (
 		<article className={classes.user}>
-			
 			<div className={classes.user__text}>
 				<p>Nazwa: {user.user.name}</p>
-				<p>Rola: {user.user.roles}</p>
+				{/* <p>Rola: {user.user.roles}</p> */}
 				<p>Gole: {user.user.goals}</p>
 				<p>Asysty: {user.user.assists}</p>
 				<p>Czyste konta: {user.user.cleanSheets}</p>
@@ -36,7 +35,7 @@ export default function UserItem({ user }) {
 						<Link to='change-player-info'>Zmień rolę i statystyki</Link>
 					</div>
 				)}
-				{role === 2 && team && <button onClick={startAddHandler}>Dodaj do drużyny</button>}
+				{role >= 2 && team && <button onClick={startAddHandler}>Dodaj do drużyny</button>}
 			</div>
 		</article>
 	)

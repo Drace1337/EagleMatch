@@ -1,4 +1,5 @@
 import { useRouteLoaderData } from 'react-router-dom'
+import classes from './RankingItem.module.scss'
 
 export default function RankingItem({ ranking, type }) {
 	// ranking.users.forEach(user => {
@@ -8,14 +9,15 @@ export default function RankingItem({ ranking, type }) {
 
 	console.log(ranking)
 	return (
-		<div>
+		<div className={classes.ranking__items}>
 			<ul>
 				{type === 'goals' &&
 					ranking.users.map(user => (
 						<li key={user.id}>
 							<div>
-								<h3>{user.name}</h3>
-								<p>{user.goals}</p>
+								<p>
+									{user.name} Liczba bramek: {user.goals}
+								</p>
 							</div>
 						</li>
 					))}
@@ -24,8 +26,9 @@ export default function RankingItem({ ranking, type }) {
 					ranking.users.map(user => (
 						<li key={user.id}>
 							<div>
-								<h3>{user.name}</h3>
-								<p>{user.assists}</p>
+								<p>
+									{user.name} Liczba asyst: {user.assists}
+								</p>
 							</div>
 						</li>
 					))}
@@ -33,8 +36,9 @@ export default function RankingItem({ ranking, type }) {
 					ranking.users.map(user => (
 						<li key={user.id}>
 							<div>
-								<h3>{user.name}</h3>
-								<p>{user.cleanSheets}</p>
+								<p>
+									{user.name} Liczba czystych kont: {user.cleanSheets}
+								</p>
 							</div>
 						</li>
 					))}
@@ -42,8 +46,9 @@ export default function RankingItem({ ranking, type }) {
 					ranking.teams.map(team => (
 						<li key={team.id}>
 							<div>
-								<h3>{team.name}</h3>
-								<p>{team.points}</p>
+								<p>
+									{team.name} Liczba punktów zespołu: {team.points}
+								</p>
 							</div>
 						</li>
 					))}

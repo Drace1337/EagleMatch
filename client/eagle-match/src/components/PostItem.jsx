@@ -20,6 +20,7 @@
 
 import { useSubmit, useRouteLoaderData, Form, json } from 'react-router-dom'
 import { getAuthToken } from '../util/auth.js'
+import classes from './PostItem.module.scss'
 
 export default function PostItem({ post, replies }) {
 	// console.log(post.author)
@@ -32,26 +33,31 @@ export default function PostItem({ post, replies }) {
 	}
 	return (
 		<>
-			<article>
-				<h1>{post.title}</h1>
-				<p>{post.author.name}</p>
-				<p>{post.content}</p>
-				{JSON.parse(localStorage.getItem('userData')).role === 3 && (
-					<button onClick={startDeleteHandler}>Usuń post</button>
-				)}
+			<article className={classes.post}>
+				<div className={classes.post__content}>
+					<h2>Temat posta: {post.title}</h2>
+					<p>Autor: {post.author.name}</p>
+					<p>Treść: </p>
+					<p>{post.content}</p>
+					{JSON.parse(localStorage.getItem('userData')).role === 3 && (
+						<button onClick={startDeleteHandler}>Usuń post</button>
+					)}
+				</div>
+				<div className={classes.post__comment}>
+					<Form method='post' className={classes.post__comment__form}>
+						<label htmlFor='reply'>Skomentuj post:</label>
 
-				<Form method='post'>
-					<label htmlFor='reply'>Skomentuj post:</label>
-					<textarea id='reply' name='reply'></textarea>
-					<button>Wyślij</button>
-				</Form>
+						<textarea id='reply' name='reply'></textarea>
+						<button>Wyślij</button>
+					</Form>
+				</div>
 			</article>
-			<div>
-				<h2>Komentarze:</h2>
+			<div className={classes.comments}>
+				<h3>Komentarze:</h3>
 				{replies.post === post._id ? (
 					<p>Brak komentarzy</p>
 				) : (
-					<ul>
+					<ul className={classes.comments__list}>
 						{/* {post.replies.map(comment => (
 							<li key={comment._id}>
 								<p>{comment.comment}</p>
@@ -59,12 +65,18 @@ export default function PostItem({ post, replies }) {
 							</li>
 						))} */}
 						{replies.map(reply => (
-							<li key={reply._id}>
-								<p>{reply.comment}</p>
-								<p>{reply.author.name}</p>
-								<Form method='delete' action={`/post/${post._id}/${reply._id}`}>
-									<button>Usuń komentarz</button>
-								</Form>
+							<li key={reply._id} className={classes.comments__list__item}>
+								<div className={classes.comments__list__item__content}>
+									<p>{reply.author.name}</p>
+									<p>{reply.comment}</p>
+								</div>
+								{JSON.parse(localStorage.getItem('userData')).role === 3 && (
+									<div className={classes.comments__list__item__action}>
+										<Form method='delete' action={`/post/${post._id}/${reply._id}`}>
+											<button>Usuń komentarz</button>
+										</Form>
+									</div>
+								)}
 							</li>
 						))}
 					</ul>

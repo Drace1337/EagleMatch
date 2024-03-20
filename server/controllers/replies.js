@@ -13,7 +13,7 @@ exports.getReplies = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		const replies = await Reply.find({ post: postId }).populate('author').sort({ createdAt: -1 })
+		const replies = await Reply.find({ post: postId }).populate('author').sort({ createdAt: 1 })
 		res.status(200).json({
 			message: 'Fetched replies successfully.',
 			replies: replies,

@@ -13,7 +13,6 @@ function HomePage() {
 
 	return (
 		<div className={classes.content}>
-			<h1>Home</h1>
 			<EventsNavigation />
 			<Events events={events} />
 		</div>

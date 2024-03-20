@@ -7,7 +7,6 @@ export default function ChangePlayerInfo() {
 	const user = data.user
 	return (
 		<div>
-			<h1>Change player info</h1>
 			<ChangeProfileForm user={user} />
 		</div>
 	)
