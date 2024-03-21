@@ -1,10 +1,10 @@
 import { Link, useSubmit } from 'react-router-dom'
 import classes from './UserItem.module.scss'
+import { getAuthToken } from '../util/auth'
 
 export default function UserItem({ user }) {
-	console.log(user.user)
-	const role = JSON.parse(localStorage.getItem('userData')).role
-	const team = JSON.parse(localStorage.getItem('userData')).team
+	const role = JSON.parse(getAuthToken()).role
+	const team = JSON.parse(getAuthToken()).team
 
 	const submit = useSubmit()
 	function startDeleteHandler() {
@@ -23,7 +23,6 @@ export default function UserItem({ user }) {
 		<article className={classes.user}>
 			<div className={classes.user__text}>
 				<p>Nazwa: {user.user.name}</p>
-				{/* <p>Rola: {user.user.roles}</p> */}
 				<p>Gole: {user.user.goals}</p>
 				<p>Asysty: {user.user.assists}</p>
 				<p>Czyste konta: {user.user.cleanSheets}</p>

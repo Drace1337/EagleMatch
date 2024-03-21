@@ -12,14 +12,14 @@ export async function loader({ request, params }) {
 
 	const response = await fetch('http://localhost:3001/auth/user/' + id,{
         headers: {
-            'Authorization': "Bearer " + getAuthToken(request),
+            'Authorization': "Bearer " + JSON.parse(getAuthToken(request)).token,
         },
     })
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się załadować użytkownika.' }, { status: 500 })
+		throw json({ message: 'Nie udało się załadować użytkownika.' }, { status: 500 })
 	} else {
-		console.log(response)
+		
 		return response
 	}
 }

@@ -11,7 +11,7 @@ import { action as logoutAction } from './pages/Logout.jsx'
 import ProfilePage, { loader as profileLoader } from './pages/Profile.jsx'
 import UpdateProfile, { action as updateProfileAction } from './pages/UpdateProfile.jsx'
 import ChangePasswordPage, { action as changePasswordAction } from './pages/ChangePassword.jsx'
-import RankingPage, { loader as rankingLoader } from './pages/Ranking.jsx'
+import RankingPage from './pages/Ranking.jsx'
 import CreateEventPage, { action as createEventAction, loader as createEventLoader } from './pages/CreateEvent.jsx'
 import CreateTeam from './pages/CreateTeam.jsx'
 import { action as manipulateTeamAction } from './components/TeamForm.jsx'
@@ -23,7 +23,7 @@ import PostDetailPage, { loader as postDetailLoader, action as sendMessage } fro
 import TeamDetailPage, { loader as teamDetailLoader, action as teamDetailAction } from './pages/TeamDetail.jsx'
 import RootLayout from './pages/Root.jsx'
 import ErrorPage from './pages/Error.jsx'
-import { tokenLoader, checkAuthLoader } from './util/auth.js'
+import { tokenLoader } from './util/auth.js'
 import CreateLocation, { action as createLocationAction } from './pages/CreateLocation.jsx'
 import LocationList, { loader as locationLoader } from './pages/LocationList.jsx'
 import ChangePlayerInfo, { action as changeStatsAction } from './pages/ChangePlayerInfo.jsx'
@@ -46,58 +46,113 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <HomePage />,
-				loader: eventsLoader, //działa
+				errorElement: <ErrorPage />,
+				loader: eventsLoader,
 			},
-			{ path: 'regulations', element: <RegulationsPage /> }, //działa
-			{ path: 'contact', element: <ContactPage />, action: contactAction },
-			{ path: 'forum', element: <ForumPage />, loader: forumLoader },
-			{ path: 'forum/create-post', element: <CreatePost />, action: createPostAction },
-			{ path: 'login', element: <LoginPage />, action: loginAction },
-			{ path: 'register', element: <RegisterPage />, action: registerAction },
-			{ path: 'logout', action: logoutAction },
+			{ path: 'regulations', element: <RegulationsPage />, errorElement: <ErrorPage /> },
+			{ path: 'contact', element: <ContactPage />, action: contactAction, errorElement: <ErrorPage /> },
+			{ path: 'forum', element: <ForumPage />, loader: forumLoader, errorElement: <ErrorPage /> },
+			{ path: 'forum/create-post', element: <CreatePost />, action: createPostAction, errorElement: <ErrorPage /> },
+			{ path: 'login', element: <LoginPage />, action: loginAction, errorElement: <ErrorPage /> },
+			{ path: 'register', element: <RegisterPage />, action: registerAction, errorElement: <ErrorPage /> },
+			{ path: 'logout', action: logoutAction, errorElement: <ErrorPage /> },
 			{
 				path: 'profile/:id',
 				element: <ProfilePage />,
 				loader: profileLoader,
 				id: 'profile',
-				children: [],
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: 'users/:id/change-player-info',
 				element: <ChangePlayerInfo />,
 				action: changeStatsAction,
 				loader: profileLoader,
+
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: 'profile/:id/edit-profile',
 				element: <UpdateProfile />,
 				action: updateProfileAction,
 				loader: profileLoader,
+				errorElement: <ErrorPage />,
 			},
-			{ path: 'profile/:id/change-password', element: <ChangePasswordPage />, action: changePasswordAction },
+			{
+				path: 'profile/:id/change-password',
+				element: <ChangePasswordPage />,
+				action: changePasswordAction,
+				errorElement: <ErrorPage />,
+			},
 			{ path: 'messages', element: <MessageList />, loader: messagesLoader },
-			{ path: 'messages/:messageId', element: <MessageDetailPage />, loader: messageDetailLoader },
-			{ path: 'ranking', element: <RankingPage />, loader: rankingLoader },
-			{ path: 'create-event', element: <CreateEventPage />, action: createEventAction, loader: createEventLoader }, // działa
-			{ path: 'create-team', element: <CreateTeam />, action: manipulateTeamAction }, //nie działa
-			{ path: 'team/:teamId/update', element: <UpdateTeam />, action: manipulateTeamAction }, //nie działa
-			{ path: 'event/:eventId', element: <EventPage />, loader: eventDetailLoader, action: joinEventAction },
-			{ path: 'post/:postId', element: <PostDetailPage />, loader: postDetailLoader, action: sendMessage },
-			{ path: 'team/:teamId', element: <TeamDetailPage />, loader: teamDetailLoader, action: teamDetailAction },
+			{
+				path: 'messages/:messageId',
+				element: <MessageDetailPage />,
+				loader: messageDetailLoader,
+				errorElement: <ErrorPage />,
+			},
+			{ path: 'ranking', element: <RankingPage /> },
+			{
+				path: 'create-event',
+				element: <CreateEventPage />,
+				action: createEventAction,
+				loader: createEventLoader,
+				errorElement: <ErrorPage />,
+			},
+			{ path: 'create-team', element: <CreateTeam />, action: manipulateTeamAction, errorElement: <ErrorPage /> },
+			{
+				path: 'team/:teamId/update',
+				element: <UpdateTeam />,
+				action: manipulateTeamAction,
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: 'event/:eventId',
+				element: <EventPage />,
+				loader: eventDetailLoader,
+				action: joinEventAction,
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: 'post/:postId',
+				element: <PostDetailPage />,
+				loader: postDetailLoader,
+				action: sendMessage,
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: 'team/:teamId',
+				element: <TeamDetailPage />,
+				loader: teamDetailLoader,
+				action: teamDetailAction,
+				errorElement: <ErrorPage />,
+			},
 			{
 				path: 'team/:teamId/edit',
 				element: <ChangeTeamStats />,
 				action: changeTeamStatsAction,
 				loader: teamDetailLoader,
+				errorElement: <ErrorPage />,
 			},
-			{ path: 'venues/create-location', element: <CreateLocation />, action: createLocationAction }, //działa
-			{ path: 'venues', element: <LocationList />, loader: locationLoader }, //działa
-			{ path: 'venues/:locationId', action: deleteLocationAction },
-			{ path: 'post/:postId/:replyId', action: deleteReplyAction },
-			{ path: 'team/:teamId/:userId', action: removeTeamMember },
-			{ path: 'users', element: <UserList />, loader: userListLoader },
-			{ path: 'users/:userId', element: <UserDetail />, loader: userDetailLoader, action: manipulateUserAction },
-			{ path: 'teams', element: <TeamList />, loader: teamListLoader },
+			{
+				path: 'venues/create-location',
+				element: <CreateLocation />,
+				action: createLocationAction,
+				errorElement: <ErrorPage />,
+			},
+			{ path: 'venues', element: <LocationList />, loader: locationLoader, errorElement: <ErrorPage /> },
+			{ path: 'venues/:locationId', action: deleteLocationAction, errorElement: <ErrorPage /> },
+			{ path: 'post/:postId/:replyId', action: deleteReplyAction, errorElement: <ErrorPage /> },
+			{ path: 'team/:teamId/:userId', action: removeTeamMember, errorElement: <ErrorPage /> },
+			{ path: 'users', element: <UserList />, loader: userListLoader, errorElement: <ErrorPage /> },
+			{
+				path: 'users/:userId',
+				element: <UserDetail />,
+				loader: userDetailLoader,
+				action: manipulateUserAction,
+				errorElement: <ErrorPage />,
+			},
+			{ path: 'teams', element: <TeamList />, loader: teamListLoader, errorElement: <ErrorPage /> },
 		],
 	},
 ])

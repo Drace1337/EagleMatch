@@ -15,7 +15,6 @@ export default function ChangePlayerInfo() {
 export async function action({ request, params }) {
 	const data = await request.formData()
 	const id = params.id
-	console.log(id)
 
 	const userData = {
 		role: data.get('role'),
@@ -28,13 +27,13 @@ export async function action({ request, params }) {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 		body: JSON.stringify(userData),
 	})
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się zaktualizować profilu' }, { status: 500 })
+		throw json({ message: 'Nie udało się zaktualizować profilu' }, { status: 500 })
 	}
 
 	return redirect('/users')

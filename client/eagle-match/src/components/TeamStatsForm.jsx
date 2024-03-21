@@ -5,7 +5,6 @@ import classes from './Form.module.scss'
 export default function TeamStatsForm({ team }) {
 	const navigation = useNavigation()
 	const isSubmitting = navigation.state === 'submitting'
-	console.log(team)
 
 	return (
 		<div className={classes.content}>

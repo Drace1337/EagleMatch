@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom'
 import { Form } from 'react-router-dom'
 import { useSubmit } from 'react-router-dom'
 import classes from './TeamItem.module.scss'
+import { getAuthToken } from '../util/auth'
 
 export default function TeamItem({ team }) {
-	console.log(team.members)
+	const role = JSON.parse(getAuthToken()).role
+	const userId = JSON.parse(getAuthToken()).userId
 	const logoPath = `http://localhost:3001/${team.logo}`
 	const submit = useSubmit()
 	function startDeleteHandler() {
-		const proceed = window.confirm('Are you sure?')
+		const proceed = window.confirm('Czy na pewno chcesz usunąć użytkownika?')
 		if (proceed) {
 			submit(null, { method: 'delete-user' })
 		}
@@ -37,7 +39,7 @@ export default function TeamItem({ team }) {
 								<td className={classes.members__button}>
 									{team.captain._id !== member._id && (
 										<Form method='delete-user' action={`/team/${team._id}/${member._id}`}>
-											<button>Usuń gracza z drużyny</button>
+											<button onClick={startDeleteHandler}>Usuń gracza z drużyny</button>
 										</Form>
 									)}
 								</td>
@@ -46,21 +48,20 @@ export default function TeamItem({ team }) {
 					})}
 				</tbody>
 			</table>
-			{JSON.parse(localStorage.getItem('userData')).role >= 2 && (
+			{role >= 2 && (
 				
 					<div className={classes.links}>
-						{team.captain._id === JSON.parse(localStorage.getItem('userData')).userId && (
+						{team.captain._id === userId && (
 							<Link to='/users'>Dodaj użytkownika</Link>
 						)}
 
 						<Form method='delete-team'>
 							<button>Usuń drużynę</button>
 						</Form>
-						{/* <button>Zaktualizuj dane</button> */}
-						{team.captain._id === JSON.parse(localStorage.getItem('userData')).userId && (
+						{team.captain._id === userId && (
 							<Link to='update'>Zaktualizuj dane</Link>
 						)}
-						{JSON.parse(localStorage.getItem('userData')).role === 4 && <Link to='edit'>Edytuj statystyki</Link>}
+						{role === 4 && <Link to='edit'>Edytuj statystyki</Link>}
 					</div>
 				
 			)}

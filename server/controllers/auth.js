@@ -17,7 +17,6 @@ exports.register = async (req, res, next) => {
 	const email = req.body.email
 	const name = req.body.name
 	const password = req.body.password
-	const isRegulationAccepted = req.body.isRegulationAccepted
 	try {
 		const hashedPw = await bcrypt.hash(password, 12)
 		const user = new User({
@@ -64,7 +63,6 @@ exports.login = async (req, res, next) => {
 			process.env.JWT_PRIVATE_KEY,
 			{ expiresIn: process.env.JWT_EXPIRY }
 		)
-		console.log('logowanie', loadedUser.team)
 		res
 			.status(200)
 			.json({ token: token, userId: loadedUser._id.toString(), role: loadedUser.roles, team: loadedUser.team })
@@ -81,11 +79,6 @@ exports.updateUser = async (req, res, next) => {
 	const avatar = req.file
 	avatar.path = avatar.path.replace('\\', '/')
 	const email = req.body.email
-	// if (!avatar) {
-	// 	const error = new Error('Nie znaleziono awatara.')
-	// 	error.statusCode = 422
-	// 	throw error
-	// }
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -165,7 +158,6 @@ exports.getUser = async (req, res, next) => {
 }
 exports.deleteUser = async (req, res, next) => {
 	const userId = req.params.userId
-	console.log(req.params)
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -173,13 +165,7 @@ exports.deleteUser = async (req, res, next) => {
 			error.statusCode = 404
 			throw error
 		}
-		// if (user.userId.toString() !== req.userId) {
-		// 	const error = new Error('Brak autoryzacji!')
-		// 	error.statusCode = 403
-		// 	throw error
-		// }
 		const deletedUser = await User.findByIdAndDelete(userId)
-		console.log(deletedUser)
 		const team = deletedUser.team
 		await Team.findByIdAndUpdate(team, { $pull: { members: userId } })
 		res.status(200).json({ message: 'Użytkownik usunięty.' })
@@ -207,7 +193,6 @@ exports.updateUserStats = async (req, res, next) => {
 	const goals = req.body.goals
 	const assists = req.body.assists
 	const cleanSheets = req.body.cleanSheets
-	console.log(req)
 	try {
 		const user = await User.findById(userId)
 		if (!user) {
@@ -225,7 +210,6 @@ exports.updateUserStats = async (req, res, next) => {
 		user.assists = assists
 		user.cleanSheets = cleanSheets
 		await User.findByIdAndUpdate(userId, { roles: role, goals: goals, assists: assists, cleanSheets: cleanSheets })
-		// const result = await user.save()
 		res.status(200).json({ message: 'Statystyki użytkownika zaktualizowane!' })
 	} catch (err) {
 		if (!err.statusCode) {

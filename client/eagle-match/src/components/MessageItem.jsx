@@ -1,7 +1,6 @@
 import classes from './MessageItem.module.scss'
 
 export default function MessageItem({ message }) {
-	console.log(message)
 	return (
 		<article className={classes.message}>
 			<h2>Temat wiadomości: {message.topic}</h2>

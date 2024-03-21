@@ -6,7 +6,7 @@ import { useState } from 'react'
 export default function PasswordForm() {
 	const navigation = useNavigation()
 	const navigate = useNavigate()
-	const id = JSON.parse(localStorage.getItem('userData')).userId
+	const id = JSON.parse(localStorage.getItem('token')).userId
 	function cancelHandler() {
 		navigate(`/profile/${id}`)
 	}
@@ -18,11 +18,6 @@ export default function PasswordForm() {
 		password: false,
 		name: false,
 	})
-
-	// function handleSubmit(event) {
-	//     event.preventDefault();
-	//     console.log(enteredValues.email, enteredValues.password, enteredValues.name);
-	// }
 
 	function handleInputChange(identifier, value) {
 		setEnteredValues(prevValues => {
@@ -38,10 +33,6 @@ export default function PasswordForm() {
 			}
 		})
 	}
-
-	// const emailIsInvalid = didEdit.email && isEmail(enteredValues.email) && isNotEmpty(enteredValues.email);
-	// const passwordIsInvalid = didEdit.password && hasMinLength(enteredValues.password, 6) && isNotEmpty(enteredValues.password);
-	// const nameIsInvalid = didEdit.name && isNotEmpty(enteredValues.name) && hasMinLength(enteredValues.name, 3);
 
 	function handleInputBlur(identifier) {
 		setDidEdit(prevDidEdit => {

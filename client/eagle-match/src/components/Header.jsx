@@ -5,7 +5,6 @@ function Header() {
 	return (
 		<header>
 			<div className={classes.hero} id='title'>
-				{/* <img src={logoImg} alt='Eagle Match' /> */}
 				<div className={classes.hero__text}>
 					<h1>Eagle Match</h1>
 				</div>

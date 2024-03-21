@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import classes from './Profile.module.scss'
 
 export default function ProfileStruct({ user }) {
-	// console.log(user._id)
 	const imgPath = `http://localhost:3001/${user.avatar}`
 	return (
 		<>

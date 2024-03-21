@@ -59,7 +59,6 @@ exports.createReply = async (req, res, next) => {
 
 exports.deleteReply = async (req, res, next) => {
 	const replyId = req.params.replyId
-	console.log(req.params)
 	try {
 		const reply = await Reply.findById(replyId)
 		if (!reply) {
@@ -75,9 +74,6 @@ exports.deleteReply = async (req, res, next) => {
 		await Reply.findByIdAndDelete(replyId)
 		await Post.findByIdAndUpdate(reply.post, { $pull: { replies: replyId } })
 		await User.findByIdAndUpdate(reply.author, { $pull: { replies: replyId } })
-		// const user = await User.findById(req.userId)
-		// user.replies.pull(replyId)
-		// await user.save()
 		res.status(200).json({ message: 'Reply deleted successfully!' })
 	} catch (err) {
 		if (!err.statusCode) {

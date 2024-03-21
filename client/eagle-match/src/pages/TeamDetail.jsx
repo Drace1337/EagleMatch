@@ -19,11 +19,11 @@ export async function loader({ request, params }) {
 
 	const response = await fetch('http://localhost:3001/team/team/' + id, {
 		headers: {
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token
 		},
 	})
 	if (!response.ok) {
-		return json({ message: 'Nie udało się załadować drużyny' }, { status: 500 })
+		throw json({ message: 'Nie udało się załadować drużyny' }, { status: 500 })
 	} else {
 		return response
 	}
@@ -31,18 +31,16 @@ export async function loader({ request, params }) {
 
 export async function action({ request, params }) {
 	const id = params.teamId
-	console.log(params)
-	console.log(request.method)
 	switch (request.method) {
 		case 'DELETE-TEAM': {
 			const response = await fetch('http://localhost:3001/team/team/' + id, {
 				method: 'DELETE',
 				headers: {
-					Authorization: 'Bearer ' + getAuthToken(request),
+					Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 				},
 			})
 			if (!response.ok) {
-				return json({ message: 'Nie udało się usunąć drużyny' }, { status: 500 })
+				throw json({ message: 'Nie udało się usunąć drużyny' }, { status: 500 })
 			} else {
 				return redirect('/')
 			}

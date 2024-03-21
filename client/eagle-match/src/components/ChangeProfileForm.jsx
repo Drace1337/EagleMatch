@@ -2,7 +2,6 @@ import { Form } from 'react-router-dom'
 import classes from './ChangeProfileForm.module.scss'
 
 export default function ChangeProfileForm({ user }) {
-	console.log(user)
 	return (
 		<div className={classes.content}>
 			<h2>Zmień statystyki użytkownika</h2>

@@ -1,4 +1,4 @@
-import { json, useLoaderData, redirect, Link } from 'react-router-dom'
+import { json, useLoaderData, Link } from 'react-router-dom'
 
 import Locations from '../components/Locations.jsx'
 import { getAuthToken } from '../util/auth.js'
@@ -9,9 +9,8 @@ function LocationList() {
 	// if (data.isError) {
 	// 	return <p>{data.message}</p>
 	// }
-	const role = JSON.parse(localStorage.getItem('userData')).role
-	const token = getAuthToken()
-	console.log(role)
+	const role = JSON.parse(getAuthToken()).role
+	const token = JSON.parse(getAuthToken()).token
 
 	const locations = data.locations
 
@@ -34,7 +33,7 @@ export async function loader() {
 	const response = await fetch('http://localhost:3001/location/locations')
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się załadować lokalizacji.' }, { status: 500 })
+		throw json({ message: 'Nie udało się załadować lokalizacji.' }, { status: 500 })
 	} else {
 		return response
 	}

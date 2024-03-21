@@ -7,9 +7,6 @@ export default function EventsNavigation() {
 	return (
 		<nav className={classes.nav}>
 			<ul className={classes.nav__list}>
-				{/* <li>
-					<NavLink to='/'>Wydarzenia</NavLink>
-				</li> */}
 				{token && (
 					<li>
 						<NavLink to='/create-event' className={({ isActive }) => (isActive ? classes.active : undefined)}>

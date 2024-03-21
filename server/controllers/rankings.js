@@ -35,7 +35,6 @@ exports.getCleanSheetsRanking = async (req, res, next) => {
     }
 }
 exports.getTeamsRanking = async (req, res, next) => {
-    console.log('hej')
     try {
         const teams = await Team.find({}, 'name points').sort({ points: -1 });
         res.status(200).json({ message: 'Fetched teams ranking.', teams: teams });

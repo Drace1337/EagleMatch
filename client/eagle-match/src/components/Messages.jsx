@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import classes from './Messages.module.scss'
 
 export default function Messages({ messages }) {
-	console.log(messages)
 	return (
 		<div className={classes.messages}>
 			<h2>Wiadomości</h2>

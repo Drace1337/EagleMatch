@@ -34,9 +34,6 @@ router.get('/team/:teamId', teamController.getTeam);
 
 router.post('/team', upload.single('logo'), authUser, teamController.createTeam);
 
-// router.post('/team', teamController.createTeam);
-
-
 router.post('/team/:teamId/user/:userId', authCaptain, teamController.addMemberToTeam);
 
 router.put('/team/:teamId/update', upload.single('logo'), authCaptain, teamController.updateTeam);

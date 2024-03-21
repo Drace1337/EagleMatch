@@ -5,28 +5,6 @@ const User = require('../models/user')
 const Team = require('../models/team')
 const Post = require('../models/post')
 
-// exports.getEvents = async (req, res, next) => {
-//     const currentPage = req.query.page || 1
-//     const perPage = 10
-//     try {
-//         const totalItems = await Event.find().countDocuments()
-//         const events = await Event.find()
-//             .populate('creator')
-//             .sort({ createdAt: -1 })
-//             .skip((currentPage - 1) * perPage)
-//             .limit(perPage)
-//         res.status(200).json({
-//             message: 'Fetched events successfully.',
-//             events: events,
-//             totalItems: totalItems,
-//         })
-//     } catch (err) {
-//         if (!err.statusCode) {
-//             err.statusCode = 500
-//         }
-//         next(err)
-//     }
-// }
 
 exports.getEvents = async (req, res, next) => {
 	try {
@@ -75,7 +53,6 @@ exports.createEvent = async (req, res, next) => {
 		creator: creator,
 	})
 	try {
-		console.log(confirmationRequired)
 		if (confirmationRequired) {
 			const post = new Post({
 				title: `Potwierdzenie uczestnictwa w wydarzeniu ${title}`,
@@ -100,52 +77,6 @@ exports.createEvent = async (req, res, next) => {
 	}
 }
 
-// exports.createEvent = async (req, res, next) => {
-//     const errors = validationResult(req)
-//     if (!errors.isEmpty()) {
-//         const error = new Error('Validation failed, entered data is incorrect.')
-//         error.statusCode = 422
-//         throw error
-//     }
-//     const title = req.body.title
-//     const type = req.body.type
-//     const teamOnly = req.body.teamOnly
-//     const date = req.body.date
-//     const duration = req.body.duration
-//     const maxPlayers = req.body.maxPlayers
-//     const description = req.body.description
-//     const confirmationRequired = req.body.confirmationRequired
-//     const isPrivate = req.body.isPrivate
-//     const event = new Event({
-//         title: title,
-//         type: type,
-//         teamOnly: teamOnly,
-//         location: req.locationId,
-//         date: date,
-//         duration: duration,
-//         maxPlayers: maxPlayers,
-//         description: description,
-//         confirmationRequired: confirmationRequired,
-//         isPrivate: isPrivate,
-//         creator: req.userId,
-//     })
-//     try {
-//         await event.save()
-//         const user = await User.findById(req.userId)
-//         user.events.push(event)
-//         await user.save()
-//         res.status(201).json({
-//             message: 'Event created successfully!',
-//             event: event,
-//             creator: { _id: user._id, name: user.name },
-//         })
-//     } catch (err) {
-//         if (!err.statusCode) {
-//             err.statusCode = 500
-//         }
-//         next(err)
-//     }
-// }
 
 exports.getEvent = async (req, res, next) => {
 	const eventId = req.params.eventId
@@ -224,7 +155,6 @@ exports.joinAsPlayer = async (req, res, next) => {
 exports.joinAsTeam = async (req, res, next) => {
 	const eventId = req.params.eventId
 	const teamId = req.body.team
-	console.log(teamId)
 
 	try {
 		const event = await Event.findById(eventId)
@@ -254,45 +184,3 @@ exports.joinAsTeam = async (req, res, next) => {
 		next(err)
 	}
 }
-
-// exports.joinEvent = async (req, res, next) => {
-// 	const eventId = req.params.eventId
-// 	try {
-// 		const event = await Event.findById(eventId)
-// 		if (!event) {
-// 			const error = new Error('Could not find event.')
-// 			error.statusCode = 404
-// 			throw error
-// 		}
-// 		if (event.teamOnly && !req.isTeamMember) {
-// 			const error = new Error('Not authorized!')
-// 			error.statusCode = 403
-// 			throw error
-// 		}
-// 		if (event.players.indexOf(req.userId) !== -1 || event.teams.indexOf(req.teamId) !== -1) {
-// 			const error = new Error('Already joined.')
-// 			error.statusCode = 403
-// 			throw error
-// 		}
-// 		if (event.maxParticipants <= event.players.length || event.maxParticipants <= event.teams) {
-// 			const error = new Error('Event is full.')
-// 			error.statusCode = 403
-// 			throw error
-// 		}
-// 		if (event.teamOnly) {
-// 			event.teams.push(req.teamId)
-// 			const team = await Team.findByIdAndUpdate(req.teamId, { $push: { events: event._id } })
-// 		} else {
-// 			event.players.push(req.userId)
-// 			const user = await User.findByIdAndUpdate(req.userId, { $push: { events: event._id } })
-// 		}
-
-// 		await event.save()
-// 		res.status(200).json({ message: 'Joined event.', event: event })
-// 	} catch (err) {
-// 		if (!err.statusCode) {
-// 			err.statusCode = 500
-// 		}
-// 		next(err)
-// 	}
-// }

@@ -3,22 +3,10 @@ import classes from './Locations.module.scss'
 import { getAuthToken } from '../util/auth'
 
 export default function Locations({ locations }) {
-	console.log(locations._id)
-	const role = JSON.parse(localStorage.getItem('userData')).role
-	const token = getAuthToken()
+	const role = JSON.parse(getAuthToken()).role
+	const token = JSON.parse(getAuthToken()).token
+
 	return (
-		// <table>
-		//     <thead>
-		//         <th>Boiska:</th>
-		//     </thead>
-		//     <tbody>
-		//         {locations.map((location) => (
-		//             <tr key={location.id}>
-		//                 <td>{location.name}</td>
-		//             </tr>
-		//         ))}
-		//     </tbody>
-		// </table>
 		<div className={classes.content}>
 			<ul>
 				{locations.map(location => (

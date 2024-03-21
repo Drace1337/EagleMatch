@@ -4,7 +4,6 @@ import { getAuthToken } from '../util/auth.js'
 
 export default function UserDetail() {
 	const user = useLoaderData()
-	// console.log(user)
 	return (
 		<div>
 			<h2>Detale użytkownika</h2>
@@ -15,18 +14,14 @@ export default function UserDetail() {
 
 export async function loader({ params, request }) {
 	const id = params.userId
-	// console.log(params)
-	// console.log(id)
 
 	const response = await fetch('http://localhost:3001/auth/user/' + id, {
 		headers: {
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 	})
-	// console.log('response', response)
 
 	if (!response.ok) {
-		// console.log('siema500')
 		return json({ message: 'Nie udało się załadować użytkownika.' }, { status: 500 })
 	} else {
 		const user = await response.json()
@@ -36,9 +31,8 @@ export async function loader({ params, request }) {
 
 export async function action({ request, params }) {
 	const id = params.userId
-	console.log(id)
-	const token = getAuthToken()
-	const teamId = JSON.parse(localStorage.getItem('userData')).team
+	const token = JSON.parse(getAuthToken(request)).token
+	const teamId = JSON.parse(localStorage.getItem('token')).team
 	switch (request.method) {
 		case 'DELETE': {
 			const response = await fetch('http://localhost:3001/auth/user/' + id, {
@@ -49,7 +43,7 @@ export async function action({ request, params }) {
 			})
 
 			if (!response.ok) {
-				return json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
+				throw json({ message: 'Nie udało się usunąć użytkownika' }, { status: 500 })
 			} else {
 				return redirect('/users')
 			}
@@ -63,7 +57,7 @@ export async function action({ request, params }) {
 			})
 
 			if (!response.ok) {
-				return json({ message: 'Nie udało się dodać użytkownika do drużyny' }, { status: 500 })
+				throw json({ message: 'Nie udało się dodać użytkownika do drużyny' }, { status: 500 })
 			} else {
 				return redirect('/users')
 			}

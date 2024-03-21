@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import classes from './Events.module.scss'
 
 export default function Events({ events }) {
-	console.log(events)
 	return (
 		<div className={classes.events}>
 			<h2>Wszystkie wydarzenia</h2>

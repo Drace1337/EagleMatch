@@ -8,10 +8,12 @@
 	align-items: center;
 	&__avatar {
 		width: 50%;
+		display: flex;
+		justify-content: center;
 		img {
 			border: 3px solid var(--color-primary-900);
 			min-width: 30%;
-			max-width: 80%;
+			max-width: 50%;
 			border-radius: 4px;
 		}
 	}

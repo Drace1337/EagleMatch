@@ -8,6 +8,8 @@
 	align-items: center;
 	&__logo {
 		width: 50%;
+		display: flex;
+		justify-content: center;
 		img {
 			border: 3px solid var(--color-primary-900);
 			min-width: 30%;

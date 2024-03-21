@@ -27,7 +27,6 @@ export async function action({ request }) {
 	}
 	
 	if (!response.ok) {
-		console.log('siema500')
 		throw json({ message: 'Nie udało się zalogować.' }, { statusCode: 500 })
 	}
 	
@@ -37,8 +36,8 @@ export async function action({ request }) {
 	const role = resData.role
 	const team = resData.team
 
-	localStorage.setItem('token', token)
-    localStorage.setItem('userData', JSON.stringify({userId: userId, role: role, team: team}))
+	localStorage.setItem('token', JSON.stringify({token: token, userId: userId, role: role, team: team}))
+    
 	const expiration  = new Date()
 	expiration.setHours(expiration.getHours() + 1)
 	localStorage.setItem('expiration', expiration.toISOString())

@@ -13,13 +13,12 @@ export default function CreateEventPage() {
 export async function loader() {
 	const response = await fetch('http://localhost:3001/location/locations', {
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('token'),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken()).token,
 		},
 	})
-	console.log(response)
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się załadować boisk.' }, { status: 500 })
+		throw json({ message: 'Nie udało się załadować boisk.' }, { status: 500 })
 	} else {
 		return response
 	}
@@ -39,22 +38,20 @@ export async function action({ request }) {
 		maxParticipants: data.get('max_participants'),
 		confirmationRequired: data.get('confirmation_required') === 'on' ? true : false,
 		isPrivate: data.get('is_private') === 'on' ? true : false,
-		creator: JSON.parse(localStorage.getItem('userData')).userId,
+		creator: JSON.parse(localStorage.getItem('token')).userId,
 	}
-	console.log(eventData)
 
 	const response = await fetch('http://localhost:3001/events/event', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 		body: JSON.stringify(eventData),
 	})
-	console.log(response)
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się utworzyć wydarzenia' }, { status: 500 })
+		throw json({ message: 'Nie udało się utworzyć wydarzenia' }, { status: 500 })
 	}
 
 	return redirect('/')

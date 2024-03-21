@@ -25,7 +25,7 @@ export async function action({request}) {
     });
 
     if (!response.ok) {
-        return json({ message: 'Nie udało się wysłać wiadomości' }, { status: 500 });
+        throw json({ message: 'Nie udało się wysłać wiadomości' }, { status: 500 });
     }
 
     return redirect('/');

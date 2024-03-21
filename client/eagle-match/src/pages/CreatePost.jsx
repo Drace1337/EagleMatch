@@ -12,15 +12,13 @@ export default function CreatePost() {
 
 export async function action({ request }) {
 	const data = await request.formData()
-	console.log(data)
-	const token = getAuthToken(request)
+	const token = JSON.parse(getAuthToken(request)).token
 
 	const postData = {
 		title: data.get('title'),
 		content: data.get('content'),
-		author: JSON.parse(localStorage.getItem('userData')).userId,
+		author: JSON.parse(localStorage.getItem('token')).userId,
 	}
-	console.log(postData)
 
 	const response = await fetch('http://localhost:3001/forum/post', {
 		method: 'POST',
@@ -30,10 +28,9 @@ export async function action({ request }) {
 		},
 		body: JSON.stringify(postData),
 	})
-	console.log(response)
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się utworzyć posta' }, { status: 500 })
+		throw json({ message: 'Nie udało się utworzyć posta' }, { status: 500 })
 	}
 
 	return redirect('/forum')

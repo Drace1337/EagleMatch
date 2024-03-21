@@ -17,13 +17,13 @@ export async function action({ request }) {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 		body: JSON.stringify(locationData),
 	})
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się utworzyć lokalizacji' }, { status: 500 })
+		throw json({ message: 'Nie udało się utworzyć lokalizacji' }, { status: 500 })
 	}
 
 	return redirect('/')

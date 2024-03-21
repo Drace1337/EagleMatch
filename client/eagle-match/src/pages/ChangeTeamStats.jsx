@@ -16,9 +16,7 @@ export default function ChangeTeamStats() {
 
 export async function action({ request, params }) {
 	const data = await request.formData()
-    console.log(params)
 	const id = params.teamId
-	console.log(id)
 
 	const teamData = {
 		points: data.get('points'),
@@ -28,13 +26,13 @@ export async function action({ request, params }) {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + getAuthToken(request),
+			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 		body: JSON.stringify(teamData),
 	})
 
 	if (!response.ok) {
-		return json({ message: 'Nie udało się zaktualizować statystyk drużyny' }, { status: 500 })
+		throw json({ message: 'Nie udało się zaktualizować statystyk drużyny' }, { status: 500 })
 	}
 
 	return redirect('/teams')
