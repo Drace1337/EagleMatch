@@ -1,6 +1,5 @@
 import { NavLink, useRouteLoaderData, Form } from 'react-router-dom'
 import classes from './MainNav.module.scss'
-import { getAuthToken } from '../util/auth'
 
 export default function AdminNavigation() {
 	const token = useRouteLoaderData('root')
