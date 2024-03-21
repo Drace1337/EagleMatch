@@ -27,6 +27,12 @@ export async function loader({ request, params }) {
 			Authorization: 'Bearer ' + JSON.parse(getAuthToken(request)).token,
 		},
 	})
+	if (!response1.ok) {
+		throw json({ message: 'Nie udało się pobrać posta' }, { status: 500 })
+	}
+	if (!response2.ok) {
+		throw json({ message: 'Nie udało się pobrać odpowiedzi' }, { status: 500 })
+	}
 	const response = await Promise.all([response1, response2])
 	const data = await Promise.all(response.map(r => r.json()))
 
