@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 })
 mongoose
 	.connect(
-		'mongodb+srv://jakubrutek:JSM3BF5ikixfUc4W@eaglematch.nbzjwgh.mongodb.net/EagleMatch?retryWrites=true&w=majority'
+		`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@eaglematch.nbzjwgh.mongodb.net/EagleMatch?retryWrites=true&w=majority`
 	)
 	.then(result => {
 		app.listen(3001)
